@@ -6,7 +6,7 @@ requirejs.config({
         'backbone': '../../lib/backbone',
         'jquery': '../../lib/jquery',
         'jquerymobile': '../../lib/jquerymobile'
-    }
+    },
     
     shim: {
         'backbone': {
