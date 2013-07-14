@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "express": "3.2.6",
-    "jade": "*"
+    "ejs": "*",
+    "connect-redis": "*",
+    "mongoose": "*",
+    "socket.io": "*"
   }
 }
