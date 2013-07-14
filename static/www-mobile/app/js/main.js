@@ -2,11 +2,12 @@
 requirejs.config({
     baseUrl: "m/app/js",
     paths: {
-        'underscore': '../../lib/underscore',
-        'backbone': '../../lib/backbone',
-        'jquery': '../../lib/jquery',
+        'underscore': '/lib/underscore',
+        'backbone': '/lib/backbone',
+        'jquery': '/lib/jquery',
         'jquerymobile': '../../lib/jquerymobile',
-        'search': '/lib/search'
+        'search': '/lib/search',
+        'text': '/lib/text'
     },
     
     shim: {

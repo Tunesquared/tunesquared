@@ -9,9 +9,20 @@ requirejs.config({
     paths: {
         'socket.io': '../socket.io/socket.io',
         'underscore': '/lib/underscore',
+        'backbone2': '/lib/backbone2',
         'backbone': '/lib/backbone',
         'bootstrap': '/lib/bootstrap/js/bootstrap',
-        'jquery': '/lib/jquery'
+        'jquery': '/lib/jquery',
+        'text': '/lib/text'
+    },
+    
+    map: {
+        '*': {
+            'backbone': 'backbone2'
+        },
+        'backbone2': {
+            'backbone': 'backbone'
+        }
     },
     
     shim: {

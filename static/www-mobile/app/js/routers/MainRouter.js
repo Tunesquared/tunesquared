@@ -2,7 +2,7 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "../models/Session", "../models/PartyModel", "../models/SongModel", "../views/HomeView", "../views/PartyView", "backbone" ], function( $, Session, PartyModel, SongModel, HomeView, PartyView ) {
+define(["jquery", "../models/Session", "../models/PartyModel", "../models/SongModel", "../views/HomeView", "../views/PartyView", "backbone"], function( $, Session, PartyModel, SongModel, HomeView, PartyView ) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend( {
