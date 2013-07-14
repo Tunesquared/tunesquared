@@ -35,7 +35,7 @@ define([
                         window.location.hash = "#party";
                     }
 
-                     Backbone.history.start();
+                    Backbone.history.start();
      
                 },
                 error: function(){

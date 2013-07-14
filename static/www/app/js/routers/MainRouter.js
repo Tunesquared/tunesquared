@@ -16,29 +16,7 @@ define(["jquery", "backbone", "../models/Session", "../models/PartyModel", "../v
             Session.fetch({
                 success: function(){
 
-                    Session.joinPartyByName('hqhq', function(err){
-                    
-                        console.log("Joined party :");
-                        console.log(err);
-                        
-                        console.log("Creating test party");
-                        
-                        
-                        var party = new Party({name: "test"});
-                        
-                        party.save({
-                            success: function(){
-                                console.log("test party created");
-                            },
-                            
-                            error: function(){
-                                console.log("Cannot create test party");
-                            
-                            }
-                        });
-                        
-                        
-                    });
+                    Backbone.history.start();
                 }
             });
         },

@@ -2,7 +2,7 @@
 // ==============
 
 // Includes file dependencies
-define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyModel ) {
+define([ "jquery", "underscore", "../models/PartyModel", "backbone", ], function( $, _, PartyModel ) {
 
     // The Model constructor
     var Model = Backbone.Model.extend( {
@@ -51,6 +51,10 @@ define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyMode
                     if(callback) callback("Network error");
                 });
         
+        },
+        
+        parse: function(response){
+            return _.extend(response, {party: new PartyModel(response.party)});
         }
 
     } );

@@ -107,8 +107,8 @@ define(['backbone'], function(){
     // Then extends it
     Backbone.View = Backbone.View.extend({
         constructor: function(){
-            ViewCtr.apply(this, arguments);
             _.bindAll(this, "render");
+            ViewCtr.apply(this, arguments);
         },
         
         render: function(){
@@ -117,7 +117,9 @@ define(['backbone'], function(){
             if(typeof(this.template) !== 'undefined')
             this.$el.html(_.template( this.template, {
                 model: (this.model && this.model.toTemplate()) || {},
-                collection: (this.collection && this.collection.toTemplate()) || {} }));
+                collection: (this.collection && this.collection.toTemplate()) || {},
+                view: this 
+            }));
             
             
             
@@ -140,7 +142,7 @@ define(['backbone'], function(){
                 bindModelProp.call(this, model, prop);
             });
             
-            var events = {};
+            var events = this.events || {};
             this.$('[data-event]').each(function(){
                 
                 var attr = $(this).attr('data-event');

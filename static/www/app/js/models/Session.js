@@ -2,7 +2,7 @@
 // ==============
 
 // Includes file dependencies
-define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyModel ) {
+define([ "jquery", "underscore", "backbone", "models/PartyModel"], function( $, _, Backbone, PartyModel ) {
 
     // The Model constructor
     var Model = Backbone.Model.extend( {
@@ -26,7 +26,7 @@ define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyMode
                 } 
                 // Otherwise, we can process the model
                 else {
-                    var party = new Model(data);
+                    var party = new PartyModel(data);
 
                     this.set("party", party);
                     callback(null);
@@ -37,6 +37,11 @@ define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyMode
             .error(function(data){
                 callback("Sth went wrong...");
             });
+        },
+        
+        parse: function(response){
+            
+            return _.extend(response, {party: new PartyModel(response.party)});
         }
 
     } );

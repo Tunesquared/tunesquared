@@ -23,7 +23,18 @@ module.exports = function(model, baseUrl){
         });
     };
     
-    // TODO : read collection
+    routes[baseUrl] = function(req, res, next){
+        model.before(req, 'read', null, function(){
+            
+            model.model.find({}, function(err, coll){
+                
+                model.after(req, 'read', coll, function(){
+                    res.send(coll);
+                });
+            });
+        });
+    };
+    
     routes[baseUrl+'/:id'] = function(req, res, next){
         res.send('read');
         
@@ -33,7 +44,7 @@ module.exports = function(model, baseUrl){
             
             model.model.findOne({_id: id}, function(err, mod){
                 
-                model.after(req, 'read', id, function(){
+                model.after(req, 'read', mod, function(){
                     res.send(mod);
                 });
             });
