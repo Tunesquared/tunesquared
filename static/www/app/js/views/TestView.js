@@ -1,5 +1,17 @@
 
-define(['backbone', 'text!templates/test.jst', 'text!templates/collec.jst', '../models/PartyModel', 'models/Session'], function(Backbone, testTpl, collecTpl, PartyModel, Session){
+define([
+    'backbone', 
+    'text!templates/test.jst', 
+    'text!templates/collec.jst', 
+    'models/PartyModel', 
+    'models/Session'], 
+function(
+    Backbone, 
+    testTpl, 
+    collecTpl, 
+    PartyModel, 
+    Session
+){
     
     
     var Parties = Backbone.Collection.extend({

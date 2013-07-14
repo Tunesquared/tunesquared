@@ -4,15 +4,19 @@
         <title>Tunes² empower your tunes.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
-        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <!--<link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-        <!--<link href="css/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">-->
-        <link href="app/css/style.css" rel="stylesheet">
+        <link rel="stylesheet/less" type="text/css" href="lib/bootstrap/less/bootstrap.less" />
+        <link rel="stylesheet/less" type="text/css" href="app/css/style.less" />
     </head>
     <body>
-        <div id="navbar"></div>
-        <div class="container-fluid" id="main_contents">
-        loading...
+        <div id="side-panel">
+            <div id="player"></div>
+            <div id="playlist"></div>
+            <div id="party-info"></div>
+        </div>
+        
+        <div id="main-panel">
+            <div id="navbar"></div>
+            <div id="main-contents"></div>
         </div>
         <script data-main="app/js/main" src="lib/require.js"></script>
     </body>

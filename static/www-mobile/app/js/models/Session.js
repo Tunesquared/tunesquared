@@ -54,7 +54,11 @@ define([ "jquery", "underscore", "../models/PartyModel", "backbone", ], function
         },
         
         parse: function(response){
-            return _.extend(response, {party: new PartyModel(response.party)});
+            if(response.party){
+                return _.extend(response, {party: new PartyModel(response.party)});
+            } else {
+                return response;
+            }
         }
 
     } );

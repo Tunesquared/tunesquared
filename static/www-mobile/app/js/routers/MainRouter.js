@@ -25,8 +25,6 @@ define([
 
             Session.fetch({
                 success: function(Session){
-                    
-                    console.log(Session.get('party'));
 
                     if(Session.get("party") === null) {
                         window.location.hash = "#";
