@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var utils = require('./utils');
+var RESTRouter = require('./RESTRouter');
 
 var auth_noop = function(sender, method, model, cb){ cb(true); };
 var opt_defaults = {
-    socketAPI: false,
-    webAPI: false,
     before: auth_noop,
     after: auth_noop,
-    allowLive: false
+    allowLive: false,
+    namespace: ''
 };
 
 module.exports = function(name, scheme, options){
@@ -23,6 +23,9 @@ module.exports = function(name, scheme, options){
         before: options.before,
         after: options.after
     }
+    
+    RESTRouter(Model, utils.path.join(options.namespace, name));
+    
     
     return Model;
 }
