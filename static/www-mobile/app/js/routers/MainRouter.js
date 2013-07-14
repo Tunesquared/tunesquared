@@ -2,7 +2,18 @@
 // =============
 
 // Includes file dependencies
-define(["jquery", "../models/Session", "../models/PartyModel", "../models/SongModel", "../views/HomeView", "../views/PartyView", "backbone"], function( $, Session, PartyModel, SongModel, HomeView, PartyView ) {
+define([
+    "jquery", 
+    "../models/Session", 
+    "../models/PartyModel", 
+    "../models/SongModel", 
+    "../views/HomeView", 
+    "../views/PartyView", 
+    "../views/SearchView", 
+    "../views/ShareView", 
+    "backbone"],
+
+    function( $, Session, PartyModel, SongModel, HomeView, PartyView, SearchView, ShareView ) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend( {
@@ -32,15 +43,15 @@ define(["jquery", "../models/Session", "../models/PartyModel", "../models/SongMo
                 }
             });
 
-            this.song = new SongModel();
-
-            this.song.vote();
 
             this.homeView = new HomeView({el: "#home"});
 
+            this.partyView = new PartyView({el: "#party"});
 
+            this.searchView = new SearchView({el: '#search'});
 
-            // Tells Backbone to start watching for hashchange events
+            this.shareView = new ShareView({el: '#share'});
+
 
 
         },
@@ -49,11 +60,9 @@ define(["jquery", "../models/Session", "../models/PartyModel", "../models/SongMo
         routes: {
 
             "": "home",
-            "party": "party"
-
-
-            
-            // "search/:query": "search" // this comes later
+            "party": "party",
+            "share":"share",
+            "search/:query":"search"
 
         },
 
@@ -65,10 +74,28 @@ define(["jquery", "../models/Session", "../models/PartyModel", "../models/SongMo
 
         },
 
-        party: function(id){
+        party: function(){
 
-            $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
+            this.partyView.model = Session.get("party");
+
+            if(this.partyView.model !== null){
+                $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
+            } 
+            else {
+                window.location.hash = "#";
+            }
         },
+
+        search: function (query) {
+            console.log('#search');
+            this.searchView.search(decodeURIComponent(query));
+            $.mobile.changePage( "#search", { reverse: false, changeHash: false } );
+        },
+
+        share: function () {
+            console.log('#share');
+            $.mobile.changePage( "#share", { reverse: false, changeHash: false } );
+        }
         
 
 
