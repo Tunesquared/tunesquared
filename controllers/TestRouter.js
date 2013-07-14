@@ -4,7 +4,7 @@ var Party = require('../models/Party');
 
 module.exports = Framework.Router({
 
-    'api/party/joinByName/:name': function(req, res){
+    'api/joinPartyByName/:name': function(req, res){
         var name = req.param('name');
         console.log(name);
         
@@ -24,6 +24,15 @@ module.exports = Framework.Router({
                 });
             }
         });
-	}
+	},
+    
+    'api/leaveParty': function(req, res){
+    
+        req.session.partyId = null;
+        
+        req.session.save(function(){
+            res.end();
+        });
+    }
     
 });

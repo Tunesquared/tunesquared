@@ -1,4 +1,4 @@
-// AppState
+// Session
 // ==============
 
 // Includes file dependencies
@@ -6,7 +6,7 @@ define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyMode
 
     // The Model constructor
     var Model = Backbone.Model.extend( {
-        urlRoot: 'api/appstate',
+        urlRoot: 'api/session',
         idAttribute: "_id",
         defaults: {
             party: null //((Math.random() > 0.5) ? null : new PartyModel({name: "testparty", playlist: []}))
@@ -15,37 +15,43 @@ define([ "jquery", "../models/PartyModel", "backbone", ], function( $, PartyMode
         joinPartyByName: function(name, callback){ 
             console.log("joinPartyByName");
             // Fetches party id from it's name
-                $.getJSON('api/party/joinByName/'+ encodeURIComponent(name))
+            $.getJSON('api/joinPartyByName/'+ encodeURIComponent(name))
 
-                // In case of ajax success :
-                .success($.proxy(function(data){
-                    
-                    // The server may still have encountered an internal error (typically "no party with such name")
-                    if(data.error){
-                        callback(data.error);
-                    } 
-                    // Otherwise, we can process the model
-                    else {
-                        var party = new Model(data);
-
-                        this.set("party", party);
-                        callback(null);
-                    }
-                }, this))
+            // In case of ajax success :
+            .success($.proxy(function(data){
                 
-                // In case of error :
-                .error(function(data){
-                    callback("Sth went wrong...");
+                // The server may still have encountered an internal error (typically "no party with such name")
+                if(data.error){
+                    callback(data.error);
+                } 
+                // Otherwise, we can process the model
+                else {
+                    var party = new Model(data);
+
+                    this.set("party", party);
+                    callback(null);
+                }
+            }, this))
+            
+            // In case of error :
+            .error(function(data){
+                callback("Sth went wrong...");
+            });
+        },
+        
+        leave: function(callback){
+            var self = this;
+            
+            $.get('api/leaveParty')
+                .success(function(){
+                    self.set('partyId', null);
+                    if(callback) callback(null);
+                })
+                .error(function(){
+                    if(callback) callback("Network error");
                 });
-            },
-
-            fetch: function(opts) {
-                var mod = this;
-
-                setTimeout(function(){
-                    opts.success(mod);
-                }, 1000);
-            }
+        
+        }
 
     } );
 
