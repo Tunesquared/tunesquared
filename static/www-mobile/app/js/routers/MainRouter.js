@@ -2,7 +2,7 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "../models/PartyModel", "../models/SongModel", "backbone" ], function( $, PartyModel, SongModel ) {
+define([ "jquery", "../models/Session", "../models/PartyModel", "../models/SongModel", "../views/HomeView", "../views/PartyView", "backbone" ], function( $, Session, PartyModel, SongModel, HomeView, PartyView ) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend( {
@@ -12,26 +12,44 @@ define([ "jquery", "../models/PartyModel", "../models/SongModel", "backbone" ], 
 
             console.log("Router");
 
+            Session.fetch({
+                success: function(Session){
+
+                    if(Session.get("party") === null) {
+                        window.location.hash = "#";
+                    }
+                    else {
+                        window.location.hash = "#party";
+                    }
+
+                     Backbone.history.start();
+     
+                },
+                error: function(){
+                    console.log("Session.fetch Error.. ")
+                }
+            });
+
             this.song = new SongModel();
 
             this.song.vote();
 
-            PartyModel.getByName("party1", function(party){console.log(party)});
-        /*
-            this.party = new PartyModel();
-            this.partyView = new PartyView({ el: "#party", model: this.party});
-            
             this.homeView = new HomeView({el: "#home"});
-*/
+
+
+
             // Tells Backbone to start watching for hashchange events
-            Backbone.history.start();
+
 
         },
 
         // Backbone.js Routes
         routes: {
 
-            //"": "home"
+            "": "home",
+            "party": "party"
+
+
             
             // "search/:query": "search" // this comes later
 
@@ -43,9 +61,14 @@ define([ "jquery", "../models/PartyModel", "../models/SongModel", "backbone" ], 
             // Programatically changes to the categories page
             $.mobile.changePage( "#home" , { reverse: false, changeHash: false } );
 
-        }
+        },
+
+        party: function(id){
+
+            $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
+        },
         
-       
+
 
     } );
     

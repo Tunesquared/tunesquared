@@ -15,6 +15,8 @@ define([ "jquery", "backbone" ], function( $ ) {
     } );
 
 
+    /*
+
     //static
     Model.getByName = function(name, callback){ 
     	console.log("getByName");
@@ -40,6 +42,7 @@ define([ "jquery", "backbone" ], function( $ ) {
                 callback(null);
             });
     }
+ */
 
  /*
     joinParty: function(name, cbs){
