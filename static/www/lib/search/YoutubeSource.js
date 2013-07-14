@@ -1,5 +1,5 @@
 ﻿
-define(['jquery', 'common/models/Song'], function($, Song){
+define(['jquery'], function($){
     
     function YoutubeSource(query){
 
@@ -14,12 +14,12 @@ define(['jquery', 'common/models/Song'], function($, Song){
                     var res = [];
                     console.log(data);
                     for(var i in data.feed.entry){
-                        res.push(new Song({
+                        res.push({
                             title   :   data.feed.entry[i].title.$t,
                             src     :   'youtube',
                             thumb   :   data.feed.entry[i].media$group.media$thumbnail[1].url,
                             data    :   _.last(data.feed.entry[i].id.$t.split('/'))
-                        }));
+                        });
                     }
                     cb(null, res);
                 },

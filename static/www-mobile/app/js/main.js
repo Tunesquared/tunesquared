@@ -5,7 +5,8 @@ requirejs.config({
         'underscore': '../../lib/underscore',
         'backbone': '../../lib/backbone',
         'jquery': '../../lib/jquery',
-        'jquerymobile': '../../lib/jquerymobile'
+        'jquerymobile': '../../lib/jquerymobile',
+        'search': '/lib/search'
     },
     
     shim: {

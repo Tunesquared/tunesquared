@@ -3,7 +3,7 @@
     
     TODO : detect when individual sources come to end to keep consistent chunks sizes
 */
-define(['jquery', 'common/models/Song', 'common/js/util/YoutubeSource.js', 'common/js/util/FakeSource.js', 'underscore'], function($, Source, YoutubeSource, FakeSrc, Song){
+define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'backbone'], function($, _, YoutubeSource, FakeSrc){
     
     var Search = function(config){
     
