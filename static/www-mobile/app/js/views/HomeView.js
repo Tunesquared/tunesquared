@@ -34,8 +34,12 @@ define([ "jquery", "../models/Session", "backbone" ], function( $, Session ) {
             var partyName = this.joinText.val();
 
             Session.joinPartyByName(partyName , function(err){
+            
+                console.log(err);
+                
                 $.mobile.loading('hide');
-                if(err === null) {
+                
+                if(err !== null) {
                     // show error message
                     $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, $.mobile.pageLoadErrorMessage, true );
                     // hide after delay
