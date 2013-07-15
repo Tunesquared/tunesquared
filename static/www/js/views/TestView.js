@@ -32,14 +32,10 @@ function(
             
             var id = $(evt.currentTarget).attr('data-id');
             
-            console.log("removing : "+id);
-            
             this.collection.get(id).destroy();
         },
         
         isCurrent: function(model){
-            console.log(model);
-            console.log(Session);
             return model._id == Session.get('party').id;
         }
     
@@ -67,6 +63,12 @@ function(
             evt.preventDefault();
             
             this.collection.create({name: this.partyNameInput.val()});
+        },
+
+        refresh: function(evt){
+            evt.preventDefault();
+            
+            this.collection.fetch();
         }
     });
 

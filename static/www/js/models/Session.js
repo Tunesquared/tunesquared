@@ -12,8 +12,7 @@ define([ "jquery", "underscore", "backbone", "models/PartyModel"], function( $, 
             party: null
         },
 
-        joinPartyByName: function(name, callback){ 
-            console.log("getByName");
+        joinPartyByName: function(name, callback){
             // Fetches party id from it's name
             $.getJSON('api/party/joinByName/'+ encodeURIComponent(name))
 
