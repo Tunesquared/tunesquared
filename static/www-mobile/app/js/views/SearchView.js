@@ -22,6 +22,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         }, 
         
         render: function() {
+            console.log("render listel");
             listel = this.template({result: this.model})
 
             this.$el.html(listel);
@@ -64,7 +65,9 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         },
 
         loadResult: function(result) {
-            if(this.loader) this.loader.hide();
+            console.log("loadResult function");
+
+            $.mobile.loading('hide');
             
             var $result = new SearchResultView({
                 model: result, 
@@ -74,7 +77,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
 
             this.$('#dynamicResults').listview('refresh');
             
-            this.dataLoading = false;
+            this.dataLoading = false; // what is this?
         },
 
 
@@ -84,9 +87,9 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             this.$('#dynamicResults').empty();
             this.keywords = keywords;
             this.queryIterator = this.searchAggregator.query(this.keywords);
-
+            console.log("searching2");
             this.queryIterator.on('end', $.proxy(function() {
-                this.loader.hide();
+                //this.loader.hide();
                 this.$el.find('#dynamicResults').append('No results were found.');
             }, this));
             this.queryIterator.on('error', function(err) {
@@ -106,10 +109,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             });
 
             /* Loader (it will be hidden by loadResult) */
-            /*this.loader = $('<img />')
-                    .attr('src', '/app/img/ajax-loader.gif')
-                    .attr('id', 'searchAjaxLoader')
-                    .appendTo(this.$el); */
+            $.mobile.loading( "show" );
 
             return this;
         },

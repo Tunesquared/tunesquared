@@ -13,20 +13,31 @@
         <script data-main="/m/app/js/main" src="lib/require.js"></script>
 
     </head>
+
+  <!-- HomePage - Join a Party -->
+
     <body>
-        <div id="home" data-role="page" data-title="Welcome">
-            <div data-role="header" data-theme="a">
-            </div><!-- /header -->
+        <div id="home" data-role="page" data-title="Welcome" data-theme="a">
+            <div data-role="header" data-theme="a" >
+            <center><img src="/m/app/img/tunelarge2.png" width="150" hspace="15"/></center>
+        </div><!-- /header -->
             
             <div data-role="content" data-theme="a">	
                 <!-- Make a login page, just put in party name -->
-                <img src="/m/app/img/tunelarge2.png" width="80%" margin="auto">
+                
                 <form action="join">
-                    <input type="text" name="text-join" id="text-join" value="" placeholder="Party name">
+                    <input type="text" name="text-join" id="text-join" value="" placeholder="type 'crash' to trigger ajax error">
                     <input type="submit" value="Join playlist!" />
                 </form>
             </div><!-- /content -->
+
+            <div data-role="footer" data-theme="a" data-position="fixed" class="ui-btn-active ui-state-persist" >
+            <center><p>tunesquared.com</p></center>
+
+            </div><!-- /footer -->
         </div>
+
+   <!-- PartyPage -> Playlist -->
 
         <div id="party" data-role="page" data-title="Party" data-theme="a">
                 <div data-role="header" data-theme="a">
@@ -52,6 +63,7 @@
             </div><!-- /navbar -->
         </div><!-- /footer -->
     </div>
+
 
     <!-- Sharing page, QR-Code displayed, Option to share the link with whatsapp or sms (?) -->
 

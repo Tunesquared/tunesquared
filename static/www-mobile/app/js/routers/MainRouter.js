@@ -87,7 +87,9 @@ define([
         search: function (query) {
             console.log('#search');
             this.searchView.search(decodeURIComponent(query));
+            this.searchView.render();
             $.mobile.changePage( "#search", { reverse: false, changeHash: false } );
+
         },
 
         share: function () {
