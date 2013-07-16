@@ -5,16 +5,18 @@
 */
 
 requirejs.config({
-    baseUrl: "app/js",
+    baseUrl: "js",
     paths: {
         'socket.io': '../socket.io/socket.io',
         'underscore': '/lib/underscore',
         'backbone2': '/lib/backbone2',
         'backbone': '/lib/backbone',
-        'bootstrap': '/lib/bootstrap/js/bootstrap',
+        'bootstrap': '/lib/bootstrap/js',
         'jquery': '/lib/jquery',
         'less': '/lib/less',
-        'text': '/lib/text'
+        'text': '/lib/text',
+        'wizard': '/lib/wizard',
+        'templates': '../templates'
     },
     
     map: {
