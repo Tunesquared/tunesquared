@@ -19,7 +19,7 @@ define([ "jquery", "backbone", "models/Session" ], function( $, Backbone, Sessio
     Model.getByName = function(name, callback){ 
     	console.log("getByName");
         // Fetches party id from it's name
-            $.getJSON('api/party/getByName/'+ encodeURIComponent(name))
+            $.getJSON('api/getPartyByName/'+ encodeURIComponent(name))
 
             // In case of ajax success :
             .success($.proxy(function(data){
