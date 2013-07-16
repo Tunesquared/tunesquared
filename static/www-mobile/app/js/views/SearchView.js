@@ -12,7 +12,8 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         tagName: 'li',
 
         events: {
-            'click [data-action=addToPlaylist]': 'onClick'
+            //'click [data-action=addToPlaylist]': 'onClick'
+            'click': 'onClick'
         },
         
         initialize: function() {
@@ -33,7 +34,10 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         onClick: function(evt){
             evt.preventDefault();
             
-            console.log("click");
+            console.log(this.model);
+
+            $('#popupBasic').popup("open");
+            //setTimeout( $('#popupBasic').popup("close"), 1500 );
 
             //app.getParty().get('playlist').songs.add(this.model);
         }
