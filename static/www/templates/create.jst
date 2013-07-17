@@ -1,19 +1,17 @@
 <!-- Dialogs -->
 <div class="modal hide fade" data-role="start-party">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Start your party</h3>
     </div>
     <div class="modal-body">
         <div data-role="page">
             <form>
                 <label class="control-label" for="party-name-input">Choose a cool name for your party :</label>
-                <div data-role="party-name-group" class="control-group">
+                <div class="control-group" ref="control-group">
                     <div class="controls">
-                        <input type="text" id="party-name-input" data-role="party-name" >
-                        <span data-role="input-error" class="help-inline hide">You must choose a name</span>
+                        <input type="text" id="party-name-input" ref="name-input" >
+                        <span ref="err-text" class="help-inline hide">You must choose a name</span>
                     </div>
-                    
                 </div>
                 <span class="help-block">Use something easy to remember so your guests can connect quickly to your party.</span>
             </form>
@@ -45,7 +43,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-role="cancel" data-dismiss="modal">Cancel</a>
+        <!--    You're a bad cat kitty !
+        <a href="#" class="btn" data-role="cancel" data-dismiss="modal">Cancel</a> -->
         <a href="#" class="btn" data-role="prev" >Previous</a>
         <a href="#" class="btn btn-primary" data-role="done" >Done</a>
         <a href="#" class="btn btn-primary" data-role="next" >Next</a>

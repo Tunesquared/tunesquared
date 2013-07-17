@@ -1,18 +1,27 @@
 'use strict';
 
-define(['underscore', 'backbone', 'text!templates/create.jst', 'models/Session', 'models/PartyModel', 'bootstrap/bootstrap-modal', 'wizard'],
-	function (_, Backbone, template, Session, Party) {
+// TODO : disable wizard and show loading during locked phase (in wizard source)
+
+define([
+	'underscore',
+	'backbone',
+	'text!templates/create.jst',
+	'models/Session',
+	'bootstrap/bootstrap-modal',
+	'wizard'],
+	function (_, Backbone, template, Session) {
 
 		var exports = Backbone.View.extend({
 			events: {
 				'wiz_done': 'done',
-				'wiz_hide:0': 'onFirstPage'
+				'wiz_hide:0': 'onFirstPage',
+				'wiz_trans:1-0': 'onBackToFirstPage'
 			},
 
 			initialize: function () {
 				this.template = template;
 
-				_.bindAll(this, 'onFirstPage');
+				_.bindAll(this, 'onFirstPage', 'onBackToFirstPage');
 
 				// Renders the content at init time so that we can open the dialog later
 				this.render();
@@ -23,12 +32,12 @@ define(['underscore', 'backbone', 'text!templates/create.jst', 'models/Session',
 					backdrop: 'static',
 					show: false
 				});
-				this.nameInput = this.$('[data-role="party-name"]');
 			},
 
 			show: function () {
 				this.modal.modal('show');
 				this.modal.wizard();
+				this.clearError();
 			},
 
 			hide: function () {
@@ -36,37 +45,50 @@ define(['underscore', 'backbone', 'text!templates/create.jst', 'models/Session',
 			},
 
 			done: function () {
-				var name = this.nameInput.val();
+				window.location.hash = '#';
+			},
 
-				var myParty = new Party({
-					name: name
-				});
-				myParty.save(void 0, {
-					success: function () {
-						console.log('created');
-						// TODO : set party in session, party has a method to know if owner
-						window.location.hash = '#';
-					},
-					error: function () {
-						console.log('Error !');
-						// TODO : display error
-					}
+			// Triggered when user has chosen a name and wants to go to the next page of wizard
+			onFirstPage: function (jqEvt, evt) {
+				var self = this;
+				var name = this.$ref('name-input').val();
+				this.clearError();
+
+				if(name === ''){
+					self.setError('You must provide a name');
+					evt.cancel();
+				} else {
+					var lock = evt.lock();
+					Session.createParty({name: name}, function (err /*, party */) {
+						if(err != null){
+							if(/duplicate key/.test(err)){
+								self.setError('This name is currently used for another party');
+							}
+							lock(true);
+						} else {
+							lock();
+						}
+					});
+				}
+			},
+
+			// omg, user went back to the page where you have to pick a name
+			onBackToFirstPage: function(jqEvt, evt){
+				var lock = evt.lock();
+				Session.removeCurrentParty(function( err ){
+					console.log(err);
+					lock();
 				});
 			},
 
-			onFirstPage: function (evt, wiz) {
-				console.log(evt.originalEvent);
-				var lock = wiz.lock();
-				// TODO : use a create party method instead. When party is successfully created
-				// lock wizzard to not go backwards.
-				// TODO : add some functionnality in wizard to remove one page (wizard is behaving like this page is not here)
-				Party.getByName(this.nameInput.val(), function (party) {
-					if (party == null) {
-						lock(true);
-						return;
-					}
-					lock();
-				});
+			setError: function(err){
+				this.$ref('err-text').text(err).show();
+				this.$ref('control-group').addClass('error');
+			},
+
+			clearError: function(){
+				this.$ref('err-text').hide();
+				this.$ref('control-group').removeClass('error');
 			}
 
 		});

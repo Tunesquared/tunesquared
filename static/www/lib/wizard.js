@@ -27,15 +27,15 @@
         var self = this;
         var lock = new Lock();
 
-        $(this).trigger('wiz_hide:' + wiz.page, [lock]);
+        $(this).trigger('wiz_hide:' + wiz.page, [lock]).trigger('wiz_trans:' + wiz.page + '-' + (wiz.page + d), [lock]);
         this.loading = true;
-        lock.wait(function(){
+        lock.wait(function () {
             if ((wiz.page < wiz.pageCount - 1 && d == 1) || (wiz.page > 0 && d == -1)) {
                 wiz.page += d;
             }
             showPage(self);
             $(self).trigger('wiz_show:' + wiz.page);
-        }).release(function(){
+        }).release(function () {
             self.loading = false;
         });
     }
@@ -43,7 +43,7 @@
     function wizardProxy(method, ctx) {
         return function (evt) {
             evt.preventDefault();
-            if(!ctx.wizard.loading)
+            if (!ctx.wizard.loading)
                 method.apply(ctx, arguments);
         };
     }
@@ -53,15 +53,15 @@
         var self = this;
         $(this).trigger('wiz_hide:' + this.wizard.page, [lock]);
         this.loading = true;
-        lock.wait(function(){
+        lock.wait(function () {
             self.wizard.pages.hide();
             $(self).trigger('wiz_done');
-        }).release(function(){
+        }).release(function () {
             self.loading = false;
         });
     }
 
-    function noop(){}
+    function noop() {}
 
     function Lock() {
         var cancelled = false;
@@ -78,7 +78,7 @@
             lockCount++;
             return function (cancel) {
                 if (!unlocked) {
-                    if(cancel) cancelled = true;
+                    if (cancel) cancelled = true;
                     unlocked = true;
                     unlock();
                 }
@@ -88,22 +88,23 @@
         this.wait = function (cb) {
             if (lockCount > 0)
                 lockedCb = cb;
-            else
-                cb();
+            else {
+                if (!cancelled) cb();
+                if (releaseCb) releaseCb();
+            }
+
             return this;
         };
 
-        this.release = function(cb){
+        this.release = function (cb) {
             releaseCb = cb;
         };
 
         function unlock() {
             lockCount--;
-            if (lockCount === 0 && lockedCb != null){
-                if(cancelled)
-                    releaseCb();
-                else
-                    lockedCb();
+            if (lockCount === 0 && lockedCb != null) {
+                if (!cancelled) lockedCb();
+                if (releaseCb) releaseCb();
             }
         }
     }
@@ -139,8 +140,8 @@
             move.call(this, -1);
         },
 
-        loading: function(state){
-            if(typeof state === 'boolean'){
+        loading: function (state) {
+            if (typeof state === 'boolean') {
                 this.wizard.loading = state;
             } else {
                 return this.wizard.loading;
