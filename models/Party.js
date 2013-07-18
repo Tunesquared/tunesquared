@@ -2,13 +2,17 @@
 
 var Model = require('../framework').Model;
 
+var SongInstance = require('./SongInstance');
+
 var Party = module.exports = Model('party', {
 
   name: String,
-  owner: String
+  owner: String,
+  playlist: [SongInstance.schema]
 
 }, {
   namespace: 'api',
+  exposeAPI: true,
   before: function (req, method, data, callback) {
     console.log(req.session);
     if (method === 'create') {
