@@ -2,8 +2,8 @@
 // =============
 
 // Includes file dependencies
-define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searchresult.jst"], 
-	function($, SearchAggregator, YoutubeSource, searchResultTemplate){
+define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searchresult.jst", "text!templates/popup.jst"], 
+	function($, SearchAggregator, YoutubeSource, searchResultTemplate, popupTemplate){
 
 		// make one list element
 
@@ -20,6 +20,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             _.bindAll(this, 'onClick');
             
             this.template = _.template(searchResultTemplate);
+            
         }, 
         
         render: function() {
@@ -33,14 +34,52 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         
         onClick: function(evt){
             evt.preventDefault();
+
+            var song = this.model;
             
             console.log(this.model);
+            $('[type="button"]').button();
 
-            $('#popupBasic').popup("open");
+            $('#popup'+ song.data).popup().popup("open");
+
+            // if(button==yes) close popup and add song to the playlist.
+
             //setTimeout( $('#popupBasic').popup("close"), 1500 );
 
             //app.getParty().get('playlist').songs.add(this.model);
         }
+    });
+
+    var PopupView = Backbone.View.extend({
+        tagName: 'div',
+        events:{
+            'click .addsong': 'AddSong'
+        },
+
+        initialize: function() {
+            _.bindAll(this, 'AddSong');
+            
+            this.template = _.template(popupTemplate);
+            
+        }, 
+
+        render: function() {
+            console.log("render popup");
+            popup = this.template({result: this.model})
+
+            this.$el.html(popup);
+
+            
+        },
+
+        AddSong: function(evt){
+            evt.preventDefault();
+            console.log(this.model);
+
+
+        }
+
+
     });
 
     return Backbone.View.extend({
@@ -66,21 +105,28 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             
             this.addSrc(YoutubeSource);
 
+
         },
 
         loadResult: function(result) {
             console.log("loadResult function");
 
             $.mobile.loading('hide');
+
+            var $popup = new PopupView({
+                model: result,
+            });
             
             var $result = new SearchResultView({
                 model: result, 
             });
             $result.render();
+            $popup.render();
             this.$('#dynamicResults').append($result.$el);
+            this.$('#popups').append($popup.$el);
 
             this.$('#dynamicResults').listview('refresh');
-            
+            this.$('#popups').popup();
             this.dataLoading = false; // what is this?
         },
 
