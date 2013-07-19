@@ -1,14 +1,18 @@
+'use strict';
 
 define([
-	"backbone",
-	"text!templates/navbar.jst"],
+	'backbone',
+	'text!templates/navbar.jst'],
 function(
 	Backbone,
 	template
 ){
-	
+
 	var exports = Backbone.View.extend({
-		template: template
+		template: template,
+		initialize: function(){
+			this.render();
+		}
 	});
 
 	return exports;

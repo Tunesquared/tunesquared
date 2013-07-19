@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO : disable wizard and show loading during locked phase (in wizard source)
-
 define([
 	'underscore',
 	'backbone',

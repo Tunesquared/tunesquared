@@ -11,7 +11,8 @@ define([
         'views/Navbar',
         'views/TestView',
         'views/HomeView',
-        'views/CreateView'
+        'views/CreateView',
+        'views/PlaylistView'
     ],
     function (
         $,
@@ -20,7 +21,8 @@ define([
         Navbar,
         TestView,
         HomeView,
-        CreateView) {
+        CreateView,
+        PlaylistView) {
 
         // Extends Backbone.Router
         var MainRouter = Backbone.Router.extend({
@@ -36,15 +38,18 @@ define([
                     el: '#main-contents'
                 });
 
+
                 // secondary views (such as dialog-based)
                 this.createView = new CreateView({
                     el: '#create-dialog'
                 });
 
-                var navbar = new Navbar({
+                new Navbar({
                     el: '#navbar'
                 });
-                navbar.render();
+                new PlaylistView({
+                    el: '#playlist'
+                });
 
                 Session.fetch({
                     success: function () {
