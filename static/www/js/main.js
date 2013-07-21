@@ -15,14 +15,18 @@ requirejs.config({
         'bootstrap': '/lib/bootstrap/js',
         'jquery': '/lib/jquery',
         'less': '/lib/less',
-        'text': '/lib/text',
         'wizard': '/lib/wizard',
         'templates': '../templates',
         'react': '/lib/react',
-        'components': 'components-build'
+        'components': 'components-build',
+        'search': '/lib/search'
     },
 
     shim: {
+        'wizard' : {
+            deps: ['jquery']
+        },
+
         'backbone': {
             //These script dependencies should be loaded before loading
             //backbone.js

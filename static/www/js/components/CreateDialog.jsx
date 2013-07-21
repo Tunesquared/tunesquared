@@ -69,6 +69,11 @@ define(['react', 'jquery', 'mixins/jqEvents', 'bootstrap/bootstrap-modal', 'wiza
 			});
 		},
 
+		onNameSubmit: function(evt){
+			evt.preventDefault();
+			$(this.getDOMNode()).wizard('next');
+		},
+
 		render: function(){
 			return (
 			<div class="modal fade" data-role="start-party" >
@@ -77,7 +82,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'bootstrap/bootstrap-modal', 'wiza
 				</div>
 				<div class="modal-body">
 					<div data-role="page">
-						<form>
+						<form onSubmit={this.onNameSubmit}>
 							<label class="control-label" for="party-name-input">Choose a cool name for your party :</label>
 							<div class={'control-group '+(this.state.error != null ? 'error' : '')}>
 								<div class="controls">

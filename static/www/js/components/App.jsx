@@ -5,23 +5,31 @@ define([
 	'react',
 	'backbone',
 	'mixins/Router',
+	'mixins/Backbone',
 	'models/Session',
+	'models/Party',
 	'components/CreateDialog',
 	'components/Playlist',
-	'components/Home'
+	'components/Home',
+	'components/Search',
+	'components/Navbar'
 ], function(
 	React,
 	Backbone,
 	Router,
+	BackboneMixin,
 	Session,
+	Party,
 	CreateDialog,
 	Playlist,
-	HomeView
+	HomeView,
+	SearchView,
+	Navbar
 ){
 
 	var App = React.createClass({
 
-		mixins: [Router],
+		mixins: [Router, BackboneMixin],
 
 		getInitialState: function(){
 			return {
@@ -37,6 +45,14 @@ define([
 				});
 			},
 
+			'search/:q': function (q) {
+				this.setState({
+					dialog: null,
+					main: 'search',
+					query: decodeURIComponent(q)
+				});
+			},
+
 			'': function () {
 				this.setState({
 					dialog: null,
@@ -45,17 +61,27 @@ define([
 			}
 		},
 
+		getBackboneModels: function () {
+			return [Session];
+		},
+
 		componentDidMount: function(){
-			Backbone.history.start();
 			// TODO : not make session a global but some app's attribute instead
-			/*Session.fetch({
+			Session.fetch({
         success: function () {
           Backbone.history.start();
         }
-      });*/
+      });
+		},
+
+		componentDidUpdate: function () {
+			console.log('[info] App component updated');
 		},
 
 		render: function () {
+
+			var currentParty = Session.get('party') || new Party();
+
 			var dialog;
 			if (this.state.dialog === 'create')
 				dialog = <CreateDialog session={Session} />;
@@ -63,17 +89,19 @@ define([
 			var main;
 			if (this.state.main === 'home')
 				main = <HomeView />;
+			else if(this.state.main === 'search')
+				main = <SearchView query={this.state.query} />
 
 
 			return (
 				<div>
 					<div id="side-panel">
 						<div id="player"></div>
-						<Playlist />
+						<Playlist playlist={currentParty.get('playlist')}/>
 		        <div id="party-info"></div>
 					</div>
 	        <div id="main-panel">
-	            <div id="navbar"></div>
+	            <Navbar />
 	            <div id="main-contents">{main}</div>
 	        </div>
 	        {dialog}
