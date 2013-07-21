@@ -1,73 +1,76 @@
+'use strict';
 
 define([
-    'backbone', 
-    'text!templates/test.jst', 
-    'text!templates/collec.jst', 
-    'models/PartyModel', 
-    'models/Session'], 
+    'backbone',
+    'jquery',
+    'text!templates/test.jst',
+    'text!templates/collec.jst',
+    'models/Party',
+    'models/Session'],
 function(
-    Backbone, 
-    testTpl, 
-    collecTpl, 
-    PartyModel, 
+    Backbone,
+    $,
+    testTpl,
+    collecTpl,
+    Party,
     Session
 ){
-    
-    
+
+
     var Parties = Backbone.Collection.extend({
         url: 'api/party',
-        model: PartyModel
+        model: Party
     });
-    
+
     var PartyCollecView = Backbone.View.extend({
-        
+
         initialize: function(){
             this.template = collecTpl;
-            
+
             this.collection.on('sync destroy', this.render);
         },
-        
+
         remove: function(evt){
             evt.preventDefault();
-            
+
             var id = $(evt.currentTarget).attr('data-id');
-            
+
             this.collection.get(id).destroy();
         },
-        
+
         isCurrent: function(model){
             return model._id == Session.get('party').id;
         }
-    
+
     });
-    
+
     return Backbone.View.extend({
         template: testTpl,
         initialize: function(){
             this.collection = new Parties();
             this.collection.fetch();
         },
-        
+
         postRender: function(){
             this.collecView = new PartyCollecView({
                 el: this.$('[data-view=collec]'),
                 collection: this.collection
             });
-            
+
             this.collecView.render();
-            
+
             this.partyNameInput = this.$('[name="party-name"]');
         },
-        
+
         create: function(evt){
             evt.preventDefault();
-            
+
             this.collection.create({name: this.partyNameInput.val()});
         },
 
         refresh: function(evt){
             evt.preventDefault();
-            
+
             this.collection.fetch();
         }
     });

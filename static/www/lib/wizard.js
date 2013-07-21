@@ -4,6 +4,7 @@
 
 /* jshint undef: false, strict: false, eqnull: true */
 (function () {
+    var buttonNames = ['prev', 'done', 'next', 'cancel'];
     // Private methods
     function showPage(ctx) {
         var wiz = ctx.wizard;
@@ -25,18 +26,15 @@
     function move(d) {
         var wiz = this.wizard;
         var self = this;
-        var lock = new Lock();
+        var lock = new Lock(wiz);
 
         $(this).trigger('wiz_hide:' + wiz.page, [lock]).trigger('wiz_trans:' + wiz.page + '-' + (wiz.page + d), [lock]);
-        this.loading = true;
         lock.wait(function () {
             if ((wiz.page < wiz.pageCount - 1 && d == 1) || (wiz.page > 0 && d == -1)) {
                 wiz.page += d;
             }
             showPage(self);
             $(self).trigger('wiz_show:' + wiz.page);
-        }).release(function () {
-            self.loading = false;
         });
     }
 
@@ -49,21 +47,27 @@
     }
 
     function done() {
-        var lock = new Lock();
+        var lock = new Lock(this.wizard);
         var self = this;
         $(this).trigger('wiz_hide:' + this.wizard.page, [lock]);
-        this.loading = true;
         lock.wait(function () {
             self.wizard.pages.hide();
             $(self).trigger('wiz_done');
-        }).release(function () {
-            self.loading = false;
         });
+    }
+
+    function setWizLoading(wiz, state){
+        wiz.loading = state;
+        wiz.loader.toggle(state);
+        var method = (state) ? 'addClass' : 'removeClass';
+        for(var i = 0 ; i < buttonNames.length ; i++){
+            wiz['b_'+buttonNames[i]][method]('disabled');
+        }
     }
 
     function noop() {}
 
-    function Lock() {
+    function Lock(wiz) {
         var cancelled = false;
         this.cancel = function () {
             cancelled = true;
@@ -86,11 +90,13 @@
         };
 
         this.wait = function (cb) {
+            setWizLoading(wiz, true);
+
             if (lockCount > 0)
                 lockedCb = cb;
             else {
                 if (!cancelled) cb();
-                if (releaseCb) releaseCb();
+                setWizLoading(wiz, false);
             }
 
             return this;
@@ -104,7 +110,7 @@
             lockCount--;
             if (lockCount === 0 && lockedCb != null) {
                 if (!cancelled) lockedCb();
-                if (releaseCb) releaseCb();
+                setWizLoading(wiz, false);
             }
         }
     }
@@ -120,6 +126,7 @@
                 this.wizard.b_done = el.find('[data-role="done"]').click(wizardProxy(done, this));
                 this.wizard.b_next = el.find('[data-role="next"]').click(wizardProxy(methods.next, this));
                 this.wizard.b_cancel = el.find('[data-role="cancel"]');
+                this.wizard.loader = el.find('[data-role="loader"]').hide();
             }
 
             this.wizard.pages = el.find('[data-role="page"]');

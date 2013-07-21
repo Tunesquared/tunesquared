@@ -6,7 +6,7 @@ var RESTRouter = require('./RESTRouter');
 
 module.exports = function(name, scheme, options){
 
-    options = utils.defaults(options, opt_defaults);
+    options = utils.defaults(options || {}, opt_defaults);
 
     var schema = mongoose.Schema(scheme);
     var mod = mongoose.model(name, schema);
@@ -30,7 +30,8 @@ module.exports = function(name, scheme, options){
         after: options.after
     };
 
-    RESTRouter(Model, utils.path.join(options.namespace, name));
+    if(options.exposeAPI)
+        RESTRouter(Model, utils.path.join(options.namespace, name));
 
 
     return Model;
@@ -71,9 +72,9 @@ module.exports.after = function(req, method, data, cb){
 };
 
 var opt_defaults = {
+    exposeAPI: false,
     before: module.exports.before,
     after: module.exports.after,
-    allowLive: false,
     namespace: ''
 };
 

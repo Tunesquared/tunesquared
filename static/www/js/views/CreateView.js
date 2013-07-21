@@ -1,7 +1,5 @@
 'use strict';
 
-// TODO : disable wizard and show loading during locked phase (in wizard source)
-
 define([
 	'underscore',
 	'backbone',
@@ -84,6 +82,7 @@ define([
 			setError: function(err){
 				this.$ref('err-text').text(err).show();
 				this.$ref('control-group').addClass('error');
+				this.$ref('name-input').focus().select();
 			},
 
 			clearError: function(){

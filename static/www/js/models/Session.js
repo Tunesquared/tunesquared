@@ -2,7 +2,7 @@
 // ==============
 'use strict';
 // Includes file dependencies
-define(['jquery', 'underscore', 'backbone', 'models/PartyModel'], function ($, _, Backbone, Party) {
+define(['jquery', 'underscore', 'backbone', 'models/Party'], function ($, _, Backbone, Party) {
 
   // The Model constructor
   var Model = Backbone.Model.extend({
@@ -13,9 +13,9 @@ define(['jquery', 'underscore', 'backbone', 'models/PartyModel'], function ($, _
     },
 
     /** Creates and joins a party with name `name`
-            @param name name of the party to create
-            @param callback called on server response, takes (err, party) as parameters
-        */
+      @param name name of the party to create
+      @param callback called on server response, takes (err, party) as parameters
+    */
     createParty: function (props, callback) {
       var self = this;
       var party = new Party(props);
