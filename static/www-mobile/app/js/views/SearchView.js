@@ -12,8 +12,8 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         tagName: 'li',
 
         events: {
-            //'click [data-action=addToPlaylist]': 'onClick'
-            'click': 'onClick'
+            'click [data-action=addToPlaylist]': 'onClick'
+            //'click a ': 'onClick',
         },
         
         initialize: function() {
@@ -38,45 +38,64 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             var song = this.model;
             
             console.log(this.model);
-            $('[type="button"]').button();
 
-            $('#popup'+ song.data).popup().popup("open");
+            $('#popup'+ song.data +' .addsong' ).button().buttonMarkup( "refresh" );
+            $('#popup'+ song.data + ' .close2' ).button().buttonMarkup( "refresh" );
+
+            $('#popup'+ song.data).popup().popup("open");         
+
+            //$('#popup'+ song.data).button();
 
             // if(button==yes) close popup and add song to the playlist.
 
             //setTimeout( $('#popupBasic').popup("close"), 1500 );
 
             //app.getParty().get('playlist').songs.add(this.model);
-        }
+        },
+
+        
     });
 
     var PopupView = Backbone.View.extend({
         tagName: 'div',
         events:{
-            'click .addsong': 'AddSong'
+            'click .addsong': 'AddSong',
+            'click .close2' : 'Close'
         },
 
         initialize: function() {
-            _.bindAll(this, 'AddSong');
+            _.bindAll(this, 'AddSong', 'Close');
             
             this.template = _.template(popupTemplate);
+
+            popup = this.template({result: this.model});
+            
+
+            this.$el.html(popup);
+
+
+         
             
         }, 
 
         render: function() {
             console.log("render popup");
-            popup = this.template({result: this.model})
-
-            this.$el.html(popup);
+            
+          
 
             
         },
 
         AddSong: function(evt){
             evt.preventDefault();
-            console.log(this.model);
+            console.log('addSong');
 
 
+        },
+
+        Close: function(evt){
+            evt.preventDefault();
+            console.log("close popup")
         }
 
 
@@ -112,7 +131,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             console.log("loadResult function");
 
             $.mobile.loading('hide');
-
+            
             var $popup = new PopupView({
                 model: result,
             });
@@ -126,7 +145,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             this.$('#popups').append($popup.$el);
 
             this.$('#dynamicResults').listview('refresh');
-            this.$('#popups').popup();
+            //this.$('#popups').popup();
             this.dataLoading = false; // what is this?
         },
 
