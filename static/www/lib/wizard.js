@@ -3,7 +3,7 @@
  */
 
 /* jshint undef: false, strict: false, eqnull: true */
-(function () {
+(function ($) {
     var buttonNames = ['prev', 'done', 'next', 'cancel'];
     // Private methods
     function showPage(ctx) {
@@ -174,4 +174,4 @@
         }
     });
 
-})();
+})(jQuery);
