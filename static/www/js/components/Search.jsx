@@ -1,79 +1,140 @@
 /** @jsx React.DOM */
 'use strict';
-define(['underscore', 'react', 'search/Search', 'search/FakeSource'], function(_, React, SearchAggregator, FakeSource){
+
+// Config
+// minimum number of px hidden below the viewport before loading new results
+var SCROLL_THRESHOLD_LOAD = 50;
+// Number of items loaded each time UI fetches some results (should fill the screen)
+var LOAD_CHUNK_SIZE = 16;
+
+
+define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource', 'components/SongVignette'],
+	function(_, $, React, SearchAggregator, YoutubeSource, SongVignette){
+
 	var Search = React.createClass({
 
 		getInitialState: function () {
 			return {
-				results: []
+				results: [],
+				end: false,
+				loading: false
 			};
 		},
 
 		componentDidMount: function () {
 			this.searchAggregator = new SearchAggregator({
-        chunkSize: this.CHUNK_SIZE,
-        preloadThreshold: 3
+        chunkSize: LOAD_CHUNK_SIZE,
+        preloadThreshold: 0 // Since we load results before the user reaches the bottom, we don't want to preload
       });
 
-      this.searchAggregator.addSrc(FakeSource);
+      this.searchAggregator.addSrc(YoutubeSource);
 
       this.initQuery();
+
+      this.mainContents = $('#main-contents'); // Keeps a local ref to main content for scrolling purpose
+      this.mainContents.bind('scroll', this.checkScroll);
 		},
 
-
-		componentDidUpdate: function () {
-
+		componentWillUnmount: function () {
+			this.mainContents.unbind('scroll', this.checkScroll);
 		},
 
-		componentWillReceiveProps: function () {
-			this.initQuery();
+		componentWillReceiveProps: function (newProps) {
+			this.initQuery(newProps);
 		},
 
-		initQuery: function () {
-			this.queryIterator = this.searchAggregator.query(this.props.query);
-      this.queryIterator.exec();
-		},
+		initQuery: function (props) {
+			if (props == null) props = this.props;
 
-		fetchNextBloc: function () {
-			Search.util.fetchBloc(this.queryIterator, 20, this.onSearchBloc);
-		},
-
-		onSearchBloc: function (results) {
 			this.setState({
-				results: results
+				loading: false,
+				end: false,
+				results: []
 			});
+
+			if(this.queryIterator){
+				this.queryIterator.release();
+			}
+			this.queryIterator = this.searchAggregator.query(props.query);
+      this.queryIterator.exec();
+      this.fetchNewResults();
+		},
+
+		fetchNewResults: function () {
+			var results = [];
+
+			if(!this.state.loading){
+				this.setState({
+					loading: true
+				});
+
+				SearchAggregator.util.fetchResults(this.queryIterator, LOAD_CHUNK_SIZE, {
+					read: function (song) {
+						results.push(song);
+					}.bind(this),
+					done: function () {
+						this.onFetchDone(results);
+					}.bind(this),
+					end: function () {
+						this.setState({
+							end: true
+						});
+						this.onFetchDone(results);
+					}.bind(this)
+	      });
+			}
+		},
+
+		onFetchDone: function (results) {
+			this.setState({
+				loading: false,
+				results: this.state.results.concat(results)
+			});
+
+			if(!this.state.end)
+				this.checkScroll();
+		},
+
+		checkScroll: function (results) {
+			var el = $(this.getDOMNode());
+			var offset = (el.height() - this.mainContents.scrollTop() - this.mainContents.height());
+			if(offset < SCROLL_THRESHOLD_LOAD) {
+				this.fetchNewResults();
+			}
 		},
 
 		render: function(){
+			var i = 0, j = 0, vignettes = [];
+			var results = this.state.results;
 
-			var results = _.map(this.state.results, function(){
-				return (
-					<div class="span3">
-						<div class="song-vignette">
-							<div class="img-container">
-								<div class="img-action-overlay">
-									<a href="#" data-role="add-song">
-										<img src="img/overlay-add.png" title="add to playlist" />
-									</a>
-								</div>
-								<img src="image" />
-							</div>
-							<ul class="song-attributes">
-								<li>
-									<strong> title </strong>
-								</li>
-								<li>by artist </li>
-							</ul>
+			for(i = 0 ; i*4 < results.length ; i ++){
+				var row = [];
+				for(j = 0 ; i*4 + j < results.length && j < 4 ; j++){
+					row.push(<SongVignette key={j} song={results[i*4+j]} />);
+				}
+				vignettes.push(<div class="row-fluid" key={i}>{row}</div>);
+			}
+
+			var loader = (this.state.loading) ?
+					<div class="row-fluid">
+						<div class="span1 offset5">
+							<img src="img/ajax-loader.gif" title="loading" alt="loading" />
 						</div>
-					</div>
-				);
-			});
+					</div> : '';
+
+			var endSign = (this.state.end) ?
+					<div class="row-fluid">
+						<div class="span2 offset5">
+							{(this.state.results.length === 0) ? 'No results found' : 'no more results' }
+						</div>
+					</div> : '';
 
 			return (
 				<div class="container-fluid">
-					<div class="row-fluid">
-						<h3>Search results for {this.props.query}</h3>
-					</div>
+					<h3>Search results for "{this.props.query}"</h3>
+					{vignettes}
+					{loader}
+					{endSign}
 				</div>
 			);
 		}

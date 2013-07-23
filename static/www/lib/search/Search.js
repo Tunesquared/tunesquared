@@ -140,6 +140,7 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                         if(cacheSize > 0){
                             this.trigger('data');
                         } else if(activeSources == 0){
+                            console.log("i'm at end");
                             isEnd = true;
                             this.trigger('end');
                         } else {
@@ -161,6 +162,10 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                     this.p_fetchNextChunk();
                     return this;
                 }
+
+                this.release = function () {
+                    this.off();
+                };
 
                 _.bindAll(this, 'p_fetchSource', 'p_fetchNextChunk', 'p_fetchSourceEnd', 'exec');
             };
@@ -189,11 +194,18 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
         */
         fetchResults: function(query, amount, param){
             if(!param) param = {};  //Callbacks
+
+            query.once('end', onEnd);
+
+            function onEnd(){
+                if(typeof(param.end) == 'function') param.end();
+            }
+
             for(var i = 0 ; i < amount ; i++){
 
                 // There is no more data to be read or if an error occured
                 if(query.isEnd()){
-                    if(typeof(param.end) == 'function') param.end();
+                    onEnd();
                 }
 
                 // The data we want is not yet loaded
@@ -201,6 +213,7 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                     if(typeof(param.loading) == 'function') param.loading();
                     // When new data comes, we try again reading our results
                     query.once('data', function(){
+                        query.off('end', onEnd);
                         Search.util.fetchResults(query, amount - i, param);
                     });
                     return;
@@ -209,23 +222,8 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                 var el = query.next();
                 if(typeof(param.read) == 'function') param.read(el);
             }
+            query.off('end', onEnd);
             if(typeof(param.done) == 'function') param.done();
-        },
-
-        fetchBloc: function(query, amount, cb){
-            var buffer = [];
-            function read (data) {
-                buffer.push(data);
-            }
-
-            function done () {
-                cb(buffer);
-            }
-
-            Search.util.fetchResults({
-                read: read,
-                done: done
-            });
         },
 
         /* Maps a string representing the source name to the source object itself */
