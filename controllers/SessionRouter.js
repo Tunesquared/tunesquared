@@ -24,7 +24,7 @@ module.exports = Framework.Router({
         prepareSession(req.session, function () {
             if (req.session.partyId) {
 
-                Party.model.findOne({
+                Party.findOne({
                     _id: req.session.partyId
                 }, function (err, mod) {
 
@@ -46,7 +46,7 @@ module.exports = Framework.Router({
         var name = req.param('name');
         console.log(name);
 
-        Party.model.findOne({
+        Party.findOne({
             name: name
         }, function (err, mod) {
 

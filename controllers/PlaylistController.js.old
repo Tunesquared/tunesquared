@@ -1,0 +1,31 @@
+'use strict';
+
+var Framework = require('../framework');
+
+var Party = require('../models/Party');
+var SongInstance = require('../models/SongInstance');
+
+module.exports = Framework.Controller({
+	'playlistAddSongs': function(socket, data, ack){
+		socket.emit('log', 'adding songs : '+JSON.stringify(data));
+		Party.model.findOne({_id: data.party}, function(err, mod){
+			if (err) throw err;
+			//TODO : handle error
+			//TODO : this code is not crash-free
+
+			var songs = data.songs;
+
+			console.log(songs);
+			for(var i = 0 ; i < songs.length ; i++){
+				console.log('adding : '+JSON.stringify(songs[i]));
+				var song = new SongInstance.model(songs[i]);
+				mod.playlist.push(song);
+			}
+			mod.save(function (err) {
+				if (err) throw err;
+				// TODO : handle error
+				ack();
+			});
+		});
+	}
+});

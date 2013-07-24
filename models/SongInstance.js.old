@@ -7,7 +7,9 @@ var Model = require('../framework').Model;
 	Instance of a song currently used in a party
 */
 var SongInstance = module.exports = Model('song', {
-	name: String,
+	title: String,
+	src: String,
+	thumb: String,
 	votes: Number,
 	creator: String
 });

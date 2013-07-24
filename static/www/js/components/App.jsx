@@ -90,7 +90,7 @@ define([
 			if (this.state.main === 'home')
 				main = <HomeView />;
 			else if(this.state.main === 'search')
-				main = <SearchView query={this.state.query} />
+				main = <SearchView party={currentParty} query={this.state.query} />
 
 
 			return (
