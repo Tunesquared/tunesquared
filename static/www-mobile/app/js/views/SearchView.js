@@ -12,12 +12,14 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         tagName: 'li',
 
         events: {
-            'click [data-action=addToPlaylist]': 'onClick'
+            'click [ref=addToPlaylist]': 'onClick', //ref
             //'click a ': 'onClick',
+            'click .addsong': 'AddSong',
+            'click .close2' : 'Close'
         },
         
         initialize: function() {
-            _.bindAll(this, 'onClick');
+            _.bindAll(this, 'onClick', 'AddSong', 'Close');
             
             this.template = _.template(searchResultTemplate);
             
@@ -29,20 +31,48 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
 
             this.$el.html(listel);
 
+            this.$('[ref="asking"]').hide();
+
             
         },
         
         onClick: function(evt){
             evt.preventDefault();
 
+            this.$('[ref="asking"]').show();
+
+
+            $('[ref="asking"] .addsong' ).button().buttonMarkup( "refresh" );
+           $('[ref="asking"] .close2' ).button().buttonMarkup( "refresh" );
+             
+
+            /*
+
+            $('#popups').empty();
+
+            var result = this.model;
+
+            var $popup = new PopupView({
+                model: result,
+            });
+
+            $popup.render();
+
+            $('#popups').append($popup.$el);
+
             var song = this.model;
             
-            console.log(this.model);
+            console.log(this.model); */
 
-            $('#popup'+ song.data +' .addsong' ).button().buttonMarkup( "refresh" );
-            $('#popup'+ song.data + ' .close2' ).button().buttonMarkup( "refresh" );
+           // $('[ref="asking"] .addsong' ).button().buttonMarkup( "refresh" );
+           // $('[ref="asking"] .close2' ).button().buttonMarkup( "refresh" );
 
-            $('#popup'+ song.data).popup().popup("open");         
+            //$('#popup'+ song.data).popup().popup("open");   
+
+            
+
+            //$('#popup'+ song.data).find($('.addSong')).on('click', this.mafonction(song.data));
+         
 
             //$('#popup'+ song.data).button();
 
@@ -53,9 +83,30 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             //app.getParty().get('playlist').songs.add(this.model);
         },
 
+        AddSong: function(evt){
+            evt.preventDefault();
+            console.log('addSong');
+            this.$('[ref="asking"]').hide();
+            
+
+
+        },
+
+        Close: function(evt){
+            evt.preventDefault();
+            console.log("close popup")
+            this.$('[ref="asking"]').hide();
+        }
+/*
+        mafonction: function(data){
+            console.log("mafonction");
+            // $('#popup'+ data).popup("close");
+            
+        }
+*/
         
     });
-
+/*
     var PopupView = Backbone.View.extend({
         tagName: 'div',
         events:{
@@ -68,10 +119,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             
             this.template = _.template(popupTemplate);
 
-            popup = this.template({result: this.model});
             
-
-            this.$el.html(popup);
 
 
          
@@ -80,13 +128,15 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
 
         render: function() {
             console.log("render popup");
+            popup = this.template({result: this.model});
             
+
+            this.$el.html(popup);
           
 
             
         },
-
-        AddSong: function(evt){
+         AddSong: function(evt){
             evt.preventDefault();
             console.log('addSong');
 
@@ -98,8 +148,10 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
             console.log("close popup")
         }
 
+       
 
-    });
+
+    }); */
 
     return Backbone.View.extend({
 
@@ -132,17 +184,15 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
 
             $.mobile.loading('hide');
             
-            var $popup = new PopupView({
-                model: result,
-            });
+            
             
             var $result = new SearchResultView({
                 model: result, 
             });
             $result.render();
-            $popup.render();
+            
             this.$('#dynamicResults').append($result.$el);
-            this.$('#popups').append($popup.$el);
+            
 
             this.$('#dynamicResults').listview('refresh');
             //this.$('#popups').popup();
