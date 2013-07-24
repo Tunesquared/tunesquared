@@ -39,7 +39,7 @@ define(['jquery', 'search/Search', 'search/YoutubeSource', "text!templates/searc
         onClick: function(evt){
             evt.preventDefault();
 
-            this.$('[ref="asking"]').show();
+            this.$('[ref="asking"]').toggle();
 
 
             $('[ref="asking"] .addsong' ).button().buttonMarkup( "refresh" );
