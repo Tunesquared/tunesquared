@@ -1,18 +1,17 @@
 ﻿
 define(['jquery'], function($){
-    
+
     function YoutubeSource(query){
 
         this.get = function(begin, size, cb){
             var request = "http://gdata.youtube.com/feeds/api/videos?alt=json-in-script&q="+encodeURIComponent(query)
                         +"&start-index="+(begin+1)+"&max-results="+size;
-            
+
             $.ajax({
                 dataType: "jsonp",
                 url: request,
                 success: function(data){
                     var res = [];
-                    console.log(data);
                     for(var i in data.feed.entry){
                         res.push({
                             title   :   data.feed.entry[i].title.$t,
@@ -28,7 +27,7 @@ define(['jquery'], function($){
                 }
             });
         }
-    
+
     }
     YoutubeSource.title = "Youtube";
 
