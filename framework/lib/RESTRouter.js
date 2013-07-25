@@ -8,7 +8,7 @@ function sendError(res, err, status) {
   res.send(err);
 }
 
-module.exports = function (model, baseUrl, options) {
+var RESTRouter = module.exports = function (model, baseUrl, options) {
   options = options || {};
 
   var before = options.before || defaultBefore;
@@ -132,7 +132,7 @@ module.exports = function (model, baseUrl, options) {
   return router(routes);
 };
 
-function defaultBefore(req, method, data, cb) {
+var defaultBefore = RESTRouter.defaultBefore = function(req, method, data, cb) {
   switch (method) {
   case 'create':
     cb(null, data);
@@ -149,7 +149,7 @@ function defaultBefore(req, method, data, cb) {
   }
 }
 
-function defaultAfter(req, method, data, cb) {
+var defaultAfter = RESTRouter.defaultBefore = function(req, method, data, cb) {
   switch (method) {
   case 'create':
     cb(null, {
