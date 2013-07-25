@@ -152,7 +152,7 @@ var defaultBefore = RESTRouter.defaultBefore = function(req, method, data, cb) {
   }
 }
 
-var defaultAfter = RESTRouter.defaultBefore = function(req, method, data, cb) {
+var defaultAfter = RESTRouter.defaultAfter = function(req, method, data, cb) {
   switch (method) {
   case 'create':
     cb(null, {
