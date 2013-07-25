@@ -1,5 +1,8 @@
 'use strict';
 
+/* TODO change middleware syntax from RESTController(foo, { before: function(req, method, data, res)})
+  to myController.before('create', function(){}); */
+
 var router = require('./Router');
 
 

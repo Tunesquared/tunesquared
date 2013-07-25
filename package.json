@@ -10,6 +10,7 @@
     "ejs": "*",
     "connect-redis": "*",
     "mongoose": "*",
+    "mongoose-validator": "*",
     "socket.io": "*"
   }
 }
