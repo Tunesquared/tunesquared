@@ -6,7 +6,7 @@ define(['utils'], function (utils) {
     componentDidMount: function () {
       // Whenever there may be a change in the Backbone data, trigger a reconcile.
       this.getBackboneModels().map(function (model) {
-        model.on('add change remove', utils.forceUpdateFix(this), this);
+        model.on('add change remove sync', utils.forceUpdateFix(this), this);
       }.bind(this));
     },
     componentWillUnmount: function () {

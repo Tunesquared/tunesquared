@@ -103,6 +103,10 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			}
 		},
 
+		onChooseSong: function (song) {
+			this.props.party.get('playlist').add(song);
+		},
+
 		render: function(){
 			var i = 0, j = 0, vignettes = [];
 			var results = this.state.results;
@@ -110,7 +114,7 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			for(i = 0 ; i*4 < results.length ; i ++){
 				var row = [];
 				for(j = 0 ; i*4 + j < results.length && j < 4 ; j++){
-					row.push(<SongVignette key={j} song={results[i*4+j]} />);
+					row.push(<SongVignette onClick={this.onChooseSong} key={j} song={results[i*4+j]} />);
 				}
 				vignettes.push(<div class="row-fluid" key={i}>{row}</div>);
 			}

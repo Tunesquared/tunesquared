@@ -7,13 +7,13 @@ define(['react'], function(React){
 			return (
 				<div class="song-container">
 					<div class="vote-label negative">
-						<div class="inner">- voteMinus</div>
+						<div class="inner">- 0</div>
 					</div>
 					<div class="vote-label positive">
-						<div class="inner">+ votePlus</div>
+						<div class="inner">+ 0</div>
 					</div>
 					<div class="inner">
-						# position <strong>title</strong> - artist
+						# {this.props.pos} <strong>{this.props.song.get('title')}</strong> - artist
 					</div>
 				</div>
 			);

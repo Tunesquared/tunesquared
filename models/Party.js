@@ -1,46 +1,33 @@
 'use strict';
 
-var Model = require('../framework').Model;
+// maybe put this in some utils somewhere
+function noop(){}
 
-var SongInstance = require('./SongInstance');
+var mongoose = require('mongoose');
 
-var Party = module.exports = Model('party', {
-
-  name: String,
-  owner: String,
-  playlist: [SongInstance.schema]
-
-}, {
-  namespace: 'api',
-  exposeAPI: true,
-  before: function (req, method, data, callback) {
-    console.log(req.session);
-    if (method === 'create') {
-      data.owner = req.session.publickey;
-    } else if (method === 'delete' || method === 'update') {
-      Party.model.find({_id: data._id}, function(err, resp){
-        if(err) callback(err);
-        else if (resp.owner !== req.session.publickey) {
-          callback('You are not allowed to delete this party', 403);
-        }
-      });
-    }
-    console.log(data);
-    Model.before(req, method, data, callback);
-  },
-
-  after: function (req, method, data, callback) {
-    if (method === 'create') {
-      console.log('afterCreate');
-      req.session.partyId = data._id;
-      req.session.save(function () {
-        callback(null, {
-          _id: data._id,
-          owner: data.owner
-        });
-      });
-    } else {
-      Model.after(req, method, data, callback);
-    }
-  }
+var PartySchema = new mongoose.Schema({
+	name: { type: String, unique: true},
+	owner: String, // Just a session publickey for now
+	playlist: [{
+		title: String,
+		artist: String,
+		source: String,
+		votes_yes: { type: Number, default: 0 },
+		votes_no: { type: Number, default: 0},
+		data: String
+		/* Todo : we can store actual song in a database and use some fancy analysis to match instances with these songs.
+			then we connect this instance to the song with the attribute bellow allowing cool statistics. */
+		// song : { type: Schema.Types.ObjectId, ref: 'Song' } // Link to the actual song
+	}]
 });
+
+/* Utilities method to vote without retreiving the model */
+
+PartySchema.statics.voteYes = function (id, songId, cb) {
+	this.update({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1} }, cb || noop);
+};
+PartySchema.statics.voteNo = function (id, songId, cb) {
+	this.update({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1} }, cb || noop);
+};
+
+module.exports = mongoose.model('party', PartySchema);
