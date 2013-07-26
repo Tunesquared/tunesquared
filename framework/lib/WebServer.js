@@ -11,28 +11,28 @@ var server = null;
 var config = require('../../config');
 
 var WebServer = module.exports = function(){
-    
+
     if(!server){
         buildServer(config);
     }
-    
+
     return server;
 }
 
 function buildServer(config){
     // Web server port
     app.set('port', process.env.PORT || config.web_port || 5000);
-    
+
     // View settings
     app.set('views', dirname + '/views');
     app.set('view engine', 'ejs');
-    
+
     // Favicon
     app.use(express.favicon());
-    
+
     // Logs stuff in development
     if( app.get('env') == 'developement') app.use(express.logger('dev'));
-    
+
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.cookieParser());
@@ -40,24 +40,25 @@ function buildServer(config){
         secret: process.env.SESSION_SECRET || "8168008135",
         store: sessionStore
     }));
+    app.use(require('./Session'));
     app.use(app.router);
     if( app.get('env') == 'developement') app.use(express.errorHandler());
-    
-    
+
+
     /** Static **/
-    
-    if( config.static ) { 
+
+    if( config.static ) {
         for(var i in config.static){
             app.use(i, express.static(path.join(dirname, config.static[i])));
         }
-    
+
     } else {
         app.use('/', express.static(path.join(dirname, 'static')));
     }
-    
+
     // One last middleware
     if ('development' == app.get('env')) app.use(express.errorHandler());
-    
+
     server = require('http').createServer(app);
 }
 

@@ -1,5 +1,7 @@
 'use strict';
 
+/* TODO : avoid direct socket dependency.... */
+
 define(['underscore', 'backbone', 'models/Song', 'socket'], function (_, Backbone, Song, socket) {
 
 	var add = Backbone.Collection.prototype.add;

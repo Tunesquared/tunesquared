@@ -9,6 +9,18 @@ define(['react'], function(React){
 			window.location.href = '#search/'+encodeURIComponent(this.refs.search.getValue());
 		},
 
+		leave: function (evt) {
+			evt.preventDefault();
+
+			// We own this party so destroying it will make us leave cleanly
+			this.props.session.get('party').destroy({
+				success: function () {
+					console.log('test');
+					window.location.reload();
+				}
+			});
+		},
+
 		render: function(){
 			return (
 				<div class="navbar">
@@ -17,6 +29,9 @@ define(['react'], function(React){
                     <form class="navbar-search pull-left" action="" onSubmit={this.onSearch}>
                         <input type="text" id="search-field" class="search-query span2" placeholder="Search" ref="search" />
                     </form>
+                </ul>
+                <ul class="nav pull-right">
+                	<li><a href="#" onClick={this.leave}><i class="icon-off"></i> exit</a></li>
                 </ul>
             </div>
         </div>

@@ -22,28 +22,41 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 		},
 
 		componentDidMount: function () {
+			this.mainContents = $('#main-contents'); // Keeps a local ref to main content for scrolling purpose
+      this.mainContents.bind('scroll', this.checkScroll);
+
 			this.searchAggregator = new SearchAggregator({
         chunkSize: LOAD_CHUNK_SIZE,
         preloadThreshold: 0 // Since we load results before the user reaches the bottom, we don't want to preload
       });
-
       this.searchAggregator.addSrc(YoutubeSource);
 
       this.initQuery();
-
-      this.mainContents = $('#main-contents'); // Keeps a local ref to main content for scrolling purpose
-      this.mainContents.bind('scroll', this.checkScroll);
 		},
 
 		componentWillUnmount: function () {
 			this.mainContents.unbind('scroll', this.checkScroll);
+			this.abortQuery();
 		},
 
 		componentWillReceiveProps: function (newProps) {
-			this.initQuery(newProps);
+			this.abortQuery();
+			this.initQuery(newProps, true);
 		},
 
-		initQuery: function (props) {
+		abortQuery: function (){
+			if(this.queryIterator){
+				this.queryIterator.release();
+				this.queryIterator = null;
+			}
+			if(this.state.loading){
+				this.setState({
+					loading: false
+				});
+			}
+		},
+
+		initQuery: function (props, force) {
 			if (props == null) props = this.props;
 
 			this.setState({
@@ -57,13 +70,13 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			}
 			this.queryIterator = this.searchAggregator.query(props.query);
       this.queryIterator.exec();
-      this.fetchNewResults();
+      this.fetchNewResults(force);
 		},
 
-		fetchNewResults: function () {
+		fetchNewResults: function (force) {
 			var results = [];
 
-			if(!this.state.loading){
+			if(!this.state.loading || force){
 				this.setState({
 					loading: true
 				});

@@ -24,7 +24,6 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                 var title = source.title ? source.title : source;
                 if(typeof(source) === 'string') {
                     source = Search.util.mapToSource(source);
-                    console.log(source);
                 }
                 sources[title] = source;
             }
@@ -74,7 +73,7 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                 };
 
                 this.hasNext = function(){
-                    return cacheSize != 0;
+                    return cacheSize !== 0;
                 };
 
                 /* Returns the next result or null if nothing is available */
@@ -87,9 +86,9 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
 
                     if(cache[key].length > 0){
                         cacheSize --;
-                        if(cacheSize == 0 && activeSources.length == 0){
+                        if(cacheSize === 0 && activeSources.length === 0){
                             this.isEnd = true;
-                            this.trigger("end");
+                            this.trigger('end');
                         } else if(cacheSize < preloadThreshold && !fetching && activeSources.length > 0){
                             this.p_fetchNextChunk();
                         }
@@ -103,11 +102,11 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                 this.p_fetchNextChunk = function(){
                     fetching = true;
                     nbFetchings = activeSources.length;
-                    currentChunkSize = Math.round(chunkSize/activeSources.length)
+                    currentChunkSize = Math.round(chunkSize/activeSources.length);
                     for(var i = 0 ; i < activeSources.length ; i++){
                         this.p_fetchSource(activeSources[i], chunkBegin, currentChunkSize);
                     }
-                }
+                };
 
                 this.p_fetchSource = function(title, begin, size){
                     var called = false;
@@ -118,7 +117,7 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
                                 this.trigger('error', err);
                                 parent.trigger('error');
                                 activeSources.splice(activeSources.indexOf(title), 1);
-                            } else if(data.length == 0){
+                            } else if(data.length === 0){
                                 activeSources.splice(activeSources.indexOf(title), 1);
                             } else {
                                 cache[title] = cache[title].concat(data);
@@ -127,41 +126,39 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
 
                             this.p_fetchSourceEnd();
                         } else {
-                            console.log("Debug : search callback called twice");
+                            console.log('Debug : search callback called twice');
                         }
                     }, this));
-                }
+                };
 
                 this.p_fetchSourceEnd = function(){
                     nbFetchings --;
-                    if(nbFetchings == 0){
+                    if(nbFetchings === 0){
                         fetching = false;
                         chunkBegin += currentChunkSize;
                         if(cacheSize > 0){
                             this.trigger('data');
-                        } else if(activeSources == 0){
-                            console.log("i'm at end");
+                        } else if(activeSources === 0){
                             isEnd = true;
                             this.trigger('end');
                         } else {
                             this.p_fetchNextChunk();
                         }
                     }
-                }
+                };
 
                 this.exec = function(){
 
-                    var s_cache = cache;
                     for(var i in sources){
                         cSources[i] = new sources[i](query);
                         activeSources.push(i);
 
-                        cache[i] = new Array();
+                        cache[i] = [];
                     }
 
                     this.p_fetchNextChunk();
                     return this;
-                }
+                };
 
                 this.release = function () {
                     this.off();
@@ -173,14 +170,14 @@ define(['jquery', 'underscore', 'search/YoutubeSource', 'search/FakeSource', 'ba
             _.extend(Query.prototype, Backbone.Events);
 
             return new Query(this.chunkSize, this.preloadThreshold);
-        }
+        };
 
     };
 
     Search.prototype.config = function(conf){
         if(conf.chunkSize) this.chunkSize = conf.chunkSize;
         if(conf.preloadThreshold) this.preloadThreshold = conf.preloadThreshold;
-    }
+    };
 
     // Search utilities
     Search.util = {

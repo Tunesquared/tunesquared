@@ -6,11 +6,17 @@ var Party = require('../models/Party');
 
 /* TODO : modify RESTRouter's middleware api, see RESTRouter */
 
+/* TODO : handle party delete */
+
 framework.RESTRouter(Party, 'api/party', {
 	before: function (req, method, data, cb){
 		if (method === 'create') {
-			data.owner = req.session.publickey;
-			cb(null, {_id: data._id});
+			if(req.session.myParty != null){
+				cb('already owns a party');
+			} else {
+				data.owner = req.session.publickey;
+				cb(null, data);
+			}
 		} else {
 			framework.RESTRouter.defaultBefore(req, method, data, cb);
 		}
@@ -18,9 +24,18 @@ framework.RESTRouter(Party, 'api/party', {
 
 	after: function (req, method, data, cb) {
 		if(method === 'create'){
-			req.session.partyId = data._id;
+			req.session.myParty = data._id; // Owns this party
+			req.session.partyId = data._id; // Is in this party
 			req.session.save();
-			cb(null, data);
+			cb(null, {_id: data._id});
+		} else if (method === 'delete') {
+			req.session.myParty = null;
+			req.session.partyId = null;
+			req.session.save(function (err) {
+				console.log('destroyed');
+				console.log(err);
+				cb(err);
+			});
 		} else {
 			framework.RESTRouter.defaultAfter(req, method, data, cb);
 		}

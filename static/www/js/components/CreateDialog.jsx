@@ -1,7 +1,11 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react', 'jquery', 'mixins/jqEvents', 'bootstrap/bootstrap-modal', 'wizard'], function(React, $, jqEvents){
+define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/bootstrap-modal', 'wizard'],
+	function(React, $, jqEvents/*, JSON*/){
+
+	/* Maximum string length for party title. (see Party server model) */
+	var PARTY_TITLE_MAX_LEN = 32;
 
 	var CreateDialog = React.createClass({
 
@@ -35,7 +39,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'bootstrap/bootstrap-modal', 'wiza
 		// Custom methods
 
 		onWizardComplete: function(){
-			window.location.hash = this.props.redirect || '#';
+			window.location.reload();
 		},
 
 		onFirstPage: function(jqEvt, evt){
@@ -50,8 +54,19 @@ define(['react', 'jquery', 'mixins/jqEvents', 'bootstrap/bootstrap-modal', 'wiza
 				var lock = evt.lock();
 				this.props.session.createParty({name: name}, function (err /*, party */) {
 					if(err != null){
-						if(/duplicate key/.test(err)){
+						// Performs some checks to be sure what error we are talking about
+						try {
+							err = JSON.parse(err);
+						} catch (e) {	}
+
+						if (err == 'already owns a party'){
+							this.setState({error: 'You already own a party, you must delete it first.'});
+						} else if(err.name && /"String is not in range" failed for path name/.test(err.name.message)) {
+							this.setState({error: 'This name is too long. ('+PARTY_TITLE_MAX_LEN+' character max)'});
+						} else if(/duplicate key/.test(err)){
 							this.setState({error: 'This name is currently used for another party'});
+						} else {
+							this.setState({error: 'Something went wrong'});
 						}
 						lock(true);
 					} else {

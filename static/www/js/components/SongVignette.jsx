@@ -23,7 +23,7 @@ define(['react'], function(React){
 							<li>
 								<strong> {this.props.song.title} </strong>
 							</li>
-							<li>by someone </li>
+							<li>by {this.props.song.artist} </li>
 						</ul>
 					</div>
 				</div>

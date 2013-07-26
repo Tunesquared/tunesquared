@@ -10,6 +10,7 @@ define([
 	'models/Party',
 	'components/CreateDialog',
 	'components/Playlist',
+	'components/PartyInfo',
 	'components/Home',
 	'components/Search',
 	'components/Navbar'
@@ -22,6 +23,7 @@ define([
 	Party,
 	CreateDialog,
 	Playlist,
+	PartyInfo,
 	HomeView,
 	SearchView,
 	Navbar
@@ -39,12 +41,6 @@ define([
 		},
 
 		routes: {
-			'create': function () {
-				this.setState({
-					dialog: 'create'
-				});
-			},
-
 			'search/:q': function (q) {
 				this.setState({
 					dialog: null,
@@ -83,8 +79,8 @@ define([
 			var currentParty = Session.get('party') || new Party();
 
 			var dialog;
-			if (this.state.dialog === 'create')
-				dialog = <CreateDialog session={Session} />;
+			/*if (this.state.dialog === 'create')
+				dialog = <CreateDialog session={Session} />;*/
 
 			var main;
 			if (this.state.main === 'home')
@@ -98,10 +94,10 @@ define([
 					<div id="side-panel">
 						<div id="player"></div>
 						<Playlist playlist={currentParty.get('playlist')}/>
-		        <div id="party-info"></div>
+		        <PartyInfo party={currentParty} />
 					</div>
 	        <div id="main-panel">
-	            <Navbar />
+	            <Navbar session={ Session } />
 	            <div id="main-contents">{main}</div>
 	        </div>
 	        {dialog}

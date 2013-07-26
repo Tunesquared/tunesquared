@@ -8,7 +8,12 @@ var router = require('./Router');
 
 function sendError(res, err, status) {
   res.statusCode = status || 400;
-  res.send(err);
+  if(err.name === 'MongoError')
+    res.send(err.err);
+  else if (err.name === 'ValidationError')
+    res.send(JSON.stringify(err.errors));
+  else
+    res.send(err);
 }
 
 var RESTRouter = module.exports = function (model, baseUrl, options) {
@@ -27,9 +32,10 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
       if (err != null)
         return sendError(res, err, data);
       model.create(data, function (err, mod) {
-        if (err != null)
-          return sendError(res, err.err);
-
+        if (err != null){
+          console.log(JSON.stringify(err));
+          return sendError(res, err);
+        }
         after(req, 'create', mod, function (err, data) {
           if (err != null)
             return sendError(res, err, data);
@@ -48,7 +54,7 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
 
       model.find({}, function (err, coll) {
         if (err != null)
-          return sendError(res, err.err);
+          return sendError(res, err);
 
         after(req, 'read', coll, function (err, data) {
           if (err != null)
@@ -71,7 +77,7 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
         _id: id
       }, function (err, mod) {
         if (err != null)
-          return sendError(res, err.err);
+          return sendError(res, err);
         after(req, 'read', mod, function (err, data) {
           if (err != null)
             return sendError(res, err, data);
@@ -99,7 +105,7 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
         $set: set
       }, function (err) {
         if (err != null)
-          return sendError(res, err.err);
+          return sendError(res, err);
         after(req, 'update', {
           _id: id,
           set: set
@@ -112,7 +118,6 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
   };
 
   routes['del:' + baseUrl + '/:id'] = function (req, res) {
-    res.send('deleted');
 
     var id = req.param('id');
 
@@ -123,9 +128,9 @@ var RESTRouter = module.exports = function (model, baseUrl, options) {
         _id: id
       }, function (err) {
         if (err != null)
-          return sendError(res, err.err);
+          return sendError(res, err);
         after(req, 'delete', id, function () {
-          res.end();
+          res.send({});
         });
       });
 

@@ -7,44 +7,32 @@ var Party = require('../models/Party');
 
 
 // Ensures the client has a properly populated session
-// TODO : hook this piece of middleware in express's stack
-
-function prepareSession(sess, cb) {
-    if (!sess.publickey) {
-        sess.publickey = guid();
-        sess.save(cb);
-    } else {
-        cb();
-    }
-}
 
 module.exports = Framework.Router({
 
     'api/session': function (req, res) {
-        prepareSession(req.session, function () {
-            if (req.session.partyId) {
+        if (req.session.partyId) {
 
-                Party.findOne({
-                    _id: req.session.partyId
-                }, function (err, mod) {
+            Party.findOne({
+                _id: req.session.partyId
+            }, function (err, mod) {
 
-                    res.send({
-                        party: mod,
-                        publickey: req.session.publickey
-                    });
-
-                });
-            } else {
                 res.send({
-                    party: null
+                    party: mod,
+                    publickey: req.session.publickey,
+                    myParty: req.session.myParty
                 });
-            }
-        });
+
+            });
+        } else {
+            res.send({
+                party: null
+            });
+        }
     },
 
     'api/joinPartyByName/:name': function (req, res) {
         var name = req.param('name');
-        console.log(name);
 
         Party.findOne({
             name: name

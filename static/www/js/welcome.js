@@ -1,7 +1,5 @@
-﻿/*
- * main.js is the only file explicitly loaded by require (see index.html)
- * It will load every main classes needed by app to initialize.
- * One doesn't need to specify here sub-dependencies.
+/*
+ * This is the main.js of welcome app.
 */
 
 'use strict';
@@ -17,8 +15,7 @@ requirejs.config({
         'less': '/lib/less',
         'wizard': '/lib/wizard',
         'react': '/lib/react',
-        'components': 'components-build',
-        'search': '/lib/search'
+        'components': 'components-build'
     },
 
     shim: {
@@ -44,20 +41,22 @@ requirejs.config({
 });
 
 
-require(['jquery', 'react', 'components/App'],
+require(['jquery', 'react', 'components/CreateDialog', 'models/Session'],
 
     /*
         The arguments of the callback function are the required objects
         in the same order as in the list above. Therefore, we retreive jquery
         first, then the app object.
     */
-    function($, React, App) {
+    function($, React, CreateDialog, Session) {
         /* We can still use jquery to make sure the dom is completely loaded even though
             it's very unlikely it isn't already loaded. */
         $(function() {
-            React.renderComponent(
-              App(),
-              document.getElementById('app')
-            );
+            $('#create').click(function(){
+                React.renderComponent(
+                  CreateDialog({session: Session}),
+                  document.getElementById('create-dialog')
+                );
+            });
         });
 });
