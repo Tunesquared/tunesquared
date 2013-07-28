@@ -15,13 +15,13 @@ define(['jquery', 'backbone', 'models/Playlist'], function ($, Backbone, Playlis
 
         initialize: function(){
             if (!(this.get('playlist') instanceof Playlist)) {
-                this.set('playlist', new Playlist(this.get('playlist'), {party: this}));
+                this.set('playlist', new Playlist(this.get('playlist')));
             }
         },
 
         parse: function (attr) {
             if (attr.playlist) {
-                var playlist = this.get('playlist') || new Playlist([], {party: this});
+                var playlist = this.get('playlist') || new Playlist([]);
                 playlist.reset(attr.playlist);
                 attr.playlist = playlist;
             }

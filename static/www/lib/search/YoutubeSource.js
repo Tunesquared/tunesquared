@@ -15,7 +15,7 @@ define(['jquery'], function($){
                     for(var i in data.feed.entry){
                         res.push({
                             title   :   data.feed.entry[i].title.$t,
-                            src     :   'youtube',
+                            source     :   'youtube',
                             thumb   :   data.feed.entry[i].media$group.media$thumbnail[1].url,
                             data    :   _.last(data.feed.entry[i].id.$t.split('/'))
                         });

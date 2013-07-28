@@ -15,7 +15,8 @@ define(function () {
                             thumb: '/img/song-thumb-' + Math.floor((Math.random() * 9))+'.jpg',
                             artist: 'Lipsum' + Math.floor((Math.random() * 90 + 10)),
                             title: 'Resultat n°' + (i + 1),
-                            src: 'Fake source'
+                            source: 'fake',
+                            data: 'waka waka'
                         });
                     }
                 }

@@ -13,7 +13,7 @@ define(['react'], function(React){
 						<div class="inner">+ 0</div>
 					</div>
 					<div class="inner">
-						# {this.props.pos} <strong>{this.props.song.get('title')}</strong> - artist
+						# {this.props.pos} <strong>{this.props.song.get('title')}</strong> - {this.props.song.artist}
 					</div>
 				</div>
 			);

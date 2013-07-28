@@ -20,14 +20,13 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/boots
 		// React component method
 
 		componentDidMount: function(){
-			this.node = $(this.getDOMNode()).modal({
-				backdrop: 'static'
-			})
+			this.node = $(this.getDOMNode()).modal()
+			.on('hide', this.props.onHide)
 			.wizard();
 		},
 
 		componentWillUnmount: function(){
-			this.node.modal('hide');
+			//this.node.modal('hide');
 		},
 
 		getInitialState: function(){
@@ -39,6 +38,8 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/boots
 		// Custom methods
 
 		onWizardComplete: function(){
+			this.node.modal('hide');
+			// TODO : show an ajax-loader because location.reload may not be instantaneous over internet
 			window.location.reload();
 		},
 
@@ -93,6 +94,7 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/boots
 			return (
 			<div class="modal fade" data-role="start-party" >
 				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h3>Start your party</h3>
 				</div>
 				<div class="modal-body">
@@ -136,7 +138,7 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/boots
 				</div>
 				<div class="modal-footer">
 					<img src="img/ajax-loader.gif" alt="loading" title="loading" data-role="loader"/>
-					{/*<a href="#" class="btn" data-role="cancel" data-dismiss="modal">Cancel</a>*/}
+					<a href="#" class="btn" data-role="cancel" data-dismiss="modal">Cancel</a>
 					<a href="#" class="btn" data-role="prev" >Previous</a>
 					<a href="#" class="btn btn-primary" data-role="done" >Done</a>
 					<a href="#" class="btn btn-primary" data-role="next" >Next</a>

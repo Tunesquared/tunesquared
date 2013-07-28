@@ -58,12 +58,12 @@ define([
 		},
 
 		getBackboneModels: function () {
-			return [Session];
+			return [this.props.session];
 		},
 
 		componentDidMount: function(){
 			// TODO : not make session a global but some app's attribute instead
-			Session.fetch({
+			this.props.session.fetch({
         success: function () {
           Backbone.history.start();
         }
@@ -76,11 +76,12 @@ define([
 
 		render: function () {
 
-			var currentParty = Session.get('party') || new Party();
+			var session = this.props.session;
+			var currentParty = session.get('party') || new Party();
 
 			var dialog;
 			/*if (this.state.dialog === 'create')
-				dialog = <CreateDialog session={Session} />;*/
+				dialog = <CreateDialog session={session} />;*/
 
 			var main;
 			if (this.state.main === 'home')
@@ -97,7 +98,7 @@ define([
 		        <PartyInfo party={currentParty} />
 					</div>
 	        <div id="main-panel">
-	            <Navbar session={ Session } />
+	            <Navbar session={ session } />
 	            <div id="main-contents">{main}</div>
 	        </div>
 	        {dialog}

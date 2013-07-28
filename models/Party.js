@@ -6,7 +6,7 @@ var validate = require('mongoose-validator').validate;
 /* Maximum string length for party title. (see client create dialog) */
 var PARTY_TITLE_MAX_LEN = 32;
 // List of valid sources, append here to accept new sources
-var sources = ['youtube'];
+var sources = ['youtube', 'fake'];
 
 // maybe put this in some utils somewhere
 function noop(){}

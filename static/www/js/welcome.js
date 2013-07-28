@@ -49,12 +49,20 @@ require(['jquery', 'react', 'components/CreateDialog', 'models/Session'],
         first, then the app object.
     */
     function($, React, CreateDialog, Session) {
+
+        // TODO : refactor this in a react component
+        var session = new Session();
+
+        function onCreateHide() {
+            React.unmountAndReleaseReactRootNode(document.getElementById('create-dialog'));
+        }
+
         /* We can still use jquery to make sure the dom is completely loaded even though
             it's very unlikely it isn't already loaded. */
         $(function() {
             $('#create').click(function(){
                 React.renderComponent(
-                  CreateDialog({session: Session}),
+                  CreateDialog({session: session, onHide: onCreateHide}),
                   document.getElementById('create-dialog')
                 );
             });

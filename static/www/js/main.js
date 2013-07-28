@@ -44,19 +44,23 @@ requirejs.config({
 });
 
 
-require(['jquery', 'react', 'components/App'],
+require(['jquery', 'react', 'components/App', 'models/Session', 'controllers/PubSubController'],
 
     /*
         The arguments of the callback function are the required objects
         in the same order as in the list above. Therefore, we retreive jquery
         first, then the app object.
     */
-    function($, React, App) {
+    function($, React, App, Session, PubSubCtrl) {
+
+        var session = new Session();
+        new PubSubCtrl(session);
+
         /* We can still use jquery to make sure the dom is completely loaded even though
             it's very unlikely it isn't already loaded. */
         $(function() {
             React.renderComponent(
-              App(),
+              App({session: session}),
               document.getElementById('app')
             );
         });

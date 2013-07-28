@@ -5,7 +5,7 @@
 define(['jquery', 'underscore', 'backbone', 'models/Party'], function ($, _, Backbone, Party) {
 
   // The Model constructor
-  var Model = Backbone.Model.extend({
+  var Session = Backbone.Model.extend({
     urlRoot: 'api/session',
     idAttribute: '_id',
     defaults: {
@@ -85,6 +85,6 @@ define(['jquery', 'underscore', 'backbone', 'models/Party'], function ($, _, Bac
 
   });
 
-  return new Model();
+  return Session;
 
 });
