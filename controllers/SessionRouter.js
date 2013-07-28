@@ -1,14 +1,13 @@
 'use strict';
 
 var Framework = require('../framework');
-var guid = require('../framework/lib/utils').guid;
 
 var Party = require('../models/Party');
 
 
 // Ensures the client has a properly populated session
 
-module.exports = Framework.Router({
+module.exports = new Framework.Router({
 
     'api/session': function (req, res) {
         if (req.session.partyId) {

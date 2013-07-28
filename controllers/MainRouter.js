@@ -7,7 +7,7 @@
 
 var Framework = require('../framework');
 
-module.exports = Framework.Router({
+module.exports = new Framework.Router({
 
 	// TODO : check mobile browser
 	/*
@@ -25,7 +25,7 @@ module.exports = Framework.Router({
 	},
 
 	// Serves mobile app
-		'/m': function(req, res){
+	'/m': function(req, res){
 		res.render('mobile');
 	}
 });

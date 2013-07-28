@@ -8,41 +8,33 @@ var Party = require('../models/Party');
 
 /* TODO : handle party delete */
 
-framework.RESTRouter(Party, 'api/party', {
-	before: function (req, method, data, cb){
-		if (method === 'create') {
-			if(req.session.myParty != null){
-				cb('already owns a party');
-			} else {
-				data.owner = req.session.publickey;
-				cb(null, data);
-			}
-		} else {
-			framework.RESTRouter.defaultBefore(req, method, data, cb);
-		}
-	},
+var rest = new framework.RESTRouter(Party, 'api/party');
 
-	after: function (req, method, data, cb) {
-		if(method === 'create'){
-			req.session.myParty = data._id; // Owns this party
-			req.session.partyId = data._id; // Is in this party
-			req.session.save();
-			cb(null, {_id: data._id});
-		} else if (method === 'delete') {
-			req.session.myParty = null;
-			req.session.partyId = null;
-			req.session.save(function (err) {
-				console.log('destroyed');
-				console.log(err);
-				cb(err);
-			});
-		} else {
-			framework.RESTRouter.defaultAfter(req, method, data, cb);
-		}
+rest.before('create', function (req, data, cb){
+	if(req.session.myParty != null){
+		cb('already owns a party');
+	} else {
+		data.owner = req.session.publickey;
+		cb(null, data);
 	}
+})
+.after('create', function (req, data, cb) {
+	req.session.myParty = data._id; // Owns this party
+	req.session.partyId = data._id; // Is in this party
+	req.session.save();
+	cb(null, {_id: data._id});
+})
+.after('delete', function (req, data, cb){
+	req.session.myParty = null;
+	req.session.partyId = null;
+	req.session.save(function (err) {
+		console.log('destroyed');
+		console.log(err);
+		cb(err);
+	});
 });
 
-framework.Router({
+rest.add({
 
 	/* Voting methods : allows to vote for a song with id ":id" in the current party (you must be in a party) */
 	'api/voteYesSong/:id': function(req, res){

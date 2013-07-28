@@ -21,7 +21,7 @@ define(function () {
                     }
                 }
                 cb(null, data);
-            }, 2000);
+            }, 1000);
         };
     }
     FakeSrc.title = 'FakeSrc';

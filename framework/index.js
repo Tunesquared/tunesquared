@@ -34,14 +34,14 @@ Framework.sessionStore = require('./lib/sessionStore');
 
 Framework.start = function () {
 
+  // Includes all controllers (see controllers factories for details)
+  requireDir('controllers');
+
   // Creates the express app
   var server = WebServer();
 
   // Creates socketio's server
   Framework.io = SockServer();
-
-  // Includes all controllers (see controllers factories for details)
-  requireDir('controllers');
 
   var app = WebServer.app;
 
@@ -56,19 +56,16 @@ Framework.start = function () {
 
 function requireDir(path) {
 
-  fs.readdir(path, function (err, files) {
+  var files = fs.readdirSync(path);
 
-    if (err) throw err;
+  for (var i in files) {
+    var p = path + '/' + files[i];
+    var stats = fs.lstatSync(p);
 
-    for (var i in files) {
-      var p = path + '/' + files[i];
-      var stats = fs.lstatSync(p);
-
-      if (stats.isDirectory()) {
-        requireDir(p);
-      } else if (stats.isFile() && /\.js$/.test(files[i])) {
-        require(dirname + '/' + p);
-      }
+    if (stats.isDirectory()) {
+      requireDir(p);
+    } else if (stats.isFile() && /\.js$/.test(files[i])) {
+      require(dirname + '/' + p);
     }
-  });
+  }
 }

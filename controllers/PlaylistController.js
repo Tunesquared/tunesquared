@@ -34,7 +34,7 @@ Framework.Controller({
 	}
 });
 
-Framework.Router({
+new Framework.Router({
 	'post:api/playlistAddSong': function(req, res){
 		Party.findOne({_id: req.body.party}, function(err, mod){
 			if (err) throw err;

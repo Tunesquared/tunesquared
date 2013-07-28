@@ -2,14 +2,14 @@
 <html class="no-js ui-mobile-rendering" lang="en">
     <head>
         <title>Tunesquared - vote for your playlist !</title>
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-rc.1/jquery.mobile-1.3.0-rc.1.min.css" />
         <link rel="stylesheet" href="/m/app/css/themes/green.min.css" />
         <link rel="stylesheet" href="/m/app/css/mstyle.css" />
-        
+
         <script data-main="/m/app/js/main" src="lib/require.js"></script>
 
     </head>
@@ -21,10 +21,10 @@
             <div data-role="header" data-theme="a" >
             <center><img src="/m/app/img/tunelarge2.png" width="150" hspace="15"/></center>
         </div><!-- /header -->
-            
-            <div data-role="content" data-theme="a">	
+
+            <div data-role="content" data-theme="a">
                 <!-- Make a login page, just put in party name -->
-                
+
                 <form action="join">
                     <input type="text" name="text-join" id="text-join" value="" placeholder="type 'crash' to trigger ajax error">
                     <input type="submit" value="Join playlist!" />
@@ -45,13 +45,13 @@
             <!-- Do we need the refresh button? -->
             <a href="#party" data-icon="refresh" id="refresh-1" class="ui-btn-right">Refresh</a>
         </div><!-- /header -->
-        <div data-role="content" data-theme="a">    
+        <div data-role="content" data-theme="a">
             <div id="votelist" >
             <ul id="dynamicFieldList" data-role="listview" data-icon="arrow-u" data-filter="true" data-filter-placeholder="Add new songs and vote.." data-count-theme="c">
 
             </ul>
-           
-            </div>          
+
+            </div>
         </div><!-- /content -->
 
         <div data-role="footer" data-theme="a" data-position="fixed">
@@ -68,21 +68,21 @@
     <!-- Sharing page, QR-Code displayed, Option to share the link with whatsapp or sms (?) -->
 
     <div data-role="page" id="share" data-theme="a">
-    
+
         <div data-role="header" data-theme="a">
             <img src="/m/app/img/tunelarge2.png" width="120" hspace="15"/>
         </div><!-- /header -->
 
-        <div data-role="content" data-theme="a">    
+        <div data-role="content" data-theme="a">
 
             <div id="qr-code">
-            
+
             </div>
 
             <form action="leave">
                 <input type="submit" value="Leave Party">
             </form>
-            
+
 
         </div><!-- /content -->
         <div data-role="footer" data-theme="a" data-position="fixed">
@@ -103,7 +103,7 @@
 
         </div><!-- /header -->
 
-        <div data-role="content" data-theme="a">    
+        <div data-role="content" data-theme="a">
 
             <form >
                 <input type="search" name="search-1" id="search-1"  placeholder="Search something else.." value="" data-theme="c">
@@ -119,7 +119,7 @@
             <div data-role="popup" id="popupBasic" data-position-to="origin" data-theme="a">
                 <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
                    <p> Do you want to add this song to the playlist?</p>
-                <a data-role="button" class="Accept" data-theme="a">Yes</a>        
+                <a data-role="button" class="Accept" data-theme="a">Yes</a>
             </div>
  -->
 
@@ -133,6 +133,6 @@
             </div><!-- /navbar -->
         </div><!-- /footer -->
     </div>
-        
+
     </body>
 </html>
