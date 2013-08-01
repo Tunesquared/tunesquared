@@ -1,0 +1,12 @@
+<a ref="openmenu">
+	<% if(result.thumb) { %>
+    <img src="<%= result.thumb %>"/>
+    <% } %>
+    <h3><%= result.title %> </h3>
+    <p>(From : <i><%= result.source %></i>)</p>
+</a>
+<div ref="asking" class="ask" >
+	<p> Do you want to listen this song? </p>
+	<button data-theme="a" ref="ok" data-inline="true" class="yes">Yes</button>
+    <button data-theme="a" data-inline="true" class="no">No</button>   
+<div/>
