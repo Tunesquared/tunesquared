@@ -5,8 +5,8 @@
 define([
     "jquery", 
     "../models/Session", 
-    "../models/PartyModel", 
-    "../models/SongModel", 
+    "../models/Party", 
+    "../models/Song", 
     "../views/HomeView", 
     "../views/PartyView", 
     "../views/SearchView", 
@@ -74,21 +74,17 @@ define([
 
         party: function(){
 
-            this.partyView.model = Session.get("party");
-
-            if(this.partyView.model !== null){
-                $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
-            } 
-            else {
-                window.location.hash = "#";
-            }
+            this.partyView.setParty(Session.get("party"));
+            $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
+            this.partyView.render();
         },
 
         search: function (query) {
             console.log('#search');
             this.searchView.search(decodeURIComponent(query));
-            this.searchView.render();
             $.mobile.changePage( "#search", { reverse: false, changeHash: false } );
+            this.searchView.render();
+            
 
         },
 
