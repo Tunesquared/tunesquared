@@ -62,6 +62,8 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 
 		// Mandatory : must save the song as this.song !
 		this.song = song;
+		this.el = element;
+
 		// Saves a local copy of unique count and increments
 		this._id = counter++;
 		this._loadCb = ready;
@@ -126,8 +128,9 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		this._player.stopVideo();
 	};
 
+	// Volume 0 - 100
 	YoutubePlayer.prototype.setVolume = function (vol) {
-		this._player.setVolume(Math.floor(vol * 100));
+		this._player.setVolume(vol);
 	};
 
 	// Seeks to time in msecs
@@ -146,7 +149,12 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		return this._player.getDuration() * 1000;
 	};
 
+	YoutubePlayer.prototype.getProgress = function () {
+		return this._player.getCurrentTime() / this._player.getDuration();
+	};
+
 	YoutubePlayer.prototype.release = function () {
+		this.el.parentNode.removeChild(this.el);
 		this.off();
 		freeYTCallback(this, 'onStateChange');
 		freeYTCallback(this, 'onError');

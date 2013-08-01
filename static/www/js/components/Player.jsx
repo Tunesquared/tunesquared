@@ -1,6 +1,10 @@
 /** @jsx React.DOM */
 'use strict';
 
+/* TODO : preloading and fade transition.
+  There's already two players and part of the 'transition' logic is implemented
+*/
+
 /*
   Master player component. Controls hidden players as well as the song flow.
   It takes consumes the playlist. To give the player a song, one must simply
@@ -8,6 +12,8 @@
   to be first in the playlist at the moment songs are switched.
 */
 define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (React, jquery, PlayerFactory) {
+
+  var PROGRESS_STEP = 1000;
 
 	var Player = React.createClass({
 
@@ -20,7 +26,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
 
         /* Volume is stored in player state so that it actually acts as a master
          and can keep it consistent across different player implementations */
-        volume: 0.5,
+        volume: 50,
 
         /* Player in foreground it's state is linked to the UI (loading, progress, etc...) */
         currentPlayer: null,
@@ -34,7 +40,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         nextPlayer: null,
 
 
-        loading: false
+        loading: false,
+
+        progress: 0
       };
     },
 
@@ -45,6 +53,16 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         console.error('Compatibility errors');
         console.log(errors);
       }
+
+      $(this.getDOMNode).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);
+      $(this.getDOMNode).delegate('[data-ref="progress-slider"]', 'slidestart', this.onProgressStart);
+      $(this.getDOMNode).delegate('[data-ref="progress-slider"]', 'slidestop', this.onProgressStop);
+
+      this._timeout = setInterval(this.watchProgress, 1000);
+    },
+
+    componentWillUnmount: function () {
+      clearInterval(this._timeout);
     },
 
     componentWillReceiveProps: function (newProps) {
@@ -57,7 +75,27 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
 
 		componentDidUpdate: function(){
       if (this.state.currentPlayer != null){
-        $(this.refs['volume-slider'].getDOMNode()).slider({animate: 'fast'});
+        var volume = $(this.refs['volume-slider'].getDOMNode()).slider({
+          max: 100,
+          min: 0
+        });
+
+        if(volume.slider('value') !== this.state.volume)
+          volume.slider('value', this.state.volume);
+
+        var progress = $(this.refs['progress-slider'].getDOMNode()).slider({
+          max: PROGRESS_STEP,
+          min: 0,
+          animate: 'fast'
+        });
+        if(progress.slider('value') !== this.state.progress)
+          progress.slider('value', this.state.progress * PROGRESS_STEP);
+
+        this.state.currentPlayer.setVolume(this.state.volume);
+
+        if(this.state.nextPlayer != null){
+          this.state.nextPlayer.setVolume(this.state.volume);
+        }
       }
 		},
 
@@ -102,9 +140,18 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         /* Exposes the player to make tests, very handy ;) */
         window.player = player;
 
+        // Initialize slave player with master state
+        player.setVolume(this.state.volume);
+        if(this.state.playing) player.play();
+        else player.pause();
+
         if (this.state.currentPlayer == null){
           console.log('got current player');
           player.on('end', this.onPlayerEnd);
+          player.on('play', this.onPlayerPlay);
+          player.on('pause', this.onPlayerPause);
+
+
           this.setState({
             currentPlayer: player,
             loading: false
@@ -122,8 +169,6 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
     },
 
     onPlayerEnd: function() {
-      console.log('end !');
-
       // Players internals are sometimes a bit shitty so we give'em some help for memory management
       this.state.currentPlayer.release();
 
@@ -135,12 +180,74 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
       this.fetchPlaylistForNextSong();
     },
 
+    onPlayerPlay: function () {
+      this.setState({
+        playing: true
+      });
+    },
+
+    onPlayerPause: function () {
+      this.setState({
+        playing: false
+      });
+    },
+
+    onPlay: function (evt) {
+      evt.preventDefault();
+      if(this.state.currentPlayer);
+        this.state.currentPlayer.play();
+    },
+
+    onPause: function (evt) {
+      evt.preventDefault();
+      if(this.state.currentPlayer);
+        this.state.currentPlayer.pause();
+    },
+
+    onVolumeChange: function(e, ui) {
+      this.setState({
+        volume: ui.value
+      });
+    },
+
+    onProgressStart: function () {
+      console.log('start');
+      this._progressDrag = true;
+    },
+
+    onProgressStop: function (e, ui) {
+      console.log('stop');
+      this._progressDrag = false;
+      var player = this.state.currentPlayer;
+      if(player){
+        player.seekTo(player.getDuration() * ui.value/PROGRESS_STEP);
+      }
+    },
+
+    onSkip: function(evt){
+      evt.preventDefault();
+      this.onPlayerEnd();
+    },
+
+    watchProgress: function() {
+      if ( this.state.currentPlayer != null && !this._progressDrag){
+        this.setState({
+          progress: this.state.currentPlayer.getProgress()
+        });
+      }
+    },
+
 		render: function () {
 
       var contents;
 
       if (this.state.currentPlayer != null) {
         var song = this.state.currentPlayer.song;
+
+        var playButton = this.state.playing ?
+            <a href="#" class="btn play-button" onClick={this.onPause}><i class="icon-pause"></i></a> :
+            <a href="#" class="btn play-button" onClick={this.onPlay}><i class="icon-play"></i></a>;
+
         contents = (
           <div class="container-fluid">
             <div class="row-fluid">
@@ -157,13 +264,18 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
             <hr />
             <div class="row-fluid">
               <div class="player-actions clearfix">
-                  <div class="action"><a href="#" class="btn play-button" ref="play-button" ><i class="icon-play"></i></a></div>
-                  <div class="action"><a href="#" class="btn forward-button" ref="fwd-button"><i class="icon-fast-forward"></i></a></div>
-                  <div class="action volume"><i class="icon-volume-up pull-left"></i><div class="volume-slider" ref="volume-slider"></div></div>
+                  <div class="action">{playButton}</div>
+                  <div class="action">
+                    <a href="#" class="btn forward-button" ref="fwd-button" onClick={this.onSkip}>
+                    <i class="icon-fast-forward"></i></a>
+                  </div>
+                  <div class="action volume"><i class="icon-volume-up pull-left"></i>
+                    <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div>
+                  </div>
               </div>
             </div>
             <div class="row-fluid">
-              <div ref="player-progress-slider"></div>
+              <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>
           </div>
         );
