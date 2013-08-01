@@ -19,7 +19,8 @@ requirejs.config({
         'wizard': '/lib/wizard',
         'react': '/lib/react',
         'components': 'components-build',
-        'search': '/lib/search'
+        'search': '/lib/search',
+        'swfobject': '/lib/swfobject'
     },
 
     shim: {
@@ -38,6 +39,10 @@ requirejs.config({
         'underscore': {
             exports: '_'
         },
+
+        'swfobject': {
+            exports: 'swfobject'
+        }
 
     },
 

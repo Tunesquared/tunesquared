@@ -4,7 +4,8 @@
 define(['react'], function(React){
 	var PlaylistItem = React.createClass({
 
-		onDestroy: function () {
+		onDestroy: function (evt) {
+			evt.preventDefault();
 			this.props.song.destroy();
 		},
 
