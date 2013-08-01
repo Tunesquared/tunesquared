@@ -44,9 +44,9 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 	};
 
 	PubSubController.prototype.onPlaylistRemove = function (song) {
-		socket.emit('playlistRemoveSong', {
+		socket.emit('playlistRemoveSongs', {
 			party: this._party.id,
-			song: song.id
+			songs: [song.id]
 		}, function (err) {
 			if (err) throw err;
 		});

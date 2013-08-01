@@ -3,10 +3,15 @@
 
 define(['react'], function(React){
 	var PlaylistItem = React.createClass({
+
+		onDestroy: function () {
+			this.props.song.destroy();
+		},
+
 		render: function () {
 			return (
 				<div class="song-container">
-					<a class="pull-left" href="#"><i class="icon-trash"></i></a>
+					<a class="pull-left" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
 					<div class="vote-label negative">
 						<div class="inner">- 0</div>
 					</div>

@@ -21,10 +21,10 @@ Framework.Controller({
 		});
 	},
 
-	'playlistRemoveSong': function(socket, data, ack){
+	'playlistRemoveSongs': function(socket, data, ack){
 		console.log('removing song from %s : ', data.party);
-		console.log(data.song);
-		Party.update({_id: data.party}, { $pull: {playlist : {id: data.song}}}, function (err) {
+		console.log(data.songs);
+		Party.update({_id: data.party}, { $pull: {playlist : {_id: {$in: data.songs}}}}, function (err) {
 			ack(err);
 		});
 	}
