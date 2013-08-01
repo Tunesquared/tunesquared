@@ -24,6 +24,7 @@ define(['jquery', 'backbone'], function ($, Backbone) {
           this.vote('no', callbacks);
         },
         vote: function (type, callbacks) {
+            callbacks = callbacks || {};
           // yes -> Yes
           type = type.charAt(0).toUpperCase() + type.substring(1);
 
@@ -33,10 +34,10 @@ define(['jquery', 'backbone'], function ($, Backbone) {
 
           $.get('/api/vote' + type + 'Song/' + this.id)
             .success(function () {
-              console.log('voted');
+              if(callbacks.success) callbacks.success();
             })
             .error(function () {
-              console.log('not voted');
+              if(callbacks.error) callbacks.error();
             });
 
         }

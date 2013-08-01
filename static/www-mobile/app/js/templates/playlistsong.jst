@@ -4,9 +4,10 @@
     <% } %>
     <h3><%= result.title %> </h3>
     <p>(From : <i><%= result.source %></i>)</p>
+    <span class="ui-li-count"><%=result.votes_yes - result.votes_no%> </span>
 </a>
 <div ref="asking" class="ask" >
-	<p> Do you want to listen this song? </p>
-	<button data-theme="a" ref="ok" data-inline="true" class="yes">Yes</button>
-    <button data-theme="a" data-inline="true" class="no">No</button>   
+	<p> Do you want to listen to this song? </p>
+	<button data-theme="a"  data-inline="true" class="yes" data-icon="plus" data-iconpos="right" >Yes</button>
+    <button data-theme="a" data-inline="true" class="no" data-icon="minus" data-iconpos="right">No</button>   
 <div/>

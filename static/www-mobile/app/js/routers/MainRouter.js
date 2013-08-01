@@ -3,14 +3,14 @@
 
 // Includes file dependencies
 define([
-    "jquery", 
-    "../models/Session", 
-    "../models/Party", 
-    "../models/Song", 
-    "../views/HomeView", 
-    "../views/PartyView", 
-    "../views/SearchView", 
-    "../views/ShareView", 
+    "jquery",
+    "../models/Session",
+    "../models/Party",
+    "../models/Song",
+    "../views/HomeView",
+    "../views/PartyView",
+    "../views/SearchView",
+    "../views/ShareView",
     "backbone"],
 
     function( $, Session, PartyModel, SongModel, HomeView, PartyView, SearchView, ShareView ) {
@@ -34,7 +34,7 @@ define([
                     }
 
                     Backbone.history.start();
-     
+
                 },
                 error: function(){
                     console.log("Session.fetch Error.. ")
@@ -80,11 +80,11 @@ define([
         },
 
         search: function (query) {
-            console.log('#search');
+            this.searchView.setParty(Session.get("party"));
             this.searchView.search(decodeURIComponent(query));
             $.mobile.changePage( "#search", { reverse: false, changeHash: false } );
             this.searchView.render();
-            
+
 
         },
 
@@ -92,11 +92,11 @@ define([
             console.log('#share');
             $.mobile.changePage( "#share", { reverse: false, changeHash: false } );
         }
-        
+
 
 
     } );
-    
+
 
     // Returns the Router class
     return MainRouter;

@@ -32,7 +32,7 @@ Framework.Controller({
 
 new Framework.Router({
 	'post:api/playlistAddSong': function(req, res){
-		Party.findOne({_id: req.body.party}, function(err, mod){
+		Party.findOne({_id: req.session.partyId}, function(err, mod){
 			if (err) throw err;
 			//TODO : handle error
 			//TODO : this code is not crash-free

@@ -1,0 +1,11 @@
+{
+	"browser": true,
+	"devel": true,
+	"eqnull": true,
+	"newcap": false,
+	"globals": {
+		"define": true,
+		"requirejs": true,
+		"require": true
+	}
+}
