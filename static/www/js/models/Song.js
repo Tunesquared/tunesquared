@@ -4,7 +4,7 @@
 // ==============
 
 // Includes file dependencies
-define([ 'jquery', 'backbone' ], function( $ ) {
+define([ 'jquery', 'backbone' ], function( $, Backbone ) {
 
     // The Model constructor
     var Model = Backbone.Model.extend( {

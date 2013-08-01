@@ -6,6 +6,7 @@ define(['react'], function(React){
 		render: function () {
 			return (
 				<div class="song-container">
+					<a class="pull-left" href="#"><i class="icon-trash"></i></a>
 					<div class="vote-label negative">
 						<div class="inner">- 0</div>
 					</div>

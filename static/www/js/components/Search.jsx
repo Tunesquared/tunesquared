@@ -29,7 +29,7 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
         chunkSize: LOAD_CHUNK_SIZE,
         preloadThreshold: 0 // Since we load results before the user reaches the bottom, we don't want to preload
       });
-      this.searchAggregator.addSrc('fakesrc');
+      this.searchAggregator.addSrc(YoutubeSource);
 
       this.initQuery();
 		},

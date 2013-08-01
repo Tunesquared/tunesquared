@@ -2,34 +2,30 @@
 
 var Framework = require('../framework');
 
+var ObjectId = require('mongoose').Types.ObjectId;
 var Party = require('../models/Party');
 
 Framework.Controller({
 	'playlistAddSongs': function(socket, data, ack){
-		Party.findOne({_id: data.party}, function(err, mod){
-			if (err) throw err;
-			//TODO : handle error
-			//TODO : this code is not crash-free
-			// TODO : handle permissions
+		console.log('adding songs :');
+		console.log(data.songs);
+		var ids = [];
+		var songs = data.songs;
 
-			if (mod == null){
-				ack('party not found');
-				return;
-			}
+		for(var i = 0 ; i < data.songs.length ; i++){
+			ids.push(songs[i]._id = new ObjectId());
+		}
 
-			var songs = data.songs;
+		Party.update({_id: data.party}, { $pushAll: {playlist : data.songs}}, function (err) {
+			ack(err, ids);
+		});
+	},
 
-			console.log(songs);
-			for(var i = 0 ; i < songs.length ; i++){
-				console.log('adding : '+JSON.stringify(songs[i]));
-				mod.playlist.push(songs[i]);
-			}
-
-			mod.save(function (err) {
-				if (err) throw err;
-				// TODO : handle error
-				ack();
-			});
+	'playlistRemoveSong': function(socket, data, ack){
+		console.log('removing song from %s : ', data.party);
+		console.log(data.song);
+		Party.update({_id: data.party}, { $pull: {playlist : {id: data.song}}}, function (err) {
+			ack(err);
 		});
 	}
 });

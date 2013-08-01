@@ -4,8 +4,8 @@
 define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistItem, utils){
 	var Playlist = React.createClass({
 		componentDidUpdate: function () {
-			console.log('Playlist update');
-			console.log(this.props);
+			// console.log('Playlist update');
+			// console.log(this.props);
 		},
 
 		componentDidMount: function () {

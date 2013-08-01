@@ -20,7 +20,8 @@ var Song = new mongoose.Schema({
 		source: { type: String, enum: sources, required: true},
 		votes_yes: { type: Number, default: 0 }, // TODO : find validator to forbid insertion
 		votes_no: { type: Number, default: 0 }, //  TODO : same here
-		data: { type: String, required: true },
+		thumb: { type: String },
+		data: { type: String, required: true }
 		/* nb : we can store actual song in a database and use some fancy analysis to match instances with these songs.
 			then we connect this instance to the song with the attribute bellow allowing cool statistics. */
 		// song : { type: Schema.Types.ObjectId, ref: 'Song' } // Link to the actual song

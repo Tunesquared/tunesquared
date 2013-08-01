@@ -8,7 +8,7 @@ define([
 	'mixins/Backbone',
 	'models/Session',
 	'models/Party',
-	'components/CreateDialog',
+	'components/Player',
 	'components/Playlist',
 	'components/PartyInfo',
 	'components/Home',
@@ -21,7 +21,7 @@ define([
 	BackboneMixin,
 	Session,
 	Party,
-	CreateDialog,
+	Player,
 	Playlist,
 	PartyInfo,
 	HomeView,
@@ -62,7 +62,6 @@ define([
 		},
 
 		componentDidMount: function(){
-			// TODO : not make session a global but some app's attribute instead
 			this.props.session.fetch({
         success: function () {
           Backbone.history.start();
@@ -80,8 +79,6 @@ define([
 			var currentParty = session.get('party') || new Party();
 
 			var dialog;
-			/*if (this.state.dialog === 'create')
-				dialog = <CreateDialog session={session} />;*/
 
 			var main;
 			if (this.state.main === 'home')
@@ -93,7 +90,7 @@ define([
 			return (
 				<div>
 					<div id="side-panel">
-						<div id="player"></div>
+						<Player playlist={ currentParty.get('playlist') } />
 						<Playlist playlist={currentParty.get('playlist')}/>
 		        <PartyInfo party={currentParty} />
 					</div>
