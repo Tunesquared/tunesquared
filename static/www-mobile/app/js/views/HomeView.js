@@ -1,32 +1,32 @@
 // Home View
 // =============
-    "use strict";
+    'use strict';
 // Includes file dependencies
-define([ "jquery", "../models/Session", "backbone" ], function( $, Session , Backbone ) {
+define([ 'jquery', '../models/Session', 'backbone' ,'underscore'], function( $, Session , Backbone, _ ) {
 
     // Extends Backbone.View
     var HomeView = Backbone.View.extend( {
 
         events: {
 
-            "submit [action=join]": "join",
+            'submit [action=join]': 'join',
 
         },
 
         // The View Constructor
         initialize: function() {
-            _.bindAll(this, "join");
+            _.bindAll(this, 'join');
 
 
             //this.joinText = this.$('[name="text-join"]');
         },
 
         join: function(evt){
-            $.mobile.loading( "show" );
+            $.mobile.loading( 'show' );
 
             this.joinText = this.$('[name="text-join"]');
 
-            console.log("joining");
+            console.log('joining');
 
             evt.preventDefault();
             evt.stopPropagation();
@@ -46,7 +46,7 @@ define([ "jquery", "../models/Session", "backbone" ], function( $, Session , Bac
                     setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
                 }
                 else {
-                    window.location.hash = "#party";
+                    window.location.hash = '#party';
                 }
             });
 

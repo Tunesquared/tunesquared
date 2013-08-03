@@ -3,7 +3,25 @@
 'use strict';
 
 // Includes file dependencies
-define(['jquery', 'text!templates/playlistsong.jst', 'backbone', 'underscore'], function($, songTemplate, Backbone, _) {
+define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong.jst', 'backbone', 'underscore'], function($, songTemplate, currTemplate, Backbone, _) {
+
+
+  var CurrentSongView = Backbone.View.extend({
+    tagName: 'li',
+
+    initialize: function(){
+      this.template = _.template(currTemplate);
+
+    },
+    render : function(){
+      var listel = this.template({
+        result: this.model
+      });
+      this.$el.html(listel);
+
+    }
+
+  });
 
   var PartyResultView = Backbone.View.extend({
     tagName: 'li',
@@ -124,7 +142,7 @@ define(['jquery', 'text!templates/playlistsong.jst', 'backbone', 'underscore'], 
       $.mobile.loading('show');
 
       this.$('#dynamicFieldList').empty();
-
+      this.$('#currsong').empty();
 
       this.party.get('playlist').each(_.bind(function(song) {
 
@@ -139,17 +157,28 @@ define(['jquery', 'text!templates/playlistsong.jst', 'backbone', 'underscore'], 
         });
         $result.render();
 
+
+
         this.$('#dynamicFieldList').append($result.$el);
+
 
         this.dataLoading = false;
 
       }, this));
 
+      var $currsong = new CurrentSongView ({
+          model: {  'title' : 'Rick Astley - Never Gonna Give You Up',  'source' : 'youtube',   'thumb' : 'http://i.ytimg.com/vi/dQw4w9WgXcQ/1.jpg',  'data' : 'dQw4w9WgXcQ',    'votes_no' : '',   'votes_yes' : 'Currently playing' }
+        });
+      $currsong.render();
+
+      this.$('#currsong').append($currsong.$el);
+      this.$('#currsong').listview('refresh');
       this.$('#dynamicFieldList').listview('refresh');
+
 
       // Tests that the model properties were properly set:
 
-      this.$('[data-display="party-name"]').text(this.party.get('name'));
+      this.$('[ref="party-name"]').text(this.party.get('name'));
 
       // Maintains chainability
       return this;

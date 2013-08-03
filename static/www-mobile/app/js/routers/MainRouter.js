@@ -1,19 +1,21 @@
 // Mobile Router
 // =============
 
+'use strict';
+
 // Includes file dependencies
 define([
-    "jquery",
-    "../models/Session",
-    "../models/Party",
-    "../models/Song",
-    "../views/HomeView",
-    "../views/PartyView",
-    "../views/SearchView",
-    "../views/ShareView",
-    "backbone"],
+    'jquery',
+    '../models/Session',
+    '../models/Party',
+    '../models/Song',
+    '../views/HomeView',
+    '../views/PartyView',
+    '../views/SearchView',
+    '../views/ShareView',
+    'backbone'],
 
-    function( $, Session, PartyModel, SongModel, HomeView, PartyView, SearchView, ShareView ) {
+    function( $, Session, PartyModel, SongModel, HomeView, PartyView, SearchView, ShareView, Backbone ) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend( {
@@ -21,30 +23,30 @@ define([
         // The Router constructor
         initialize: function() {
 
-            console.log("Router");
+            console.log('Router');
 
             Session.fetch({
                 success: function(Session){
 
-                    if(Session.get("party") === null) {
-                        window.location.hash = "#";
+                    if(Session.get('party') === null) {
+                        window.location.hash = '#';
                     }
                     else {
-                        window.location.hash = "#party";
+                        window.location.hash = '#party';
                     }
 
                     Backbone.history.start();
 
                 },
                 error: function(){
-                    console.log("Session.fetch Error.. ")
+                    console.log('Session.fetch Error.. ');
                 }
             });
 
 
-            this.homeView = new HomeView({el: "#home"});
+            this.homeView = new HomeView({el: '#home'});
 
-            this.partyView = new PartyView({el: "#party"});
+            this.partyView = new PartyView({el: '#party'});
 
             this.searchView = new SearchView({el: '#search'});
 
@@ -57,10 +59,10 @@ define([
         // Backbone.js Routes
         routes: {
 
-            "": "home",
-            "party": "party",
-            "share":"share",
-            "search/:query":"search"
+            '': 'home',
+            'party': 'party',
+            'share':'share',
+            'search/:query':'search'
 
         },
 
@@ -68,21 +70,21 @@ define([
         home: function() {
 
             // Programatically changes to the categories page
-            $.mobile.changePage( "#home" , { reverse: false, changeHash: false } );
+            $.mobile.changePage( '#home' , { reverse: false, changeHash: false } );
 
         },
 
         party: function(){
 
-            this.partyView.setParty(Session.get("party"));
-            $.mobile.changePage( "#party", { reverse: false, changeHash: false } );
+            this.partyView.setParty(Session.get('party'));
+            $.mobile.changePage( '#party', { reverse: false, changeHash: false } );
             this.partyView.render();
         },
 
         search: function (query) {
-            this.searchView.setParty(Session.get("party"));
+            this.searchView.setParty(Session.get('party'));
             this.searchView.search(decodeURIComponent(query));
-            $.mobile.changePage( "#search", { reverse: false, changeHash: false } );
+            $.mobile.changePage( '#search', { reverse: false, changeHash: false } );
             this.searchView.render();
 
 
@@ -90,7 +92,7 @@ define([
 
         share: function () {
             console.log('#share');
-            $.mobile.changePage( "#share", { reverse: false, changeHash: false } );
+            $.mobile.changePage( '#share', { reverse: false, changeHash: false } );
         }
 
 
