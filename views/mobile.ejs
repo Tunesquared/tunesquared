@@ -26,7 +26,7 @@
                 <!-- Make a login page, just put in party name -->
 
                 <form action="join">
-                    <input type="text" name="text-join" id="text-join" value="" placeholder="type 'crash' to trigger ajax error">
+                    <input type="text" name="text-join" id="text-join" value="" placeholder="Party_ID">
                     <input type="submit" value="Join playlist!" />
                 </form>
             </div><!-- /content -->
@@ -40,12 +40,21 @@
    <!-- PartyPage -> Playlist -->
 
         <div id="party" data-role="page" data-title="Party" data-theme="a">
-                <div data-role="header" data-theme="a">
+            <div data-role="header" data-theme="a">
             <img src="/m/app/img/tunelarge2.png" width="120" hspace="15"/>
             <!-- Do we need the refresh button? -->
             <a href="#party" data-icon="refresh" ref="refresh" class="ui-btn-right">Refresh</a>
         </div><!-- /header -->
+
+        <div data-role="header" data-theme="a">
+
+             <div id="currsong" data-role="listview" data-icon="false" > </div>
+          </div><!-- /header -->
+
         <div data-role="content" data-theme="a">
+
+
+
             <div id="votelist" >
             <ul id="dynamicFieldList" data-role="listview" data-filter="true" data-icon="false" data-filter-placeholder="Add new songs and vote.." data-count-theme="a">
 
@@ -72,6 +81,9 @@
         <div data-role="header" data-theme="a">
             <img src="/m/app/img/tunelarge2.png" width="120" hspace="15"/>
         </div><!-- /header -->
+         <div data-role="header" data-theme="a">
+            <h1> Party_ID: <span ref="party-name"> </span> </h1>
+          </div><!-- /header -->
 
         <div data-role="content" data-theme="a">
 
