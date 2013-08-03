@@ -3,6 +3,7 @@
 
 /* TODO : preloading and fade transition.
   There's already two players and part of the 'transition' logic is implemented
+  TODO : we could event display buffering status oO
 */
 
 /*

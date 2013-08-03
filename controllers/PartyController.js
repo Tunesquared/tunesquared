@@ -1,12 +1,21 @@
 'use strict';
 
 var framework = require('../framework');
-
 var Party = require('../models/Party');
 
-/* TODO : modify RESTRouter's middleware api, see RESTRouter */
+framework.Controller({
+	'subscribeParty': function(sock, data/*, ack*/) {
+		// TODO : check party id against database to make sure it exists,
+		//TODO : check multiple subscriptions, etc...
+		console.log('subscribing to '+data);
+		sock.join('party' + data);
+	},
 
-/* TODO : handle party delete */
+	'unsubscribeParty': function(sock, data/*, ack*/) {
+		console.log('unsubscribing to '+data);
+		sock.leave('party' + data);
+	}
+});
 
 var rest = new framework.RESTRouter(Party, 'api/party');
 
