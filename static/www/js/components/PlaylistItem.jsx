@@ -10,17 +10,19 @@ define(['react'], function(React){
 		},
 
 		render: function () {
+			var song = this.props.song;
+
 			return (
 				<div class="song-container">
 					<a class="pull-left" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
 					<div class="vote-label negative">
-						<div class="inner">- 0</div>
+						<div class="inner">- {song.get('votes_no')}</div>
 					</div>
 					<div class="vote-label positive">
-						<div class="inner">+ 0</div>
+						<div class="inner">+ {song.get('votes_yes')}</div>
 					</div>
 					<div class="inner">
-						# {this.props.pos} <strong>{this.props.song.get('title')}</strong> - {this.props.song.artist}
+						# {this.props.pos} <strong>{song.get('title')}</strong> - {song.artist}
 					</div>
 				</div>
 			);

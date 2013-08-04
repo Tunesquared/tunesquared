@@ -7,11 +7,12 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 
 	var PubSubController = function (session) {
 
-		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove', 'onRemoteAddSongs');
+		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove', 'onRemoteAddSongs', 'onRemoteVoteSong');
 
 		this._session = session;
 
 		socket.on('playlistAddSongs', this.onRemoteAddSongs);
+		socket.on('playlistVoteSong', this.onRemoteVoteSong);
 
 		session.on('change:party', this.onChangeParty);
 		this.onChangeParty();
@@ -58,7 +59,9 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		});
 	};
 
-	PubSubController.prototype.onPlaylistRemove = function (song) {
+	PubSubController.prototype.onPlaylistRemove = function (song, coll, opts) {
+		if (opts.remote) return;
+
 		socket.emit('playlistRemoveSongs', {
 			party: this._party.id,
 			songs: [song.id]
@@ -82,6 +85,13 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		} else {
 			console.error('Remote added song before I got a party');
 		}
+	};
+
+	PubSubController.prototype.onRemoteVoteSong = function (data) {
+		console.log('on vote');
+		console.log(data);
+
+		this._playlist.set([data], {remote: true, remove: false});
 	};
 
 	PubSubController.prototype.release = function () {

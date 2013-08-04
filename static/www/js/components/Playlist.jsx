@@ -9,13 +9,13 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 		},
 
 		componentDidMount: function () {
-			this.props.playlist.on('add remove', utils.forceUpdateFix(this));
+			this.props.playlist.on('add remove change', utils.forceUpdateFix(this));
 		},
 
 		componentWillReceiveProps: function (newProps) {
 			if(this.props.playlist)
 				this.props.playlist.off(null, null, this);
-			newProps.playlist.on('add remove', utils.forceUpdateFix(this));
+			newProps.playlist.on('add remove change', utils.forceUpdateFix(this));
 		},
 
 		render: function () {

@@ -4,6 +4,7 @@ var Framework = require('../framework');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 var Party = require('../models/Party');
+var Song = require('../models/Song');
 
 Framework.Controller({
 	'playlistAddSongs': function (socket, data, ack) {
@@ -49,33 +50,22 @@ Framework.Controller({
 new Framework.Router({
 	'post:api/playlistAddSong': function (req, res) {
 
-		var song = req.body.song;
+		var song = new Song(req.body.song);
 
-		Party.findOne({
-			_id: req.session.partyId
-		}, function (err, mod) {
-			if (err) throw err;
-			//TODO : handle error
-			//TODO : this code is not crash-free
-
-			if (mod == null) {
-				res.statusCode = 400;
-				res.send('party not found');
-				return;
-			}
-
-			mod.playlist.push(song);
-
-			mod.save(function (err) {
-				if (err) throw err;
-
-				Framework.io.sockets. in ('party' + req.session.partyId).emit('playlistAddSongs', {
+		Party.update(
+			{
+				_id: req.session.partyId
+			}, {
+				$pushAll: {
+					playlist: [song]
+				}
+			}, function (err) {
+				if(err) throw err;
+				Framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
 					partyId: req.session.partyId,
 					songs: [song]
 				});
-				// TODO : handle error
-				res.end();
 			});
-		});
+		res.end();
 	}
 });

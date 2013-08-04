@@ -47,11 +47,21 @@ rest.add({
 
 	/* Voting methods : allows to vote for a song with id ":id" in the current party (you must be in a party) */
 	'api/voteYesSong/:id': function(req, res){
-		Party.voteYes(req.session.partyId, req.param('id'));
+		var songId = req.param('id');
+
+		Party.voteYes(req.session.partyId, songId, function (err, party) {
+			// Sends the whole song so that the party can more easily recover from errors.
+			framework.io.sockets.in('party' + req.session.partyId).emit('playlistVoteSong', party.playlist.id(songId));
+		});
 		res.end();
 	},
 	'api/voteNoSong/:id': function(req, res){
-		Party.voteNo(req.session.partyId, req.param('id'));
+		var songId = req.param('id');
+
+		Party.voteNo(req.session.partyId, songId, function (err, party) {
+			// Sends the whole song so that the party can more easily recover from errors.
+			framework.io.sockets.in('party' + req.session.partyId).emit('playlistVoteSong', party.playlist.id(songId));
+		});
 		res.end();
 	}
 });
