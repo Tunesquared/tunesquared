@@ -53,9 +53,9 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		socket.emit('playlistAddSongs', {
 			party: this._party.id,
 			songs: [song]
-		}, function (err, id) {
+		}, function (err, data) {
 			if (err) throw err;
-			song.set('_id', id[0]);
+			song.set(data[0]);
 		});
 	};
 

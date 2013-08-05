@@ -10,21 +10,18 @@ Framework.Controller({
 	'playlistAddSongs': function (socket, data, ack) {
 		console.log('adding songs :');
 		console.log(data.songs);
-		var ids = [];
-		var songs = data.songs;
+		var songs = [];
 
 		for (var i = 0; i < data.songs.length; i++) {
-			ids.push(songs[i]._id = new ObjectId());
+			songs.push(new Song(data.songs[i]));
 		}
 
-		Party.update({
-			_id: data.party
-		}, {
+		Party.findByIdAndUpdate(data.party, {
 			$pushAll: {
-				playlist: data.songs
+				playlist: songs
 			}
-		}, function (err) {
-			ack(err, ids);
+		}, function (err, party) {
+			ack(err, songs);
 		});
 	},
 
