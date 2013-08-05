@@ -9,19 +9,24 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 		},
 
 		componentDidMount: function () {
-			this.props.playlist.on('add remove change', utils.forceUpdateFix(this));
+			this.props.playlist.on('add remove change sort', utils.forceUpdateFix(this));
 		},
 
 		componentWillReceiveProps: function (newProps) {
 			if(this.props.playlist)
 				this.props.playlist.off(null, null, this);
-			newProps.playlist.on('add remove change', utils.forceUpdateFix(this));
+			newProps.playlist.on('add remove change sort', utils.forceUpdateFix(this));
 		},
 
 		render: function () {
 			var i = 0;
 			var list = this.props.playlist.map(function(song){
-				return <PlaylistItem pos={++i} song={song} key={song.cid} />
+				return <PlaylistItem
+						pos={++i}
+						song={song}
+
+						// We need to add spice to the key otherwise react fails to detect change
+						key={song.cid + song.get('votes_yes') + song.get('votes_no')} />
 			});
 
 			return (

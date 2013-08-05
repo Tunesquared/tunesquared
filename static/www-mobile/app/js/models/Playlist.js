@@ -7,6 +7,17 @@ define(['jquery', 'underscore', 'backbone', 'models/Song'], function($, _, Backb
 	var Playlist = Backbone.Collection.extend({
 		model: Song,
 
+		// /!\ See desktop app comparator to be consistent
+		comparator: function (song) {
+			// Songs are sorted in reverse-order : lower is better
+
+			// Sorts by absolute vote value
+			return song.get('votes_no') - song.get('votes_yes') +
+
+			// Plus a little bonus to solve ties (more yes is absolutely better)
+			(1/(song.get('votes_yes')+1));
+		},
+
 		add: function(song, callbacks) {
 			// server ->
 			if(callbacks && callbacks.silent){

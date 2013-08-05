@@ -50,6 +50,10 @@ rest.add({
 		var songId = req.param('id');
 
 		Party.voteYes(req.session.partyId, songId, function (err, party) {
+			if (!party) {
+				console.error('no party for the vote');
+				return;
+			}
 			// Sends the whole song so that the party can more easily recover from errors.
 			framework.io.sockets.in('party' + req.session.partyId).emit('playlistVoteSong', party.playlist.id(songId));
 		});
@@ -59,6 +63,10 @@ rest.add({
 		var songId = req.param('id');
 
 		Party.voteNo(req.session.partyId, songId, function (err, party) {
+			if (!party) {
+				console.error('no party for the vote');
+				return;
+			}
 			// Sends the whole song so that the party can more easily recover from errors.
 			framework.io.sockets.in('party' + req.session.partyId).emit('playlistVoteSong', party.playlist.id(songId));
 		});

@@ -1,8 +1,13 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react'], function(React){
+define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 	var PlaylistItem = React.createClass({
+		mixins: [BackboneMixin],
+
+		getBackboneModels: function () {
+			return [this.props.song];
+		},
 
 		onDestroy: function (evt) {
 			evt.preventDefault();
@@ -13,7 +18,7 @@ define(['react'], function(React){
 			var song = this.props.song;
 
 			return (
-				<div class="song-container">
+				<div class="song-container" key={song.cid} >
 					<a class="pull-left" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
 					<div class="vote-label negative">
 						<div class="inner">- {song.get('votes_no')}</div>

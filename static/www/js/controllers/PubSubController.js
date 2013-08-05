@@ -92,6 +92,7 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		console.log(data);
 
 		this._playlist.set([data], {remote: true, remove: false});
+		this._playlist.sort();
 	};
 
 	PubSubController.prototype.release = function () {
