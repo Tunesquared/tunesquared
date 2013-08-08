@@ -18,9 +18,10 @@ var Song = new mongoose.Schema({
 		// song : { type: Schema.Types.ObjectId, ref: 'Song' } // Link to the actual song
 });
 
+
 Song.pre('save', function (next) {
 	if (this.title != null) this.title = this.title.substr(0, 32);
-	if (this.artist != null) this.artist = this.artist.substr(0, 32);
+	this.artist = (this.artist != null) ? this.artist.substr(0, 32) : 'unknown';
 
 	/* TODO : complex verification to check that data is accurate.
 		This is shitty because each source has it's own way to check that */

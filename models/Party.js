@@ -18,13 +18,19 @@ var PartySchema = new mongoose.Schema({
 	playlist: [Song]
 });
 
-/* Utilities method to vote without retreiving the model */
+/* Utilities method to vote */
 
 PartySchema.statics.voteYes = function (id, songId, cb) {
 	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1} }, cb || noop);
 };
+
 PartySchema.statics.voteNo = function (id, songId, cb) {
 	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1} }, cb || noop);
 };
+
+
+/*PartySchema.method.isOwner = function (key) {
+
+};*/
 
 module.exports = mongoose.model('party', PartySchema);
