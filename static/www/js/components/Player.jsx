@@ -177,8 +177,8 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         currentPlayer: null
       });
 
-      // Then try to get a new one
-      this.fetchPlaylistForNextSong();
+      // Then try to get a new one AFTER new state has been applied
+      _.defer(this.fetchPlaylistForNextSong);
     },
 
     onPlayerPlay: function () {
@@ -212,12 +212,10 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
     },
 
     onProgressStart: function () {
-      console.log('start');
       this._progressDrag = true;
     },
 
     onProgressStop: function (e, ui) {
-      console.log('stop');
       this._progressDrag = false;
       var player = this.state.currentPlayer;
       if(player){

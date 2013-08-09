@@ -2,10 +2,11 @@
 /*
 	Exposes methods to create players and to detect browser compatibility
 	*/
-define(['players/YoutubePlayer'], function (YoutubePlayer) {
+define(['players/YoutubePlayer', 'players/FakePlayer'], function (YoutubePlayer, FakePlayer) {
 
 	var players = {};
 	players[YoutubePlayer.sourceName] = YoutubePlayer;
+	players[FakePlayer.sourceName] = FakePlayer;
 
 	var PlayerFactory = {
 

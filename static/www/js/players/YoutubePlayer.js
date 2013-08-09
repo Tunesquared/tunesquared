@@ -98,8 +98,6 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		'play'
 		'pause'
 		'stop'
-		'seekChange'
-		'volumeChange'
 	*/
 	_.extend(YoutubePlayer.prototype, Backbone.Events);
 
