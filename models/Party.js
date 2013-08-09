@@ -15,7 +15,8 @@ function noop(){}
 var PartySchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true, validate: validate('len', 1, PARTY_TITLE_MAX_LEN) },
 	owner: { type: String, required: true, validate: validate('len', 36, 36) }, // Just a session publickey for now
-	playlist: [Song]
+	playlist: [Song],
+	currentSong: mongoose.SchemaTypes.ObjectId
 });
 
 /* Utilities method to vote */
@@ -27,10 +28,5 @@ PartySchema.statics.voteYes = function (id, songId, cb) {
 PartySchema.statics.voteNo = function (id, songId, cb) {
 	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1} }, cb || noop);
 };
-
-
-/*PartySchema.method.isOwner = function (key) {
-
-};*/
 
 module.exports = mongoose.model('party', PartySchema);

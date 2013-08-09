@@ -90,7 +90,7 @@ define([
 			return (
 				<div>
 					<div id="side-panel">
-						<Player playlist={ currentParty.get('playlist') } />
+						<Player party={ currentParty } />
 						<Playlist playlist={currentParty.get('playlist')}/>
 		        <PartyInfo party={currentParty} />
 					</div>

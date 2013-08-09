@@ -67,9 +67,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
     },
 
     componentWillReceiveProps: function (newProps) {
-      if (this.props.playlist && newProps.playlist && this.props.playlist !== newProps.playlist) {
-        this.props.playlist.off(null, null, this);
-        this.fetchPlaylistForNextSong(newProps.playlist);
+      if (this.props.party.get('playlist') && newProps.party.get('playlist') && this.props.party.get('playlist') !== newProps.party.get('playlist')) {
+        this.props.party.get('playlist').off(null, null, this);
+        this.fetchPlaylistForNextSong(newProps.party.get('playlist'));
       }
 
     },
@@ -108,7 +108,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
       console.log('fetching playlist');
 
       if (playlist == null)
-        playlist = this.props.playlist;
+        playlist = this.props.party.get('playlist');
 
       if (playlist.length === 0){
         console.log('try again');
@@ -117,8 +117,6 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         }.bind(this));
       } else {
         var song = playlist.first();
-        playlist.remove(song);
-
         this.onNextSong(song);
       }
     },
@@ -152,6 +150,8 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
           player.on('play', this.onPlayerPlay);
           player.on('pause', this.onPlayerPause);
 
+          console.log('setting song : '+song);
+          this.props.party.set('currentSong', song);
 
           this.setState({
             currentPlayer: player,
@@ -170,6 +170,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
     },
 
     onPlayerEnd: function() {
+      this.state.currentPlayer.song.destroy(); // removes song from playlist
+      this.props.party.set('currentSong', null); // removes song from currentSong property
+
       // Players internals are sometimes a bit shitty so we give'em some help for memory management
       this.state.currentPlayer.release();
 

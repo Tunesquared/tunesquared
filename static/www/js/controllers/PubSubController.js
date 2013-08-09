@@ -19,18 +19,17 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 	};
 
 	PubSubController.prototype.onChangeParty = function () {
-		console.log('onChangeParty');
-
 		var party = this._session.get('party');
 
 		if (party) {
 			if (this._party) {
 				socket.emit('unsubscribeParty', this._party.id);
+				party.off('change:currentSong', this.onCurrentSongChange);
 			}
 			this._party = party;
+			party.on('change:currentSong', this.onCurrentSongChange);
 
-			console.log('subscribing to : ' + this._party.id);
-			socket.emit('subscribeParty', this._party.id);
+			socket.emit('subscribeToParty', this._party.id);
 
 
 			this.watchPlaylist(this._party.get('playlist'));
@@ -45,6 +44,25 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 
 		this._playlist.on('add', this.onPlaylistAdd);
 		this._playlist.on('remove', this.onPlaylistRemove);
+	};
+
+	PubSubController.prototype.onCurrentSongChange = function (party, song) {
+		console.log('current song changed');
+
+		if(song == null || song.id != null){
+			proceed();
+		} else {
+			song.on('change:_id', proceed);
+		}
+
+		function proceed(){
+			socket.emit('partySetCurrentSong', {
+				song: (song && song.id) || null,
+				party: party.id
+			}, function (err) {
+				if (err) throw err;
+			});
+		}
 	};
 
 	PubSubController.prototype.onPlaylistAdd = function (song, coll, opts) {
