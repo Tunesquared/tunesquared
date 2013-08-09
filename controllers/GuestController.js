@@ -5,14 +5,13 @@
 	to perform actions in this controller
 */
 
-var Framework = require('../framework');
+var framework = require('../framework');
 
-var ObjectId = require('mongoose').Types.ObjectId;
 var Party = require('../models/Party');
 var Song = require('../models/Song');
 
 
-new Framework.Router({
+new framework.Router({
 	'post:api/playlistAddSong': function (req, res) {
 		var song = new Song(req.body.song);
 
@@ -25,7 +24,7 @@ new Framework.Router({
 				}
 			}, function (err) {
 				if(err) throw err;
-				Framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
+				framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
 					partyId: req.session.partyId,
 					songs: [song]
 				});
