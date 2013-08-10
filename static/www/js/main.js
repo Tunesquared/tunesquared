@@ -15,7 +15,6 @@ requirejs.config({
         'bootstrap': '/lib/bootstrap/js',
         'jquery': '/lib/jquery',
         'jquery-ui': '/lib/jquery-ui/js/jquery-ui-1.10.3.custom',
-        'less': '/lib/less',
         'wizard': '/lib/wizard',
         'react': '/lib/react',
         'components': 'components-build',
@@ -44,9 +43,7 @@ requirejs.config({
             exports: 'swfobject'
         }
 
-    },
-
-    deps: ['less']
+    }
 });
 
 
