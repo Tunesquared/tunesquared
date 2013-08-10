@@ -12,7 +12,6 @@ requirejs.config({
         'backbone': '/lib/backbone',
         'bootstrap': '/lib/bootstrap/js',
         'jquery': '/lib/jquery',
-        'less': '/lib/less',
         'wizard': '/lib/wizard',
         'react': '/lib/react',
         'components': 'components-build'
@@ -35,9 +34,7 @@ requirejs.config({
             exports: '_'
         },
 
-    },
-
-    deps: ['less']
+    }
 });
 
 
