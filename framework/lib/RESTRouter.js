@@ -5,7 +5,27 @@
 'use strict';
 
 var Router = require('./Router'),
-  capitalize = require('./utils').capitalize;
+  utils = require('./utils'),
+  capitalize = utils.capitalize;
+
+
+/*
+  Function called when a callback has been invoked more than once. It will only warn in production
+  since behaviour may still be consistent. Throws in development to easily spot errors.
+*/
+function warnDoubleCallbackCall () {
+  if (process.env.NODE_ENV === 'development')
+    throw new Error('ERROR : Invoked a REST midleware callback more than once !');
+  else
+    console.warn('WARNING : Invoking a REST middleware callback more than once. Will throw in development.');
+}
+
+/*
+  Factory to create protected callbacks to pass to middlewares
+*/
+function middlewareCb(fn) {
+  return utils.oneShot(fn, warnDoubleCallbackCall);
+}
 
 function sendError(res, err, status) {
   res.statusCode = status || 400;
@@ -26,7 +46,7 @@ var RESTRouter = module.exports = function (model, baseUrl) {
 
     var data = req.body;
 
-    self.beforeCreate(req, data, function (err, data) {
+    self.beforeCreate(req, data, middlewareCb(function (err, data) {
       if (err != null)
         return sendError(res, err, data);
       model.create(data, function (err, mod) {
@@ -34,19 +54,19 @@ var RESTRouter = module.exports = function (model, baseUrl) {
           console.log(JSON.stringify(err));
           return sendError(res, err);
         }
-        self.afterCreate(req, mod, function (err, data) {
+        self.afterCreate(req, mod, middlewareCb(function (err, data) {
           if (err != null)
             return sendError(res, err, data);
 
           res.send(data);
-        });
+        }));
       });
 
-    });
+    }));
   };
 
   routes[baseUrl] = function (req, res) {
-    self.beforeRead(req, null, function (err, data) {
+    self.beforeRead(req, null, middlewareCb(function (err, data) {
       if (err != null)
         return sendError(err, data);
 
@@ -54,20 +74,20 @@ var RESTRouter = module.exports = function (model, baseUrl) {
         if (err != null)
           return sendError(res, err);
 
-        self.afterRead(req, coll, function (err, data) {
+        self.afterRead(req, coll, middlewareCb(function (err, data) {
           if (err != null)
             return sendError(res, err, data);
           res.send(data);
-        });
+        }));
       });
-    });
+    }));
   };
 
   routes[baseUrl + '/:id'] = function (req, res) {
 
     var id = req.param('id');
 
-    self.beforeRead(req, id, function (err, data) {
+    self.beforeRead(req, id, middlewareCb(function (err, data) {
       if (err != null)
         return sendError(res, err, data);
 
@@ -76,14 +96,13 @@ var RESTRouter = module.exports = function (model, baseUrl) {
       }, function (err, mod) {
         if (err != null)
           return sendError(res, err);
-        self.afterRead(req, mod, function (err, data) {
+        self.afterRead(req, mod, middlewareCb(function (err, data) {
           if (err != null)
             return sendError(res, err, data);
           res.send(data);
-        });
+        }));
       });
-
-    });
+    }));
   };
 
   routes['put:' + baseUrl + '/:id'] = function (req, res) {
@@ -95,7 +114,7 @@ var RESTRouter = module.exports = function (model, baseUrl) {
     self.beforeUpdate(req, {
       _id: id,
       set: set
-    }, function (err, status) {
+    }, middlewareCb(function (err, status) {
       if (err != null)
         return sendError(res, err, status);
 
@@ -109,19 +128,19 @@ var RESTRouter = module.exports = function (model, baseUrl) {
         self.afterUpdate(req, {
           _id: id,
           set: set
-        }, function () {
+        }, middlewareCb(function () {
           res.end();
-        });
+        }));
       });
 
-    });
+    }));
   };
 
   routes['del:' + baseUrl + '/:id'] = function (req, res) {
 
     var id = req.param('id');
 
-    self.beforeDelete(req, id, function (err) {
+    self.beforeDelete(req, id, middlewareCb(function (err) {
       if (err != null)
         return sendError(res, err);
       model.remove({
@@ -129,12 +148,12 @@ var RESTRouter = module.exports = function (model, baseUrl) {
       }, function (err) {
         if (err != null)
           return sendError(res, err);
-        self.afterDelete(req, id, function () {
+        self.afterDelete(req, id, middlewareCb(function () {
           res.send({});
-        });
+        }));
       });
 
-    });
+    }));
   };
 
   Router.call(this, routes);
