@@ -1,0 +1,21 @@
+body {
+	padding-top: 50px;
+}
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.top {
+	padding: 20px 0px;
+	background-color: #060606;
+	border-bottom: 1px #282828 solid;
+}
+
+.navbar-search {
+	margin-top: 5px;
+}
+
+.main-contents {
+	border-left: 1px #282828 solid;
+}

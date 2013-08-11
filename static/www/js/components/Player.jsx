@@ -55,9 +55,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         console.log(errors);
       }
 
-      $(this.getDOMNode).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);
-      $(this.getDOMNode).delegate('[data-ref="progress-slider"]', 'slidestart', this.onProgressStart);
-      $(this.getDOMNode).delegate('[data-ref="progress-slider"]', 'slidestop', this.onProgressStop);
+      $(this.getDOMNode()).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);
+      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slidestart', this.onProgressStart);
+      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slidestop', this.onProgressStop);
 
       this._timeout = setInterval(this.watchProgress, 1000);
     },
@@ -247,11 +247,26 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         var song = this.state.currentPlayer.song;
 
         var playButton = this.state.playing ?
-            <a href="#" class="btn play-button" onClick={this.onPause}><i class="icon-pause"></i></a> :
-            <a href="#" class="btn play-button" onClick={this.onPlay}><i class="icon-play"></i></a>;
+            <a href="#" class="btn btn-primary play-button" onClick={this.onPause}><i class="icon-pause"></i></a> :
+            <a href="#" class="btn btn-primary play-button" onClick={this.onPlay}><i class="icon-play"></i></a>;
 
         contents = (
-          <div class="container-fluid">
+          <div class="media">
+            <a class="pull-left" href="#">
+              <img class="media-object" src={this.state.currentPlayer.song.get('thumb')} />
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">{this.state.currentPlayer.song.get('title')}</h4>
+              by {this.state.currentPlayer.song.get('artist')}
+              <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div>
+              {playButton}
+              <a href="#" class="btn btn-default forward-button" ref="fwd-button" onClick={this.onSkip}>
+                <i class="icon-fast-forward"></i>
+              </a>
+              <div data-ref="progress-slider" ref="progress-slider"></div>
+            </div>
+          </div>);
+          /*<div class="container-fluid">
             <div class="row-fluid">
               <div class="span4">
                 <div class="img-container small"><img src={this.state.currentPlayer.song.get('thumb')} /></div>
@@ -279,8 +294,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
             <div class="row-fluid">
               <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>
-          </div>
-        );
+          </div>*/
       } else if (this.state.loading){
         contents = <img src="img/ajax-loader.gif" />;
       } else {

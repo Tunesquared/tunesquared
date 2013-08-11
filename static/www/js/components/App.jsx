@@ -89,15 +89,22 @@ define([
 
 			return (
 				<div>
-					<div id="side-panel">
-						<Player party={ currentParty } />
-						<Playlist playlist={currentParty.get('playlist')}/>
-		        <PartyInfo party={currentParty} />
+					<Navbar session={ session } />
+					<div class="top">
+						<div class="container">
+							<Player party={ currentParty } />
+						</div>
 					</div>
-	        <div id="main-panel">
-	            <Navbar session={ session } />
-	            <div id="main-contents">{main}</div>
-	        </div>
+					<div class="contents">
+						<div class="container">
+							<div class="col-4">
+								<Playlist playlist={currentParty.get('playlist')}/>
+							</div>
+							<div class="col-8 main-contents">
+								{main}
+							</div>
+						</div>
+					</div>
 	        {dialog}
 	      </div>
       );
