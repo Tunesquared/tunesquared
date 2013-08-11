@@ -1,4 +1,3 @@
-
 # Development :
 *Follow these guidelines when developping on this project*
 ## Style
@@ -10,12 +9,15 @@
  - when a constant should be the same value accross multiple points in the program, expose it as Module.MY_CONSTANT.
  - if not possible, then use the same name for every instances, and link them with comments so they can be easily found and updated.
 ex :
-		// server - Party.js
 
-		/* Maximum string length for party title. (see client create dialog) */
-		var PARTY_TITLE_MAX_LEN = 32;
+server - Party.js
+```javascript
+/* Maximum string length for party title. (see client create dialog) */
+var PARTY_TITLE_MAX_LEN = 32;
+```
 
-		// client - CreateDialog.jsx
-
-		/* Maximum string length for party title. (see Party server model) */
-		var PARTY_TITLE_MAX_LEN = 32;
+client - CreateDialog.jsx
+```javascript
+/* Maximum string length for party title. (see Party server model) */
+var PARTY_TITLE_MAX_LEN = 32;
+```
