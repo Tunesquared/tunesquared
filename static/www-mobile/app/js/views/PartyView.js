@@ -15,7 +15,8 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
     },
     render : function(){
       var listel = this.template({
-        result: this.model
+        result: this.model.toJSON()
+
       });
       this.$el.html(listel);
 
@@ -167,7 +168,7 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
       }, this));
 
       var $currsong = new CurrentSongView ({
-          model: {  'title' : 'Rick Astley - Never Gonna Give You Up',  'source' : 'youtube',   'thumb' : 'http://i.ytimg.com/vi/dQw4w9WgXcQ/1.jpg',  'data' : 'dQw4w9WgXcQ',    'votes_no' : '',   'votes_yes' : 'Currently playing' }
+          model: this.party.get('currentSong')
         });
       $currsong.render();
 
