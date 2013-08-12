@@ -269,7 +269,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
               {playButton}
               <a href="#" class="btn btn-default forward-button" ref="fwd-button" onClick={this.onSkip}>
                 <i class="icon-fast-forward"></i>
-              </a><br />
+              </a>
               <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>
           </div>);
