@@ -12,7 +12,7 @@
   add it to the playlist. One cannot force a song to go in the player, it has
   to be first in the playlist at the moment songs are switched.
 */
-define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (React, jquery, PlayerFactory) {
+define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], function (React, jquery, PlayerFactory) {
 
   var PROGRESS_STEP = 1000;
 
@@ -56,8 +56,8 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
       }
 
       $(this.getDOMNode()).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);
-      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slidestart', this.onProgressStart);
-      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slidestop', this.onProgressStop);
+      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slideStart', this.onProgressStart);
+      $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slideStop', this.onProgressStop);
 
       this._timeout = setInterval(this.watchProgress, 1000);
     },
@@ -81,16 +81,16 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
           min: 0
         });
 
-        if(volume.slider('value') !== this.state.volume)
-          volume.slider('value', this.state.volume);
+        if(volume.slider('getValue') !== this.state.volume)
+          volume.slider('setValue', this.state.volume);
 
         var progress = $(this.refs['progress-slider'].getDOMNode()).slider({
           max: PROGRESS_STEP,
           min: 0,
-          animate: 'fast'
+          formater: this.progressFormatter
         });
-        if(progress.slider('value') !== this.state.progress)
-          progress.slider('value', this.state.progress * PROGRESS_STEP);
+        if(progress.slider('getValue') !== this.state.progress)
+          progress.slider('setValue', this.state.progress * PROGRESS_STEP);
 
         this.state.currentPlayer.setVolume(this.state.volume);
 
@@ -99,6 +99,12 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         }
       }
 		},
+
+    // Formats raw progress bar value to printable value
+    progressFormatter: function(val) {
+      var secs = Math.round((player.getDuration() * val/PROGRESS_STEP)/1000);
+      return ('00' + Math.round((secs/60))).substr(-2) + ':' + ('00' + (secs % 60)).substr(-2);
+    },
 
     /*
       Tries to extract next song from the playlist.
@@ -208,9 +214,10 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
         this.state.currentPlayer.pause();
     },
 
-    onVolumeChange: function(e, ui) {
+    onVolumeChange: function(e) {
+
       this.setState({
-        volume: ui.value
+        volume: e.value
       });
     },
 
@@ -218,11 +225,11 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
       this._progressDrag = true;
     },
 
-    onProgressStop: function (e, ui) {
+    onProgressStop: function (e) {
       this._progressDrag = false;
       var player = this.state.currentPlayer;
       if(player){
-        player.seekTo(player.getDuration() * ui.value/PROGRESS_STEP);
+        player.seekTo(player.getDuration() * e.value/PROGRESS_STEP);
       }
     },
 
@@ -257,12 +264,12 @@ define(['react', 'jquery', 'players/PlayerFactory', 'jquery-ui'], function (Reac
             </a>
             <div class="media-body">
               <h4 class="media-heading">{this.state.currentPlayer.song.get('title')}</h4>
-              by {this.state.currentPlayer.song.get('artist')}
-              <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div>
+              by {this.state.currentPlayer.song.get('artist')}<br />
+              <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div><br />
               {playButton}
               <a href="#" class="btn btn-default forward-button" ref="fwd-button" onClick={this.onSkip}>
                 <i class="icon-fast-forward"></i>
-              </a>
+              </a><br />
               <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>
           </div>);
