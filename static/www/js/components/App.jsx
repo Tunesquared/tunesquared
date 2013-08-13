@@ -3,6 +3,7 @@
 
 define([
 	'react',
+	'jquery',
 	'backbone',
 	'mixins/Router',
 	'mixins/Backbone',
@@ -13,9 +14,12 @@ define([
 	'components/PartyInfo',
 	'components/Home',
 	'components/Search',
-	'components/Navbar'
+	'components/Navbar',
+
+	'bootstrap/affix'
 ], function(
 	React,
+	$,
 	Backbone,
 	Router,
 	BackboneMixin,
@@ -70,7 +74,16 @@ define([
 		},
 
 		componentDidUpdate: function () {
-			console.log('[info] App component updated');
+			var affix = $(this.refs.affix.getDOMNode());
+			affix.affix({
+		    offset: {
+		      top: affix.offset().top
+		    , bottom: function () {
+		    		// Footer height to stop the affix at page bottom
+		        return 0;//(this.bottom = $('.bs-footer').outerHeight(true))
+		      }
+		    }
+		  });
 		},
 
 		render: function () {
@@ -89,15 +102,24 @@ define([
 
 			return (
 				<div>
-					<div id="side-panel">
-						<Player party={ currentParty } />
-						<Playlist playlist={currentParty.get('playlist')}/>
-		        <PartyInfo party={currentParty} />
+					<Navbar session={ session } />
+					<div class="top">
+						<div class="container">
+							<Player party={ currentParty } />
+						</div>
 					</div>
-	        <div id="main-panel">
-	            <Navbar session={ session } />
-	            <div id="main-contents">{main}</div>
-	        </div>
+					<div class="contents">
+						<div class="container">
+							<div class="col-4" >
+								<div ref="affix">
+									<Playlist playlist={currentParty.get('playlist')}/>
+								</div>
+							</div>
+							<div class="col-8 main-contents">
+								{main}
+							</div>
+						</div>
+					</div>
 	        {dialog}
 	      </div>
       );

@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Tunes² empower your tunes.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Bootstrap -->
-        <link rel="stylesheet/less" type="text/css" href="lib/bootstrap/less/bootstrap.less" />
-        <script src="/lib/less.js"></script>
-    </head>
-    <body>
-        <div id="navbar"></div>
-        <div class="container">
-            <div class="row">
-                <div class="span12">
-                    <div class="hero-unit">
-                        <h1>Tune²</h1>
-                        <p class="lead">When guests choose the music.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span3 offset3">
-                    <a class="btn btn-large btn-primary" href="#" id="create">Create a party</a>
-                </div>
-                <div class="span5 offset 1">
-                    <a class="btn btn-large btn-primary" href="/m">Join a party</a>
-                </div>
-            </div>
-        </div>
-        <div id="create-dialog"></div>
-        <script data-main="js/welcome" src="lib/require.js"></script>
-    </body>
-</html>
+  <head>
+    <title>Tunes² empower your tunes.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="lib/bootswatch/cyborg/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/welcome.css" />
+  </head>
+  <body>
+    <div class="splash">
+      <div class="container header">
+        <a class="navbar-brand" href="#">Tunes²</a>
+        <ul class="nav navbar-nav nav-pills pull-right">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Sign up</a></li>
+        </ul>
+      </div>
+      <div class="container contents">
+
+          <h1>Make the most of your parties</h1>
+          <p class="lead">Forget all your troubles, now your guests listen to what they want.</p>
+          <a class="btn btn-large btn-primary" href="#" id="create">Create a party</a>
+          <a class="btn btn-large btn-primary" href="/m">Join a party</a>
+
+      </div>
+    </div>
+    <div class="container">
+      <p>place some crazy-ass demo/promo here</p>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="pull-right">® 2013 tunesquared, inc.</div>
+      </div>
+    </footer>
+    <div id="create-dialog"></div>
+    <script data-main="js/welcome" src="lib/require.js"></script>
+  </body>
+  </html>

@@ -56,8 +56,8 @@ Song.path('data').validate(function(data, cb){
 
 // Preformats fields before validation
 Song.pre('validate', function (next) {
-	if (this.title != null) this.title = this.title.substr(0, 32);
-	this.artist = (this.artist != null) ? this.artist.substr(0, 32) : 'unknown';
+	if (this.title != null) this.title = this.title.substr(0, 64);
+	this.artist = (this.artist != null) ? this.artist.substr(0, 64) : 'unknown';
 
 	next();
 });

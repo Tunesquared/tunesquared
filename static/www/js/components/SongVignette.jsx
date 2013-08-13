@@ -9,23 +9,21 @@ define(['react'], function(React){
 
 		render: function () {
 			return (
-				<div class="span3">
-					<div class="song-vignette">
-						<div class="img-container">
-							<div class="img-action-overlay">
-								<a href="#" onClick={this.onClick}>
+				<div class="media">
+					<a href="#" onClick={this.onClick}>
+						<div class="pull-left">
+							<div class="media-object">
+								<div class="img-action-overlay hide">
 									<img src="img/overlay-add.png" title="add to playlist" />
-								</a>
+								</div>
+								<img src={this.props.song.thumb} />
 							</div>
-							<img src={this.props.song.thumb} />
 						</div>
-						<ul class="song-attributes">
-							<li>
-								<strong> {this.props.song.title} </strong>
-							</li>
-							<li>by {this.props.song.artist} </li>
-						</ul>
-					</div>
+						<div class="media-body">
+							<h4 class="media-heading">{this.props.song.title} </h4>
+							by {this.props.song.artist}
+						</div>
+					</a>
 				</div>
 			);
 		}

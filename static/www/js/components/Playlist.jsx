@@ -30,7 +30,7 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 			});
 
 			return (
-				<div id="playlist">
+				<div id="playlist" >
 	          <h4>Playlist :</h4>
 	          <div id="playlist-container">{list}</div>
 	      </div>
