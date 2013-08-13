@@ -21,3 +21,7 @@ body {
 .main-contents {
 	border-left: 1px #282828 solid;
 }
+
+.affix {
+	top: 50px;
+}

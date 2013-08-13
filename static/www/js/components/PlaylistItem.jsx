@@ -20,15 +20,8 @@ define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 			return (
 				<div class="song-container" key={song.cid} >
 					<a class="pull-left" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
-					<div class="vote-label negative">
-						<div class="inner">- {song.get('votes_no')}</div>
-					</div>
-					<div class="vote-label positive">
-						<div class="inner">+ {song.get('votes_yes')}</div>
-					</div>
-					<div class="inner">
-						# {this.props.pos} <strong>{song.get('title')}</strong> - {song.artist}
-					</div>
+					{' # ' + this.props.pos} <strong>{song.get('title')}</strong>, {song.artist}
+					{'[ - ' +	song.get('votes_no') + ' ; ' + song.get('votes_yes') + ' ]'}
 				</div>
 			);
 		}

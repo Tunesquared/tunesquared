@@ -133,6 +133,8 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
       console.log(song);
 
       var anchor = document.createElement('div');
+      anchor.style.position = 'absolute';
+      anchor.style.top = '-1000px';
       document.body.appendChild(anchor);
 
       if(this.state.currentPlayer == null)
