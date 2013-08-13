@@ -92,7 +92,9 @@ define([
 
         share: function () {
             console.log('#share');
+            this.shareView.setParty(Session.get('party'));
             $.mobile.changePage( '#share', { reverse: false, changeHash: false } );
+            this.shareView.render();
         }
 
 

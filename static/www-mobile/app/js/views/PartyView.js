@@ -7,15 +7,15 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
 
 
   var CurrentSongView = Backbone.View.extend({
-    tagName: 'li',
+    className: 'currSong',
 
-    initialize: function(){
+    initialize: function() {
       this.template = _.template(currTemplate);
 
     },
-    render : function(){
+    render: function() {
       var listel = this.template({
-        result: this.model
+        result: this.model.toJSON()
       });
       this.$el.html(listel);
 
@@ -148,37 +148,46 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
 
         $.mobile.loading('hide');
 
-        var $result = new PartyResultView({
-          model: song,
-        });
-        var self = this;
-        $result.on('voted', function() {
-          self.party.fetch();
-        });
-        $result.render();
+        if (song.id === this.party.get('currentSong')) {
+
+
+          var $currsong = new CurrentSongView({
+            model: song,
+          });
+
+          $currsong.render();
+          console.log(song);
+
+          this.$('#dynamicFieldList').prepend($currsong.$el.contents());
+
+        } else {
+          var $result = new PartyResultView({
+            model: song,
+          });
+          var self = this;
+          $result.on('voted', function() {
+            self.party.fetch();
+          });
+          $result.render();
 
 
 
-        this.$('#dynamicFieldList').append($result.$el);
+          this.$('#dynamicFieldList').append($result.$el);
 
+        }
 
         this.dataLoading = false;
 
       }, this));
 
-      var $currsong = new CurrentSongView ({
-          model: {  'title' : 'Rick Astley - Never Gonna Give You Up',  'source' : 'youtube',   'thumb' : 'http://i.ytimg.com/vi/dQw4w9WgXcQ/1.jpg',  'data' : 'dQw4w9WgXcQ',    'votes_no' : '',   'votes_yes' : 'Currently playing' }
-        });
-      $currsong.render();
 
-      this.$('#currsong').append($currsong.$el);
-      this.$('#currsong').listview('refresh');
+      this.$('#currSong').listview('refresh');
       this.$('#dynamicFieldList').listview('refresh');
 
 
       // Tests that the model properties were properly set:
 
-      this.$('[ref="party-name"]').text(this.party.get('name'));
+      this.$('[ref="party-name2"]').text(this.party.get('name'));
 
       // Maintains chainability
       return this;
