@@ -67,6 +67,8 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		// Saves a local copy of unique count and increments
 		this._id = counter++;
 		this._loadCb = ready;
+		this._seekTime = 0;
+		this._loading = true;
 
 		var target = document.createElement('div');
 		target.id = 'youtube_host' + counter;
@@ -133,6 +135,9 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 
 	// Seeks to time in msecs
 	YoutubePlayer.prototype.seekTo = function (time) {
+		if (this._loading){
+			this._seekTime = time;
+		}
 		this._player.seekTo(Math.floor(time / 1000), true);
 	};
 
@@ -140,7 +145,8 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 
 	// Returns current time in msec
 	YoutubePlayer.prototype.getSeekTime = function () {
-		return this._player.getCurrentTime() * 1000;
+		this.seekTime = this._player.getCurrentTime() * 1000
+		return this._seekTime;
 	};
 
 	YoutubePlayer.prototype.getDuration = function () {
@@ -177,6 +183,10 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		console.log('state change : ' + state);
 		if (state === PlayerState.PLAYING) {
 			this.trigger('play');
+			if (this._loading) {
+				this._loading = false;
+				this.seekTo(this._seekTime);
+			}
 		} else if (state === PlayerState.PAUSED) {
 			this.trigger('pause');
 		} else if (state === PlayerState.ENDED) {

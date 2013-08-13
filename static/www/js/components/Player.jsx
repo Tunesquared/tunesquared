@@ -12,11 +12,16 @@
   add it to the playlist. One cannot force a song to go in the player, it has
   to be first in the playlist at the moment songs are switched.
 */
-define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], function (React, jquery, PlayerFactory) {
+define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap-slider'],
+  function (React, jquery, PlayerFactory, persist) {
 
   var PROGRESS_STEP = 1000;
 
 	var Player = React.createClass({
+
+    mixins: [persist],
+
+    persistId: 'player',
 
     getInitialState: function () {
       /* States for the player are : 'empty', it waits for a new song to come in and start */
@@ -39,6 +44,8 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
           Assert : There can not be a nextPlayer if currentPlayer == null
         */
         nextPlayer: null,
+
+        currentSong: null,
 
 
         loading: false,
@@ -69,9 +76,27 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
     componentWillReceiveProps: function (newProps) {
       if (this.props.party.get('playlist') && newProps.party.get('playlist') && this.props.party.get('playlist') !== newProps.party.get('playlist')) {
         this.props.party.get('playlist').off(null, null, this);
-        this.fetchPlaylistForNextSong(newProps.party.get('playlist'));
-      }
 
+        var stored = this.load();
+        this.setState({
+          volume: stored.volume || 50
+        });
+
+        var playlist = newProps.party.get('playlist');
+
+        var song = playlist.get(stored.currentSong);
+        if (song != null) {
+          newProps.party.set('currentSong', song);
+          this.onNextSong(song, {seek: stored.seek});
+        } else {
+          song = playlist.get(newProps.party.get('currentSong'));
+          if (song != null) {
+            this.onNextSong(song);
+          } else {
+            this.fetchPlaylistForNextSong(newProps.party.get('playlist'));
+          }
+        }
+      }
     },
 
 		componentDidUpdate: function(){
@@ -97,12 +122,17 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
         if(this.state.nextPlayer != null){
           this.state.nextPlayer.setVolume(this.state.volume);
         }
+
+        this.save({
+          volume: this.state.volume,
+          seek: this.state.progress * 1000 * this.state.currentPlayer.getDuration() / PROGRESS_STEP
+        });
       }
 		},
 
     // Formats raw progress bar value to printable value
     progressFormatter: function(val) {
-      var secs = Math.round((player.getDuration() * val/PROGRESS_STEP)/1000);
+      var secs = Math.round((this.state.currentPlayer.getDuration() * val/PROGRESS_STEP)/1000);
       return ('00' + Math.round((secs/60))).substr(-2) + ':' + ('00' + (secs % 60)).substr(-2);
     },
 
@@ -128,7 +158,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
     },
 
     /* Called by fetchPlaylistForNextSong when it actually fetched a song from the playlist */
-    onNextSong: function (song) {
+    onNextSong: function (song, options) {
       console.log('houra, song available : ');
       console.log(song);
 
@@ -160,6 +190,17 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
 
           console.log('setting song : '+song);
           this.props.party.set('currentSong', song);
+
+          if (options) {
+            console.log(options);
+            console.log(player.getDuration());
+            if (options.seek)
+              player.seekTo(options.seek);
+          }
+
+          this.save({
+            currentSong: song.id
+          });
 
           this.setState({
             currentPlayer: player,
@@ -275,35 +316,6 @@ define(['react', 'jquery', 'players/PlayerFactory', 'bootstrap-slider'], functio
               <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>
           </div>);
-          /*<div class="container-fluid">
-            <div class="row-fluid">
-              <div class="span4">
-                <div class="img-container small"><img src={this.state.currentPlayer.song.get('thumb')} /></div>
-              </div>
-              <div class="span8">
-                <ul class="song-attributes">
-                  <li><strong>{this.state.currentPlayer.song.get('title')}</strong></li>
-                  <li>by {this.state.currentPlayer.song.get('artist')}</li>
-                </ul>
-              </div>
-            </div>
-            <hr />
-            <div class="row-fluid">
-              <div class="player-actions clearfix">
-                  <div class="action">{playButton}</div>
-                  <div class="action">
-                    <a href="#" class="btn forward-button" ref="fwd-button" onClick={this.onSkip}>
-                    <i class="icon-fast-forward"></i></a>
-                  </div>
-                  <div class="action volume"><i class="icon-volume-up pull-left"></i>
-                    <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div>
-                  </div>
-              </div>
-            </div>
-            <div class="row-fluid">
-              <div data-ref="progress-slider" ref="progress-slider"></div>
-            </div>
-          </div>*/
       } else if (this.state.loading){
         contents = <img src="img/ajax-loader.gif" />;
       } else {

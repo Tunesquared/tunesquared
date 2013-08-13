@@ -19,7 +19,8 @@ requirejs.config({
         'react': '/lib/react',
         'components': 'components-build',
         'search': '/lib/search',
-        'swfobject': '/lib/swfobject'
+        'swfobject': '/lib/swfobject',
+        'json': '/lib/json3'
     },
 
     shim: {
