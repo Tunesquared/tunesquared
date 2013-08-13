@@ -28,7 +28,7 @@ define(['jquery', 'backbone', 'models/Playlist'], function ($, Backbone, Playlis
     },
 
     isCurrent: function (song) {
-      return song.id === this.get('currentSong');
+      return song.id === this.get('currentSong').id;
     },
 
     parse: function (attr) {
