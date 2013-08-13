@@ -148,40 +148,47 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
 
         $.mobile.loading('hide');
 
-        if (song.id === this.party.get('currentSong')) {
 
-
-          var $currsong = new CurrentSongView({
-            model: song,
-          });
-
-          $currsong.render();
-          console.log(song);
-
-          this.$('#dynamicFieldList').prepend($currsong.$el.contents());
-
-        } else {
-          var $result = new PartyResultView({
-            model: song,
-          });
-          var self = this;
-          $result.on('voted', function() {
-            self.party.fetch();
-          });
-          $result.render();
+        console.log('sthoea');
 
 
 
-          this.$('#dynamicFieldList').append($result.$el);
 
-        }
+
+
+
+
+        var $result = new PartyResultView({
+          model: song,
+        });
+        var self = this;
+        $result.on('voted', function() {
+          self.party.fetch();
+        });
+        $result.render();
+
+
+
+        this.$('#dynamicFieldList').append($result.$el);
+
+
 
         this.dataLoading = false;
 
       }, this));
 
+        var $currsong = new CurrentSongView({
+          model: this.party.get('currentSong'),
+        });
 
-      this.$('#currSong').listview('refresh');
+        $currsong.render();
+
+        console.log('render current song');
+
+        this.$('#dynamicFieldList').prepend($currsong.$el.contents());
+
+
+      //this.$('#currSong').listview('refresh');
       this.$('#dynamicFieldList').listview('refresh');
 
 
