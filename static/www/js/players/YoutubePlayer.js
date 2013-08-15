@@ -100,6 +100,7 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		'play'
 		'pause'
 		'stop'
+		'end'
 	*/
 	_.extend(YoutubePlayer.prototype, Backbone.Events);
 
@@ -155,6 +156,11 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 
 	YoutubePlayer.prototype.getProgress = function () {
 		return this._player.getCurrentTime() / this._player.getDuration();
+	};
+
+	YoutubePlayer.prototype.getState = function () {
+		return (this._player.getPlayerState() === 1 || this._player.getPlayerState() === 3) ?
+			'playing' : 'stopped';
 	};
 
 	YoutubePlayer.prototype.release = function () {

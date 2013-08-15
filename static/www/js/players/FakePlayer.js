@@ -15,6 +15,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 		this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
 		this._interval = null;
 		this._currentTime = 0;
+		this._state = 'paused';
 
 		ready(null, this);
 	}
@@ -36,6 +37,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	// Controls :
 
 	FakePlayer.prototype.play = function () {
+		this._state = 'playing';
 		if(this._interval == null) {
 			this._interval = setInterval(this.updateTime.bind(this) , 1000);
 			this.trigger('play');
@@ -43,6 +45,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	};
 
 	FakePlayer.prototype.pause = function () {
+		this._state = 'paused';
 		if (this._interval) {
 			clearInterval(this._interval);
 			this._interval = null;
@@ -51,6 +54,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	};
 
 	FakePlayer.prototype.stop = function () {
+		this._state = 'paused';
 		if (this._interval) {
 			clearInterval(this._interval);
 			this._interval = null;
@@ -80,6 +84,10 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 
 	FakePlayer.prototype.getProgress = function () {
 		return this._currentTime / this._duration;
+	};
+
+	FakePlayer.prototype.getState = function () {
+		return this._state;
 	};
 
 	FakePlayer.prototype.release = function () {

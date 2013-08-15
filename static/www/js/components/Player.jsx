@@ -185,7 +185,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         else player.pause();
 
         if (this.state.currentPlayer == null){
-          console.log('got current player');
+          this.props.onNewCurrentPlayer(player);
           player.on('end', this.onPlayerEnd);
           player.on('play', this.onPlayerPlay);
           player.on('pause', this.onPlayerPause);
@@ -259,6 +259,11 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         this.state.currentPlayer.pause();
     },
 
+    onSkip: function(evt){
+      evt.preventDefault();
+      this.onPlayerEnd();
+    },
+
     onVolumeChange: function(e) {
 
       this.setState({
@@ -278,10 +283,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
       }
     },
 
-    onSkip: function(evt){
-      evt.preventDefault();
-      this.onPlayerEnd();
-    },
+
 
     watchProgress: function() {
       if ( this.state.currentPlayer != null && !this._progressDrag){

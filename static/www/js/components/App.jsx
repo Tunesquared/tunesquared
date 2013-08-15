@@ -40,7 +40,8 @@ define([
 		getInitialState: function(){
 			return {
 				dialog: null,
-				main: 'home'
+				main: 'home'/*,
+				currentPlayer: null*/
 			};
 		},
 
@@ -75,7 +76,6 @@ define([
 
 		componentDidUpdate: function () {
 			var affix = $(this.refs.affix.getDOMNode());
-			console.log(affix.css('width', '33,33%'));
 			affix.affix({
 		    offset: {
 		      top: affix.offset().top
@@ -85,6 +85,12 @@ define([
 		      }
 		    }
 		  });
+		},
+
+		onNewCurrentPlayer: function (player) {
+			this.setState({
+				currentPlayer: player
+			});
 		},
 
 		render: function () {
@@ -103,10 +109,12 @@ define([
 
 			return (
 				<div>
-					<Navbar session={ session } />
+					<Navbar session={ session } player={this.state.currentPlayer} />
 					<div class="top">
 						<div class="container">
-							<Player party={ currentParty } />
+							<Player
+								party={ currentParty }
+								onNewCurrentPlayer={this.onNewCurrentPlayer} />
 						</div>
 					</div>
 					<div class="contents">
