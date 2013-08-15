@@ -41,36 +41,38 @@
 
         <div id="party" data-role="page" data-title="Party" data-theme="a">
             <div data-role="header" data-theme="a">
-            <img src="/m/app/img/tunelarge2.png" width="120" hspace="15"/>
+            <a href="#share" data-icon="bars" data-iconpos="left" data-corners="false" class="ui-btn-left btn-padd">Menu</a>
+            <center><img src="/m/app/img/tunelarge2.png" width="120" hspace="15"/></center>
             <!-- Do we need the refresh button? -->
-            <a href="#party" data-icon="refresh" ref="refresh" class="ui-btn-right">Refresh</a>
+            <a href="#party" data-icon="refresh" data-iconpos="right" data-corners="false" ref="refresh" class="ui-btn-right btn-padd">Refresh</a>
 
         </div><!-- /header -->
 
-        <div data-role="header" data-theme="a">
-             <div id="currsong" data-role="listview" data-icon="false" > </div>
-          </div><!-- /header -->
+
 
         <div data-role="content" data-theme="a">
 
 
 
-            <div id="votelist" >
+
             <ul id="dynamicFieldList" data-role="listview" data-filter="true" data-icon="false" data-filter-placeholder="Add new songs and vote.." data-count-theme="a">
 
             </ul>
 
-            </div>
         </div><!-- /content -->
 
-        <div data-role="footer" data-theme="a" data-position="fixed">
-            <div data-role="navbar" data-iconpos="bottom">
-            <ul>
-                <li><a href="#party" class="ui-btn-active ui-state-persist" data-icon="bars">Playlist</a></li>
-                <li><a href="#share" data-icon="forward">Share URL</a></li>
-            </ul>
-            </div><!-- /navbar -->
+        <div  data-theme="a" class="ui-btn-active" >
+            <center><p>tunesquared.com</p></center>
+
+        </div>
+
+
+
+        <div data-role="footer" data-theme="a" data-position="fixed" id="currsong">
+
         </div><!-- /footer -->
+
+
     </div>
 
 

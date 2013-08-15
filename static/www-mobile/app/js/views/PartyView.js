@@ -144,18 +144,14 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
       this.$('#dynamicFieldList').empty();
       this.$('#currsong').empty();
 
+      //why is the following line not working?
+
+      this.$('dynamicFieldList').append('<li data-role="list-divider" data-theme="a"> Playlist: </li>');
+
+
       this.party.get('playlist').each(_.bind(function(song) {
 
         $.mobile.loading('hide');
-
-
-        console.log('sthoea');
-
-
-
-
-
-
 
 
         var $result = new PartyResultView({
@@ -177,18 +173,20 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
 
       }, this));
 
-        var $currsong = new CurrentSongView({
-          model: this.party.get('currentSong'),
-        });
-
-        $currsong.render();
-
-        console.log('render current song');
-
-        this.$('#dynamicFieldList').prepend($currsong.$el.contents());
 
 
-      //this.$('#currSong').listview('refresh');
+      var $currsong = new CurrentSongView({
+        model: this.party.get('currentSong'),
+      });
+
+      $currsong.render();
+
+      console.log('render current song');
+
+      //this.$('#dynamicFieldList').prepend($currsong.$el.contents());
+      this.$('#currsong').prepend($currsong.$el.contents());
+      this.$('#currsong').find('div[data-role=collapsible]').collapsible();
+      //$('#currlist').listview('refresh');
       this.$('#dynamicFieldList').listview('refresh');
 
 

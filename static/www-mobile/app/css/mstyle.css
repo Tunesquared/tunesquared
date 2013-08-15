@@ -23,3 +23,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#626970', end
 img.thumbn {
 	margin-top: 10px ;
 }
+
+.btn-padd {
+	margin-top: 10px ! important;
+	width: 90px;
+}
