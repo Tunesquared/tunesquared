@@ -6,22 +6,86 @@ body {
 
 .navbar {
 	margin-bottom: 0;
+	border: 0;
+	box-shadow: 0px 1px 3px #000;
 }
 
-.top {
-	padding: 20px 0px;
-	background-color: #060606;
-	border-bottom: 1px #282828 solid;
+.navbar input {
+	background-color: #181818;
+	color: #96BED1;
+	width: 15%;
+	transition-property: width;
+	transition-duration: 300ms;
 }
+
+.navbar input:focus {
+	background-color: #0E0E0E;
+	color: #50C5FD;
+	width: 30%;
+}
+
+.navbar input::-webkit-input-placeholder { color: #37525F; }
+.navbar input:focus::-webkit-input-placeholder { color: #1E536D; }
+/* Firefox 18- */
+.navbar input:-moz-placeholder { color: #37525F; }
+.navbar input:focus:-moz-placeholder { color: #1E536D; }
+/* Firefox 19+ */
+.navbar input::-moz-placeholder { color: #37525F; }
+.navbar input:focus::-moz-placeholder { color: #1E536D; }
+
+.navbar input:-ms-input-placeholder { color: #37525F; }
+.navbar input:focus:-ms-input-placeholder { color: #1E536D; }
 
 .navbar-search {
 	margin-top: 5px;
 }
 
+.top {
+	padding: 20px 0px;
+	background-color: #181818;
+}
+
 .main-contents {
-	border-left: 1px #282828 solid;
+	border-left: 1px #181818 solid;
 }
 
 .affix {
 	top: 50px;
+}
+
+/* player */
+
+.player-control {
+	margin: 10px;
+	box-shadow: 1px 2px 3px #000;
+}
+
+.player-control:hover {
+	box-shadow: 0px 1px 3px #000;
+}
+
+.forward-button {
+	border-radius: 0;
+}
+
+.play-button {
+	margin-right: 0px;
+	margin-left: 20px;
+	border-radius: 0;
+	padding: 16px 20px;
+	font-size: 20px;
+	padding: 12px 16px;
+}
+
+.volume-slider {
+	width: 100px;
+}
+
+.volume-icon.pull-left {
+	margin-top: 3px;
+	margin-right: 10px;
+}
+
+.player-song-title {
+	margin-bottom: 30px;
 }

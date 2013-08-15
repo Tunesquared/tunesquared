@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react'], function(React){
+define(['react', 'jquery'], function(React, $){
+
 	var Navbar = React.createClass({
 
 		onSearch: function (evt) {
@@ -23,17 +24,17 @@ define(['react'], function(React){
 
 		render: function(){
 			return (
-				<div class="navbar navbar-fixed-top">
+				<div class="navbar navbar-inverse navbar-fixed-top">
 					<div class="container">
 					  <a class="navbar-brand" href="#">Tunes²</a>
-					  <ul class="nav navbar-nav">
-              <form class="form-inline" action="" onSubmit={this.onSearch}>
-                <input type="text" id="search-field" class="form-control navbar-search" placeholder="Search" ref="search" />
-              </form>
-            </ul>
             <ul class="nav navbar-nav pull-right">
-            	<li><a href="#" onClick={this.leave}><i class="icon-off"></i> exit</a></li>
+            	<li><a href="#" onClick={this.leave}>
+            		<i class="icon-off"></i> exit</a>
+            	</li>
             </ul>
+            <form class="form-inline" action="" onSubmit={this.onSearch}>
+              <input type="text" id="search-field" class="form-control navbar-search" placeholder="Search" ref="search"/>
+            </form>
 				  </div>
         </div>
        );

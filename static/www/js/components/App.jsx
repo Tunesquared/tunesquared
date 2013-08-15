@@ -75,6 +75,7 @@ define([
 
 		componentDidUpdate: function () {
 			var affix = $(this.refs.affix.getDOMNode());
+			console.log(affix.css('width', '33,33%'));
 			affix.affix({
 		    offset: {
 		      top: affix.offset().top
