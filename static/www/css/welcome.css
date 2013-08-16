@@ -1,3 +1,15 @@
+/* General rules */
+
+input.form-control {
+	background-color: #181818;
+	color: #96BED1;
+}
+
+input.form-control:focus {
+	background-color: #0E0E0E;
+	color: #50C5FD;
+}
+
 html {
 	height: 100%;
 }
@@ -17,6 +29,7 @@ footer {
 	width: 100%;
 	padding: 20px;
 }
+
 
 .splash {
 	padding-bottom: 80px;
@@ -41,4 +54,27 @@ footer {
 
 .splash > .header {
 	padding-top: 8px;
+}
+
+/* modal */
+.modal-content {
+	background-color: #111;
+}
+
+.modal-header, .modal-footer {
+	background-color: #181818;
+	border: none;
+}
+
+.modal-body {
+	margin-bottom: 10px;
+}
+
+.modal-header {
+	box-shadow: 0px 1px 2px #000;
+}
+
+.modal-footer {
+	margin: 0;
+	box-shadow: 0px -1px 2px #000;
 }

@@ -103,9 +103,9 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 							<div data-role="page">
 								<form onSubmit={this.onNameSubmit}>
 									<label class="control-label" for="party-name-input">Choose a cool name for your party :</label>
-									<div class={'control-group '+(this.state.error != null ? 'error' : '')}>
+									<div class={'control-group '+(this.state.error != null ? 'text-danger' : '')}>
 										<div class="controls">
-											<input type="text" id="party-name-input" ref="nameInput" />
+											<input type="text" id="party-name-input" class="form-control" ref="nameInput" />
 											<span class="help-inline">{this.state.error}</span>
 										</div>
 									</div>
@@ -119,10 +119,10 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 											<p>Your gusets can now access this party using one of the following method : </p>
 										</div>
 									</div>
-									<div class="row-fluid">
+									<div class="row">
 										<div class="col-5">
 											<p>Let them scan this code</p>
-											<img src="img/qr.jpg" />
+											<img class="img-responsive" src="img/qr.jpg" />
 										</div>
 										<div class="col-2">
 											<p>OR</p>
@@ -131,7 +131,7 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 											<p></p>
 											<div class="mobile-prez">
 												<p class="mobile-prez-text" data-role="mobile-text"></p>
-												<img class="mobile-prez-image" src="img/mobile.png" />
+												<img class="img-responsive" src="img/mobile.png" />
 											</div>
 										</div>
 									</div>

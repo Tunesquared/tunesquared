@@ -8,16 +8,18 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 
 	function FakePlayer(song, element, ready) {
 
-		// Mandatory : must save the song as this.song !
-		this.song = song;
-		this.el = element;
+		setTimeout(function () {
+			// Mandatory : must save the song as this.song !
+			this.song = song;
+			this.el = element;
 
-		this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
-		this._interval = null;
-		this._currentTime = 0;
-		this._state = 'paused';
+			this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
+			this._interval = null;
+			this._currentTime = 0;
+			this._state = 'paused';
 
-		ready(null, this);
+			ready(null, this);
+		}.bind(this), 1);
 	}
 
 	/* Events :
@@ -32,14 +34,14 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	FakePlayer.sourceName = 'fake';
 
 	/* Returns a string with error explanation if there is a compatibility issue. */
-	FakePlayer.checkCompatibility = function () {	};
+	FakePlayer.checkCompatibility = function () {};
 
 	// Controls :
 
 	FakePlayer.prototype.play = function () {
 		this._state = 'playing';
-		if(this._interval == null) {
-			this._interval = setInterval(this.updateTime.bind(this) , 1000);
+		if (this._interval == null) {
+			this._interval = setInterval(this.updateTime.bind(this), 1000);
 			this.trigger('play');
 		}
 	};
@@ -64,7 +66,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	};
 
 	// Volume 0 - 100
-	FakePlayer.prototype.setVolume = function () { };
+	FakePlayer.prototype.setVolume = function () {};
 
 	// Seeks to time in msecs
 	FakePlayer.prototype.seekTo = function (time) {
@@ -113,12 +115,13 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 
 	/* function to make it like it's random but have the same
 	results accross multiple executions */
+
 	function pseudoRandom(str, min, max) {
 		min = min || 0;
 		max = max || 10;
 		var mod = max - min;
 		var res = 0;
-		for (var i = 0 ; i < str.length ; i++) {
+		for (var i = 0; i < str.length; i++) {
 			res = (res + str.charCodeAt(i)) % mod;
 		}
 		return res + min;

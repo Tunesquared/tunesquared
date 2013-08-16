@@ -82,9 +82,9 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 			if (this.props.player != null && this.state.showPlayer === true){
 				playerControls = [
 					(this.props.player.getState() === 'playing') ?
-						<a class="btn btn-primary" onClick={this.onPause}><i class="icon-pause"></i></a>
-					: <a class="btn btn-primary" onClick={this.onPlay}><i class="icon-play"></i></a>,
-					<a class="btn btn-default" onClick={this.onSkip}><i class="icon-fast-forward"></i></a>
+						<a class="btn btn-primary" onClick={this.onPause} key={'play'}><i class="icon-pause"></i></a>
+					: <a class="btn btn-primary" onClick={this.onPlay} key={'play'}><i class="icon-play"></i></a>,
+					<a class="btn btn-default" onClick={this.onSkip} key={'pause'}><i class="icon-fast-forward"></i></a>
 				];
 			}
 

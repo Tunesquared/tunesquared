@@ -76,7 +76,7 @@ define([
 
 		componentDidUpdate: function () {
 			var affix = $(this.refs.affix.getDOMNode());
-			affix.affix({
+			/*affix.affix({
 		    offset: {
 		      top: affix.offset().top
 		    , bottom: function () {
@@ -84,7 +84,7 @@ define([
 		        return 0;//(this.bottom = $('.bs-footer').outerHeight(true))
 		      }
 		    }
-		  });
+		  });*/
 		},
 
 		onNewCurrentPlayer: function (player) {
@@ -129,6 +129,9 @@ define([
 							</div>
 						</div>
 					</div>
+					<footer>
+						Blabla
+					</footer>
 	        {dialog}
 	      </div>
       );

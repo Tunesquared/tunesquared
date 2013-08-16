@@ -13,7 +13,7 @@ body {
 .navbar input {
 	background-color: #181818;
 	color: #96BED1;
-	width: 70%;
+	width: 50%;
 	transition-property: width;
 	transition-duration: 300ms;
 }
@@ -21,7 +21,7 @@ body {
 .navbar input:focus {
 	background-color: #0E0E0E;
 	color: #50C5FD;
-	width: 100%;
+	width: 90%;
 }
 
 .navbar input::-webkit-input-placeholder { color: #37525F; }
@@ -95,4 +95,10 @@ body {
 .navbar-player .btn {
 	border-radius: 0;
 	margin: 5px;
+}
+
+/* Playlist */
+
+.playlist-item {
+	height: 30px;
 }
