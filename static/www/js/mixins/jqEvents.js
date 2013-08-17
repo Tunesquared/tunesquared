@@ -4,8 +4,6 @@ define(['underscore', 'jquery'], function(_, $){
 
 	var jqEvents = {
 		componentDidMount: function() {
-			console.log('mounted');
-
 			var root =  $(this.getDOMNode());
 
 			for(var i in this.jqEvents){

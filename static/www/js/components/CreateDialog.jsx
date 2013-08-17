@@ -20,13 +20,25 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 		// React component method
 
 		componentDidMount: function(){
-			this.node = $(this.getDOMNode()).modal()
-			.on('hide', this.props.onHide)
+			this.node = $(this.getDOMNode()).modal('show')
+			.on('hide.bs.modal', this.onHide)
 			.wizard();
 		},
 
+		onHide: function() {
+			if (!this._hiding){
+				this._hiding = true;
+				this.props.onHide();
+				this._hiding = false;
+		 	}
+		},
+
 		componentWillUnmount: function(){
-			//this.node.modal('hide');
+			if (!this._hiding){
+				this._hiding = true;
+				this.node.modal('hide');
+				this._hiding = false;
+			}
 		},
 
 		getInitialState: function(){
