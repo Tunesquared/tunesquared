@@ -102,7 +102,7 @@ define([
 
 			var main;
 			if (this.state.main === 'home')
-				main = <HomeView />;
+				main = <HomeView party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
 
@@ -121,7 +121,7 @@ define([
 						<div class="container">
 							<div class="col-4" >
 								<div ref="affix">
-									<Playlist playlist={currentParty.get('playlist')}/>
+									<Playlist party={currentParty}/>
 								</div>
 							</div>
 							<div class="col-8 main-contents">
@@ -130,7 +130,9 @@ define([
 						</div>
 					</div>
 					<footer>
-						Blabla
+						<div class="container">
+							Blabla
+						</div>
 					</footer>
 	        {dialog}
 	      </div>

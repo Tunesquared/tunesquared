@@ -9,6 +9,13 @@ define(function(){
 			};
 		},
 
+		onceTrue: function() {
+			var mem = 0;
+			return function(){
+				return !(mem++);
+			}
+		},
+
 		guid: (function(){
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
