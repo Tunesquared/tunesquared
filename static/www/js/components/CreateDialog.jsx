@@ -128,7 +128,7 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 								<div class="container-fluid">
 									<div class="row-fluid">
 										<div class="col-12">
-											<p>Your gusets can now access this party using one of the following method : </p>
+											<p>Your guests can now access this party using one of the following method : </p>
 										</div>
 									</div>
 									<div class="row">
