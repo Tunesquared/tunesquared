@@ -25,14 +25,6 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 			.wizard();
 		},
 
-		onHide: function() {
-			if (!this._hiding){
-				this._hiding = true;
-				this.props.onHide();
-				this._hiding = false;
-		 	}
-		},
-
 		componentWillUnmount: function(){
 			if (!this._hiding){
 				this._hiding = true;
@@ -48,6 +40,14 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 		},
 
 		// Custom methods
+
+		onHide: function() {
+			if (!this._hiding){
+				this._hiding = true;
+				this.props.onHide();
+				this._hiding = false;
+			}
+		},
 
 		onWizardComplete: function(){
 			this.node.modal('hide');
