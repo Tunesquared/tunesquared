@@ -27,7 +27,7 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
     tagName: 'li',
 
     events: {
-      'click [ref=openmenu]': 'onClick', //ref
+      'vclick [ref=openmenu]': 'onClick', //ref
       //'click a ': 'onClick',
       'click .yes': 'onYes',
       'click .no': 'onNo'
@@ -173,20 +173,20 @@ define(['jquery', 'text!templates/playlistsong.jst', 'text!templates/currentsong
 
       }, this));
 
+      if (this.party.get('currentSong') != null) {
+        var $currsong = new CurrentSongView({
+          model: this.party.get('currentSong'),
+        });
+
+        $currsong.render();
 
 
-      var $currsong = new CurrentSongView({
-        model: this.party.get('currentSong'),
-      });
 
-      $currsong.render();
-
-      console.log('render current song');
-
-      //this.$('#dynamicFieldList').prepend($currsong.$el.contents());
-      this.$('#currsong').prepend($currsong.$el.contents());
-      this.$('#currsong').find('div[data-role=collapsible]').collapsible();
-      //$('#currlist').listview('refresh');
+        //this.$('#dynamicFieldList').prepend($currsong.$el.contents());
+        this.$('#currsong').prepend($currsong.$el.contents());
+        this.$('#currsong').find('div[data-role=collapsible]').collapsible();
+        //$('#currlist').listview('refresh');
+      }
       this.$('#dynamicFieldList').listview('refresh');
 
 
