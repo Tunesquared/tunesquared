@@ -60,6 +60,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
       if(errors){
         console.error('Compatibility errors');
         console.log(errors);
+        this.props.onError(errors);
       }
 
       $(this.getDOMNode()).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);

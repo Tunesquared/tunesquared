@@ -102,3 +102,26 @@ body {
 .playlist-item {
 	height: 30px;
 }
+
+/* error message */
+.error .modal-content {
+	background-color: #111;
+}
+
+.error .modal-header, .modal-footer {
+	background-color: #181818;
+	border: none;
+}
+
+.error .modal-body {
+	margin-bottom: 10px;
+}
+
+.error .modal-header {
+	box-shadow: 0px 1px 2px #000;
+}
+
+.error .modal-footer {
+	margin: 0;
+	box-shadow: 0px -1px 2px #000;
+}

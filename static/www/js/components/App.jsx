@@ -15,6 +15,7 @@ define([
 	'components/Home',
 	'components/Search',
 	'components/Navbar',
+	'components/ErrorDialog',
 
 	'bootstrap/affix'
 ], function(
@@ -30,7 +31,8 @@ define([
 	PartyInfo,
 	HomeView,
 	SearchView,
-	Navbar
+	Navbar,
+	ErrorDialog
 ){
 
 	var App = React.createClass({
@@ -93,19 +95,36 @@ define([
 			});
 		},
 
+		onPlayerError: function (errs){
+			var errors = [];
+			errs.forEach(function(err){
+				errors.push ({
+					type : err.type,
+					message : err.err
+				});
+			});
+			this.setState({
+				error : errors
+			});
+		},
+
 		render: function () {
 
 			var session = this.props.session;
 			var currentParty = session.get('party') || new Party();
 
-			var dialog;
+			var dialog = [];
 
 			var main;
 			if (this.state.main === 'home')
 				main = <HomeView />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
-
+			console.log(this.state);
+			if (this.state.error)
+				this.state.error.forEach(function(error){
+				dialog.push (<ErrorDialog type={error.type} message={error.message} />);
+			});
 
 			return (
 				<div>
@@ -114,7 +133,8 @@ define([
 						<div class="container">
 							<Player
 								party={ currentParty }
-								onNewCurrentPlayer={this.onNewCurrentPlayer} />
+								onNewCurrentPlayer={this.onNewCurrentPlayer}
+								onError={this.onPlayerError}/>
 						</div>
 					</div>
 					<div class="contents">
@@ -132,9 +152,9 @@ define([
 					<footer>
 						Blabla
 					</footer>
-	        {dialog}
-	      </div>
-      );
+					{dialog} 
+				</div>
+			);
 		}
 	});
 
