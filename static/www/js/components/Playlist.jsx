@@ -23,7 +23,7 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 			var isNext = utils.onceTrue();
 			var party = this.props.party;
 			var list = this.props.party.get('playlist').map(function(song){
-				if (song.id === party.get('currentSong').id) return;
+				if (party.get('currentSong') != null && song.id === party.get('currentSong').id) return;
 
 				return <PlaylistItem
 						pos={++i}
