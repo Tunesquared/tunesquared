@@ -20,7 +20,7 @@ define(['jquery',
       tagName: 'li',
 
       events: {
-        'click [ref=addToPlaylist]': 'onClick', //ref
+        'vclick [ref=addToPlaylist]': 'onClick', //ref
         //'click a ': 'onClick',
         'click .addsong': 'AddSong',
         'click .close2': 'Close'
