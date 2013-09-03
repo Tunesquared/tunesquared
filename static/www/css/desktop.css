@@ -1,7 +1,24 @@
 @import "/lib/slider/css/slider.css";
 
+html {
+	height: 100%;
+}
+
 body {
 	padding-top: 50px;
+	/* Allows footer to stick to the bottom of the page */
+	position: relative;
+	/* Makes some room for the footer */
+	padding-bottom: 80px;
+	min-height: 100%;
+}
+footer {
+
+	background-color: #12152B;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 20px;
 }
 
 .navbar {
@@ -37,16 +54,12 @@ body {
 .navbar input:focus:-ms-input-placeholder { color: #1E536D; }
 
 .navbar-search {
-	margin-top: 5px;
+	margin-top: 6px;
 }
 
 .top {
 	padding: 20px 0px;
 	background-color: #181818;
-}
-
-.main-contents {
-	border-left: 1px #181818 solid;
 }
 
 .affix {
@@ -99,8 +112,33 @@ body {
 
 /* Playlist */
 
-.playlist-item {
-	height: 30px;
+#playlist {
+	margin-top: 20px;
+}
+
+.playlist-item .remove-btn {
+	position: absolute;
+	right: 5px;
+	top: 3px;
+	cursor: pointer;
+	color: #393939;
+}
+
+.playlist-item .remove-btn:hover {
+	color: #ccc;
+}
+
+.playlist-item h3 {
+	margin-top: 0;
+}
+
+/* Search page */
+.media.song-vignette .media-body {
+	min-width: 100px;
+}
+
+.media.song-vignette {
+	margin-bottom: 30px;
 }
 
 /* error message */

@@ -7,6 +7,8 @@ var SCROLL_THRESHOLD_LOAD = 50;
 // Number of items loaded each time UI fetches some results (should fill the screen)
 var LOAD_CHUNK_SIZE = 16;
 
+var VIGNETTES_PER_ROW = 3;
+
 
 define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource', 'components/SongVignette'],
 	function(_, $, React, SearchAggregator, YoutubeSource, SongVignette){
@@ -22,7 +24,7 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 		},
 
 		componentDidMount: function () {
-			this.mainContents = $('#main-contents'); // Keeps a local ref to main content for scrolling purpose
+			this.mainContents = $(window); // Keeps a local ref to main content for scrolling purpose
       this.mainContents.bind('scroll', this.checkScroll);
 
 			this.searchAggregator = new SearchAggregator({
@@ -31,7 +33,7 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
       });
 
       this.searchAggregator.addSrc(YoutubeSource);
-      // this.searchAggregator.addSrc('fakesrc');
+      //this.searchAggregator.addSrc('fakesrc');
 
       this.initQuery();
 		},
@@ -113,7 +115,7 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 		checkScroll: function (results) {
 			var el = $(this.getDOMNode());
 			var offset = (el.height() - this.mainContents.scrollTop() - this.mainContents.height());
-			if(offset < SCROLL_THRESHOLD_LOAD) {
+			if (offset < SCROLL_THRESHOLD_LOAD) {
 				this.fetchNewResults();
 			}
 		},
@@ -126,30 +128,30 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			var i = 0, j = 0, vignettes = [];
 			var results = this.state.results;
 
-			for(i = 0 ; i*4 < results.length ; i ++){
+			for(i = 0 ; i*VIGNETTES_PER_ROW < results.length ; i ++){
 				var row = [];
-				for(j = 0 ; i*4 + j < results.length && j < 4 ; j++){
-					row.push(<SongVignette onClick={this.onChooseSong} key={j} song={results[i*4+j]} />);
+				for(j = 0 ; i*VIGNETTES_PER_ROW + j < results.length && j < VIGNETTES_PER_ROW ; j++){
+					row.push(<div class="col-4"><SongVignette onClick={this.onChooseSong} key={j} song={results[i*VIGNETTES_PER_ROW+j]} /></div>);
 				}
-				vignettes.push(<div class="row-fluid" key={i}>{row}</div>);
+				vignettes.push(<div class="row" key={i}>{row}</div>);
 			}
 
 			var loader = (this.state.loading) ?
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span1 offset5">
 							<img src="img/ajax-loader.gif" title="loading" alt="loading" />
 						</div>
 					</div> : '';
 
 			var endSign = (this.state.end) ?
-					<div class="row-fluid">
+					<div class="row">
 						<div class="span2 offset5">
 							{(this.state.results.length === 0) ? 'No results found' : 'no more results' }
 						</div>
 					</div> : '';
 
 			return (
-				<div class="container-fluid">
+				<div>
 					<h3>Search results for "{this.props.query}"</h3>
 					{vignettes}
 					{loader}

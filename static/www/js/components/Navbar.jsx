@@ -93,7 +93,7 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 					<div class="container">
 						<div class="row">
 						<div class="col-1">
-					  <a class="navbar-brand" href="#">Tunes²</a>
+					  <a class="navbar-brand" href="#">Tune²</a>
 					  </div>
 
             <div class="col-4">
