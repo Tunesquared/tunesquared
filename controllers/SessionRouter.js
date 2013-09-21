@@ -5,8 +5,6 @@ var Framework = require('../framework');
 var Party = require('../models/Party');
 
 
-// Ensures the client has a properly populated session
-
 module.exports = new Framework.Router({
 
   'api/session': function (req, res) {
