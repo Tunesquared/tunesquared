@@ -12,6 +12,31 @@ var Song = require('../models/Song');
 
 
 new framework.Router({
+
+	/* Direct access to a party */
+	'party/:name': function (req, res) {
+		Party.findOne({
+      name: req.param('name')
+    }, function (err, mod) {
+
+      res.setHeader('Content-Type', 'application/json');
+      if (err) {
+        res.send('{"error": "' + err + '"}');
+      } else if (mod === null) {
+        res.send(JSON.stringify({
+          error: 'Cannot find party ' + req.param('name')
+        }));
+      } else {
+
+        req.session.partyId = mod._id;
+
+        req.session.save(function () {
+          res.redirect('/m');
+        });
+      }
+    });
+	},
+
 	'post:api/playlistAddSong': function (req, res) {
 		var song = new Song(req.body.song);
 

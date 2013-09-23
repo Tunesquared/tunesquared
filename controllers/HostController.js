@@ -189,6 +189,8 @@ framework.Controller({
 		authorization : anyone who's in the party
 	*/
 	'subscribeToParty': function (sock, data, ack) {
+		if (!ack) ack = function(){};
+
 		sock.session(function (session) {
 
 			// Authorization
