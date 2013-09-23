@@ -1,3 +1,20 @@
+#build
+React view must be built before starting the app. You will need grunt-cli for all grunt tasks :
+`npm install -g grunt-cli`
+Then run `grunt react` every time you want to compile react views (be sure to `npm install` before running any grunt task).
+
+To compile from ST2:
+Tools -> build System -> New Build system...
+copy this JSON :
+```JSON
+{
+  "cmd": ["grunt.cmd", "react"],
+  "selector": "source.js"
+}
+```
+To build on save, install SublimeOnSaveBuild (available w/ Package Control).
+Then Preferencees -> Package Settings -> SublimeOnSaveBuild, copy the contents of "Settings - Default" to "Settings - User" and add jsx to the list of extentions in "filename_filter".
+
 # Development :
 *Follow these guidelines when developping on this project*
 ## Style
