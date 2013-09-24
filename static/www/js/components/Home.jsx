@@ -44,11 +44,6 @@ define(['react', 'jquery', 'underscore', 'components/SongVignette'], function(Re
 		},
 
 		render: function(){
-
-			var sugs = _.map(this.state.suggestions, function(sug) {
-				return ;
-			});
-
 			var suggestions = [];
 			for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
 				var row = [];
@@ -61,7 +56,7 @@ define(['react', 'jquery', 'underscore', 'components/SongVignette'], function(Re
 				suggestions.push(<div class="row">{row}</div>);
 			}
 
-			return (
+			return ( 
 				<div>
 					<h1>Welcome to your party !</h1>
 					<p class="lead">Use the search bar to add your first songs or pick one of our suggestions</p>

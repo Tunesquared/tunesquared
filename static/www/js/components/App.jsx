@@ -16,7 +16,7 @@ define([
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
-
+	'components/QRCode',
 	'bootstrap/affix'
 ], function(
 	React,
@@ -32,7 +32,8 @@ define([
 	HomeView,
 	SearchView,
 	Navbar,
-	ErrorDialog
+	ErrorDialog, 
+	QRCode
 ){
 
 	var App = React.createClass({
@@ -115,6 +116,12 @@ define([
 
 			var dialog = [];
 
+			var QRCodeURL = 
+				"http://"
+				+ window.location.host
+				+ "/party/"
+				+ encodeURIComponent("mypartyname");
+
 			var main;
 			if (this.state.main === 'home')
 				main = <HomeView party={currentParty} />;
@@ -138,6 +145,10 @@ define([
 						</div>
 					</div>
 					<div class="contents">
+						<div class="container">
+							<QRCode data={ QRCodeURL} />
+						</div>
+
 						<div class="container">
 							<div class="col-4" >
 								<div ref="affix">
