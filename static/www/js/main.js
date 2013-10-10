@@ -20,15 +20,11 @@ requirejs.config({
     'components': 'components-build',
     'search': '../lib/search',
     'swfobject': '../lib/swfobject',
-    'json': '../lib/json3', 
+    'json': '../lib/json3',
     'qrcode': '../lib/qrcode.min'
   },
 
   shim: {
-    'wizard': {
-      deps: ['jquery']
-    },
-
     'backbone': {
       //These script dependencies should be loaded before loading
       //backbone.js

@@ -2,25 +2,25 @@
 // ==============
 
 // Includes file dependencies
-define([ "jquery", "underscore", "../models/Party", "backbone", ], function( $, _, PartyModel ) {
-
+define([ 'jquery', 'underscore', '../models/Party', 'backbone', 'backbone'], function( $, _, PartyModel, Backbone ) {
+    'use strict';
     // The Model constructor
     var Model = Backbone.Model.extend( {
         urlRoot: 'api/session',
-        idAttribute: "_id",
+        idAttribute: '_id',
         defaults: {
-            party: null //((Math.random() > 0.5) ? null : new PartyModel({name: "testparty", playlist: []}))
+            party: null
         },
 
         joinPartyByName: function(name, callback){
-            console.log("joinPartyByName");
+            console.log('joinPartyByName');
             // Fetches party id from it's name
             $.getJSON('api/joinPartyByName/'+ encodeURIComponent(name))
 
             // In case of ajax success :
             .success($.proxy(function(data){
 
-                // The server may still have encountered an internal error (typically "no party with such name")
+                // The server may still have encountered an internal error (typically 'no party with such name')
                 if(data.error){
                     callback(data.error);
                 }
@@ -28,14 +28,14 @@ define([ "jquery", "underscore", "../models/Party", "backbone", ], function( $, 
                 else {
                     var party = new PartyModel(data);
 
-                    this.set("party", party);
+                    this.set('party', party);
                     callback(null);
                 }
             }, this))
 
             // In case of error :
-            .error(function(data){
-                callback("Sth went wrong...");
+            .error(function(/*data*/){
+                callback('Sth went wrong...');
             });
         },
 
@@ -48,7 +48,7 @@ define([ "jquery", "underscore", "../models/Party", "backbone", ], function( $, 
                     if(callback) callback(null);
                 })
                 .error(function(){
-                    if(callback) callback("Network error");
+                    if(callback) callback('Network error');
                 });
 
         },

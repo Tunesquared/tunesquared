@@ -32,7 +32,7 @@ define([
 	HomeView,
 	SearchView,
 	Navbar,
-	ErrorDialog, 
+	ErrorDialog,
 	QRCode
 ){
 
@@ -75,6 +75,8 @@ define([
           Backbone.history.start();
         }
       });
+
+      window.app = this;
 		},
 
 		componentDidUpdate: function () {
@@ -83,7 +85,7 @@ define([
 		    offset: {
 		      top: affix.offset().top
 		    , bottom: function () {
-		    		// Footer height to stop the affix at page bottom
+						// Footer height to stop the affix at page bottom
 		        return 0;//(this.bottom = $('.bs-footer').outerHeight(true))
 		      }
 		    }
@@ -116,7 +118,7 @@ define([
 
 			var dialog = [];
 
-			var QRCodeURL = 
+			var QRCodeURL =
 				"http://"
 				+ window.location.host
 				+ "/party/"
@@ -165,7 +167,7 @@ define([
 							Blabla
 						</div>
 					</footer>
-					{dialog} 
+					{dialog}
 				</div>
 			);
 		}

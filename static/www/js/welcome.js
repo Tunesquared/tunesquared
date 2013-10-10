@@ -5,15 +5,14 @@
 'use strict';
 
 requirejs.config({
-    baseUrl: 'js',
     paths: {
         'socket.io': '../socket.io/socket.io',
-        'underscore': '/lib/underscore',
-        'backbone': '/lib/backbone',
-        'bootstrap': '/lib/bootstrap/js',
-        'jquery': '/lib/jquery',
-        'wizard': '/lib/wizard',
-        'react': '/lib/react',
+        'underscore': '../lib/underscore',
+        'backbone': '../lib/backbone',
+        'bootstrap': '../lib/bootstrap/js',
+        'jquery': '../lib/jquery',
+        'wizard': '../lib/wizard',
+        'react': '../lib/react',
         'components': 'components-build'
     },
 

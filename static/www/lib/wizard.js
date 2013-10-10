@@ -3,7 +3,15 @@
  */
 
 /* jshint undef: false, strict: false, eqnull: true */
-(function ($) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     var buttonNames = ['prev', 'done', 'next', 'cancel'];
     // Private methods
     function showPage(ctx) {
@@ -174,4 +182,4 @@
         }
     });
 
-})(jQuery);
+}));
