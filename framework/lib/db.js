@@ -1,5 +1,6 @@
 
 var mongoose = require('mongoose');
+var config = require('../../config.js');
 
 var errorCbs = [];
 var openCbs = [];
@@ -9,7 +10,7 @@ module.exports = {
     connect: function(cb){
         openCbs.push(cb);
 
-        mongoose.connect('mongodb://localhost/test');
+        mongoose.connect(config.mongo_uri);
 
         var db = mongoose.connection;
 
