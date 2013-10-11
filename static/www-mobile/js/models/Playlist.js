@@ -1,6 +1,6 @@
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, Song) {
+define(['$', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, Song) {
 
 	var add = Backbone.Collection.prototype.add;
 

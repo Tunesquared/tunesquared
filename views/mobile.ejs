@@ -1,157 +1,100 @@
 <!DOCTYPE html>
-<html class="no-js ui-mobile-rendering" lang="en">
-    <head>
-        <title>Tunesquared - vote for your playlist !</title>
+<html lang="en">
+  <head>
+    <title>Tunesquared - vote for your playlist !</title>
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-rc.1/jquery.mobile-1.3.0-rc.1.min.css" />
-        <!--<link rel="stylesheet" href="/m/css/themes/green.min.css" />-->
-        <link rel="stylesheet" href="/m/css/themes/blue.min.css" />
-        <link rel="stylesheet" href="/m/css/mstyle.css" />
+    <link rel="stylesheet" type="text/css" href="/m/lib/bootswatch/cyborg/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+    <link rel="stylesheet" href="/m/css/style.css" />
 
-        <script data-main="/m/js/main" src="lib/require.js"></script>
+    <script data-main="/m/js/main" src="lib/require.js"></script>
 
-    </head>
+  </head>
 
-  <!-- HomePage - Join a Party -->
+  <body>
+    <!-- Default content on page load
+      <img id="logo" src="#" alt="[Awesome logo]" title="brand" />
+    -->
 
-    <body>
-        <div id="home" data-role="page" data-title="Welcome" data-theme="a">
-            <div data-role="header" data-theme="a" >
-            <center><h2>Tune²</h2></center>
-        </div><!-- /header -->
+    <div id="app">
 
-            <div data-role="content" data-theme="a">
-                <!-- Make a login page, just put in party name -->
+    </div>
 
-                <form action="join">
-                    <input type="text" name="text-join" id="text-join" value="" placeholder="Party_ID">
-                    <input type="submit" value="Join playlist!" />
-                </form>
-            </div><!-- /content -->
+    <!-- -->
+    <script type="text/template" id="partyTemplate">
+      <!-- -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="navbar-header">
+            <button class="navbar-toggle" type="button" id="open-menu">
+              <span class="icon-reorder"></span>
+            </button>
+            <div class="navbar-search">
+              <button type="button" >
+                <span class="icon-search"></span>
+              </button>
+              <input type="text" />
+            </div>
+            <a href="../" class="navbar-brand brand-offset">My awesome party</a>
+          </div>
+        </nav>
 
-            <div data-role="footer" data-theme="a" data-position="fixed" class="ui-btn-active ui-state-persist" >
-            <center><p>tunesquared.com</p></center>
-
-            </div><!-- /footer -->
+        <div class="side-menu">
+          <div class="menu">
+            <a class="btn btn-default menu-close" ><span class="icon-chevron-left"></span> Back</a>
+            <ul class="nav nav-stacked">
+              <li class="active"><a href="#">Party</a></li>
+              <li><a href="#">Share</a></li>
+            </ul>
+          </div>
         </div>
 
-   <!-- PartyPage -> Playlist -->
+        <div class="col-xs-12">
+          lOREM IPSUM<br/>dolor sit
+        </div>
+      <!-- -->
+    </script>
+    <!-- -->
 
-        <div id="party" data-role="page" data-title="Party" data-theme="a">
-            <div data-role="header" data-theme="a">
-            <a href="#share" data-theme="b"  data-icon="bars" data-iconpos="left" data-corners="false" class="ui-btn-left btn-padd">Menu</a>
-            <center><img src="/m/img/logo4.png" width="60" hspace="15"/></center>
-            <!-- Do we need the refresh button? -->
-            <a href="#party" data-theme="b" data-icon="refresh" data-iconpos="right" data-corners="false" ref="refresh" class="ui-btn-right btn-padd">Refresh</a>
-
-        </div><!-- /header -->
-
-
-
-        <div data-role="content" data-theme="a">
-
-
-
-
-            <ul id="dynamicFieldList" data-role="listview" data-filter="true" data-icon="false" data-filter-placeholder="Add new songs and vote.." data-count-theme="a">
-
-            </ul>
-
-        </div><!-- /content -->
-
-        <div  data-theme="a" class="ui-btn-active" >
-            <center><p>tunesquared.com</p></center>
-
+    <!-- ->
+    <script type="text/template" id="joinTemplate">
+      <!---->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
+            <span class="icon-question"></span>
+          </button>
+          <a href="../" class="navbar-brand">Tune²</a>
         </div>
 
+        <div class="collapse navbar-help-panel">
+          <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <h2>What is this ?</h2>
+            <p class="lead">Tunesquared allows you to choose the music that is being played at some place or event.</p>
+            <p>If you want attend such event, <strong>ask someone for the party name</strong>, then <strong>type it in the text field</strong> below and start picking your favourite songs!</p>
+            <p>If you want to create such an event, please visit our <a href="/">main page</a>.<br />&nbsp;</p>
+          </div>
+        </div>
+      </nav>
 
 
-        <div data-role="footer" data-theme="a" data-position="fixed" id="currsong">
+      <div class="container center">
+        <h1>Welcome to tunesquared</h1>
+        <p class="lead">
+          Join a party and start choosing what you want to listen to.
+        </p>
 
-        </div><!-- /footer -->
-
-
-    </div>
-
-
-    <!-- Sharing page, QR-Code displayed, Option to share the link with whatsapp or sms (?) -->
-
-    <div data-role="page" id="share" data-theme="a">
-
-        <div data-role="header" data-theme="a">
-            <img src="/m/img/tunelarge2.png" width="120" hspace="15"/>
-        </div><!-- /header -->
-         <div data-role="header" data-theme="a">
-            <h1> Party_ID: <span ref="party-name"> </span> </h1>
-          </div><!-- /header -->
-
-          <div data-role="header" data-theme="a">
-            <h1> Current Song: <span ref="curr-song"> </span> </h1>
-          </div><!-- /header -->
-
-        <div data-role="content" data-theme="a">
-
-            <div id="qr-code">
-
-            </div>
-
-            <form action="leave">
-                <input type="submit" value="Leave Party">
-            </form>
-
-
-        </div><!-- /content -->
-        <div data-role="footer" data-theme="a" data-position="fixed">
-            <div data-role="navbar" data-iconpos="bottom">
-            <ul>
-                <li><a href="#party" data-icon="bars">Playlist</a></li>
-                <li><a href="#share" class="ui-btn-active ui-state-persist" data-icon="forward">Share URL</a></li>
-            </ul>
-            </div><!-- /navbar -->
-        </div><!-- /footer -->
-    </div>
-
-    <!-- Page, where you get if you hit the enter button in the filter on playlist-page, list of search results -->
-    <div data-role="page" id="search" data-theme="a">
-
-        <div data-role="header" data-theme="a">
-            <img src="/m/img/tunelarge2.png" width="120" hspace="15"/>
-
-        </div><!-- /header -->
-
-        <div data-role="content" data-theme="a">
-
-            <form >
-                <input type="search" name="search-1" id="search-1"  placeholder="Search something else.." value="" data-theme="c">
-                <!--<input id="addnew" type="button" value="Search"> -->
-            </form>
-        </br>
-        <div id="popups"> </div>
-            <div id="results">
-                <ul id="dynamicResults" data-role="listview" data-icon="plus" data-count-theme="c">
-                </ul>
-            </div>
-<!--
-            <div data-role="popup" id="popupBasic" data-position-to="origin" data-theme="a">
-                <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                   <p> Do you want to add this song to the playlist?</p>
-                <a data-role="button" class="Accept" data-theme="a">Yes</a>
-            </div>
- -->
-
-
-        </div><!-- /content -->
-        <div data-role="footer" data-theme="a" data-position="fixed">
-            <div data-role="navbar" data-iconpos="bottom">
-            <ul>
-                <li><a href="#party" data-icon="bars" class="ui-btn-active ui-state-persist">Playlist</a></li>
-            </ul>
-            </div><!-- /navbar -->
-        </div><!-- /footer -->
-    </div>
-
-    </body>
+        <form class="form" role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="partyNameInput" placeholder="Enter party name">
+          </div>
+          <button type="submit" class="btn btn-primary btn-large join-party-btn">Join this party!</button>
+        </form>
+      </div>
+      <!-- ->
+    </script>
+    <!-- -->
+  </body>
 </html>

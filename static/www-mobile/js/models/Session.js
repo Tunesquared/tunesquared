@@ -2,7 +2,7 @@
 // ==============
 
 // Includes file dependencies
-define([ 'jquery', 'underscore', '../models/Party', 'backbone', 'backbone'], function( $, _, PartyModel, Backbone ) {
+define([ '$', 'underscore', '../models/Party', 'backbone', 'backbone'], function( $, _, PartyModel, Backbone ) {
     'use strict';
     // The Model constructor
     var Model = Backbone.Model.extend( {

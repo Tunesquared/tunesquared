@@ -4,7 +4,7 @@
 // ==============
 
 // Includes file dependencies
-define(['jquery', 'backbone'], function ($, Backbone) {
+define(['$', 'backbone'], function ($, Backbone) {
 
     var voteTypes = ['Yes', 'No'];
 

@@ -3,7 +3,7 @@
 // ==============
 
 // Includes file dependencies
-define(['jquery', 'backbone', 'models/Playlist'], function ($, Backbone, Playlist) {
+define(['$', 'backbone', 'models/Playlist'], function ($, Backbone, Playlist) {
 
   // The Party constructor
   var Party = Backbone.Model.extend({
