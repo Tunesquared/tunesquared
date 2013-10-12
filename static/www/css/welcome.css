@@ -78,3 +78,28 @@ footer {
 	margin: 0;
 	box-shadow: 0px -1px 2px #000;
 }
+
+.demoline1 {
+	background-color: #3B78A8;
+	margin-right: 0px;
+	margin-left: 0px;
+	width: 100%;
+	padding: 20px;
+}
+
+.demoline2 {
+	background-color: #3BA8A2;
+	width: 100%;
+	padding: 20px;
+}
+
+.demoline3 {
+	background-color: #3BA86B;
+	width: 100%;
+	padding: 20px;
+}
+.demoline-title {
+	color: black;
+	text-align: center;
+}
+
