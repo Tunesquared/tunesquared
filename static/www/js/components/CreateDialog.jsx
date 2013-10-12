@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal', 'wizard'],
-	function(React, $, jqEvents/*, JSON*/){
+define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, 'bootstrap/modal', 'wizard'],
+	function(React, $, jqEvents, QR /*, JSON*/){
 
 	/* Maximum string length for party title. (see Party server model) */
 	var PARTY_TITLE_MAX_LEN = 32;
@@ -83,6 +83,13 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 						}
 						lock(true);
 					} else {
+						var QRCodeURL =
+							'http://'
+							+ window.location.host
+							+ '/party/'
+							+ encodeURIComponent(name);
+						new QR(this.refs.qrcode.getDOMNode(), QRCodeURL);
+						
 						lock();
 					}
 				}.bind(this));
@@ -134,7 +141,7 @@ define(['react', 'jquery', 'mixins/jqEvents'/*, TODO :'json'*/, 'bootstrap/modal
 									<div class="row">
 										<div class="col-5">
 											<p>Let them scan this code</p>
-											<img class="img-responsive" src="img/qr.jpg" />
+											<div ref="qrcode"></div>
 										</div>
 										<div class="col-2">
 											<p>OR</p>

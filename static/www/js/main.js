@@ -21,7 +21,7 @@ requirejs.config({
     'search': '../lib/search',
     'swfobject': '../lib/swfobject',
     'json': '../lib/json3',
-    'qrcode': '../lib/qrcode.min'
+    'qrgenerator': '../lib/qrcode.min'
   },
 
   shim: {
@@ -31,7 +31,8 @@ requirejs.config({
       deps: ['underscore', 'jquery'],
       //Once loaded, use the global 'Backbone' as the
       //module value.
-      exports: 'Backbone'
+      exports: 'Backbone', 
+
     },
     'underscore': {
       exports: '_'
@@ -39,10 +40,13 @@ requirejs.config({
 
     'swfobject': {
       exports: 'swfobject'
+    }, 
+
+    'qrgenerator': {
+      exports: 'QRCode'
     }
 
   }
 });
-
 
 require(['app']);

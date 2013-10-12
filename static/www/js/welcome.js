@@ -13,7 +13,8 @@ requirejs.config({
         'jquery': '../lib/jquery',
         'wizard': '../lib/wizard',
         'react': '../lib/react',
-        'components': 'components-build'
+        'components': 'components-build', 
+        'qrgenerator': '../lib/qrcode.min'
     },
 
     shim: {
@@ -32,6 +33,10 @@ requirejs.config({
         'underscore': {
             exports: '_'
         },
+
+        'qrgenerator': {
+            exports: "QRCode"
+        }
 
     }
 });
