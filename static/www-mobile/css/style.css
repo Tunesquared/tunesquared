@@ -99,7 +99,7 @@ body, html {
 }
 
 .side-menu {
-  position: absolute;
+  position: fixed;
   left: -500px;
   top: 0;
   width: 500px;
@@ -210,3 +210,49 @@ input[type="text"]:focus:-ms-input-placeholder { color: #1E536D; }
   min-width: 100px;
 }
 
+.playlist-song .thumbnail {
+  float: left;
+  margin-top: 6px;
+}
+
+.playlist-song .thumbnail > img {
+  height: auto;
+  width: 50px;
+}
+
+.playlist-song {
+  height: 80px;
+  padding: 10px;
+  border-bottom: 1px #222 solid;
+  background-color: #111;
+}
+
+.playlist-song:hover {
+  background-color: #222;
+}
+
+.playlist-song h2 {
+  padding: 18px 6px;
+  margin: 0;
+  font-size: 16pt;
+  white-space: nowrap;
+  margin-right: 100px;
+  overflow: hidden;
+}
+
+.playlist-song.search-result h2 {
+  margin-right: 55px;
+}
+
+.playlist-song .song-action {
+  margin: 10px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+}
+
+.playlist-song .vote-buttons > button {
+  padding: 4px 8px;
+  font-size: 12px;
+  height: 100%;
+}

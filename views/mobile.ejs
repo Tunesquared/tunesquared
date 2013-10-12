@@ -4,7 +4,7 @@
     <title>Tunesquared - vote for your playlist !</title>
 
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0," />
 
     <link rel="stylesheet" type="text/css" href="/m/lib/bootswatch/cyborg/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
@@ -33,7 +33,9 @@
               <button type="button" >
                 <span class="icon-search"></span>
               </button>
-              <input type="text" />
+              <form action="#">
+                <input type="text" />
+              </form>
             </div>
             <a href="../" class="navbar-brand brand-offset">My awesome party</a>
           </div>
@@ -50,11 +52,91 @@
         </div>
 
         <div class="content">
-          lOREM IPSUM<br/>dolor sit
+          <!-- songs here -->
+          <div class="playlist-song">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <div class="btn-group vote-buttons song-action">
+              <button type="button" class="btn btn-default btn-success"><i class="icon-thumbs-up"></i> 10</button>
+              <button type="button" class="btn btn-default btn-danger">20 <i class="icon-thumbs-down"></i></button>
+            </div>
+            <h2>AC/DC Back in black</h2>
+          </div>
+          <div class="playlist-song">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <div class="btn-group vote-buttons song-action">
+              <button type="button" class="btn btn-default btn-success"><i class="icon-thumbs-up"></i> 10</button>
+              <button type="button" class="btn btn-default btn-danger">20 <i class="icon-thumbs-down"></i></button>
+            </div>
+            <h2>AC/DC Back in black</h2>
+          </div>
+          <div class="playlist-song">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <div class="btn-group vote-buttons song-action">
+              <button type="button" class="btn btn-default btn-success"><i class="icon-thumbs-up"></i> 10</button>
+              <button type="button" class="btn btn-default btn-danger">20 <i class="icon-thumbs-down"></i></button>
+            </div>
+            <h2>AC/DC Back in black</h2>
+          </div>
+
+          <div class="col-xs-12">
+          <em>No more matches in playlist.</em>
+          <h3>Add a new song to the playlist:</h3>
+        </div>
+          <div class="playlist-song search-result">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <button type="button" class="btn btn-default song-action">Add</button>
+            <h2>AC/DC Back in black</h2>
+          </div>
+          <div class="playlist-song search-result">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <button type="button" class="btn btn-default song-action">Add</button>
+            <h2>AC/DC Back in black</h2>
+          </div>
+          <div class="playlist-song search-result">
+            <div class="thumbnail">
+              <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+            </div>
+            <button type="button" class="btn btn-default song-action">Add</button>
+            <h2>AC/DC Back in black</h2>
+          </div>
+
         </div>
       <!-- ->
     </script>
     <!-- -->
+
+    <script type="text/template" id="songTemplate">
+      <div class="playlist-song">
+        <div class="thumbnail">
+          <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+        </div>
+        <div class="btn-group vote-buttons song-action">
+          <button type="button" class="btn btn-default btn-success"><i class="icon-thumbs-up"></i> 10</button>
+          <button type="button" class="btn btn-default btn-danger">20 <i class="icon-thumbs-down"></i></button>
+        </div>
+        <h2>AC/DC Back in black</h2>
+      </div>
+    </script>
+
+    <script type="text/template" id="searchSongTemplate">
+      <div class="playlist-song search-result">
+        <div class="thumbnail">
+          <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+        </div>
+        <button type="button" class="btn btn-default song-action">Add</button>
+        <h2>AC/DC Back in black</h2>
+      </div>
+    </script>
 
     <!-- -->
     <script type="text/template" id="joinTemplate">
