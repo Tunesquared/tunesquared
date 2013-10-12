@@ -119,17 +119,17 @@ define([
 			var dialog = [];
 
 			var QRCodeURL =
-				"http://"
+				'http://'
 				+ window.location.host
-				+ "/party/"
-				+ encodeURIComponent("mypartyname");
+				+ '/party/'
+				+ encodeURIComponent(currentParty.get('name'));
 
 			var main;
 			if (this.state.main === 'home')
 				main = <HomeView party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
-			console.log(this.state);
+
 			if (this.state.error)
 				this.state.error.forEach(function(error){
 				dialog.push (<ErrorDialog type={error.type} message={error.message} />);
@@ -147,12 +147,13 @@ define([
 						</div>
 					</div>
 					<div class="contents">
-						<div class="container">
-							<QRCode data={ QRCodeURL} />
-						</div>
+
 
 						<div class="container">
-							<div class="col-4" >
+							<div class="col-4" ><br />
+								<div>
+									<QRCode data={ QRCodeURL} />
+								</div>
 								<div ref="affix">
 									<Playlist party={currentParty}/>
 								</div>
