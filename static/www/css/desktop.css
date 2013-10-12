@@ -173,3 +173,7 @@ footer {
 .qr-content {
 	padding-top: 20px;
 }
+
+.qrcode-container {
+	display: none;
+}
