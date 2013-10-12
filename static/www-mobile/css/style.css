@@ -55,15 +55,6 @@ body, html {
   border-width: 0 1px 0 0;
 }
 
-@media screen and (min-width: 768px) {
-  .navbar .navbar-search {
-    left: 0;
-  }
-
-  .navbar-brand {
-    margin-left: 0;
-  }
-}
 
 .navbar-header .navbar-search input {
   background: none;
@@ -154,6 +145,33 @@ body, html {
     width: 250px;
   }
 }
+@media screen and (min-width: 768px) {
+  .navbar .navbar-search {
+    left: 0;
+  }
+
+  .navbar-brand {
+    margin-left: 0;
+  }
+
+  .content {
+    margin-left: 250px;
+  }
+
+  .navbar-header .navbar-search input:focus {
+    background-color: #050505;
+    /*left: 0;*/
+    width: 100%;
+    border-bottom: 2px white solid;
+    z-index: 99;
+    opacity: 1;
+  }
+
+  .navbar-header .navbar-search input:focus {
+    width: 30%;
+  }
+}
+
 
 .center {
   text-align: center;
