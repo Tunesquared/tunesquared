@@ -5,8 +5,9 @@ requirejs.config({
     'search': '../lib/search',
     'text': '../lib/text',
     'zepto': '../lib/zepto',
-    'bs': '../lib/bootstrap/js',
-    'jquery': '../lib/zepto2jquery'
+    'bs': '../lib/bootstrapAMD/js',
+    'jquery': '../lib/zepto2jquery',
+    'mobileutils': '../lib/mobileutils/mobileutils'
   },
 
   shim: {
@@ -19,26 +20,20 @@ requirejs.config({
       exports: 'Backbone'
     },
     'underscore': {
+      deps: ['$'],
       exports: '_'
     },
 
     'zepto': {
       exports: 'Zepto'
-    },
-
-    'bs/collapse': {
-      deps: ['jquery', 'bs/transition'],
-      exports: '$'
-    },
-
-    'bs/transition': {
-      deps: ['jquery'],
-      exports: '$'
     }
   },
 
   map: {
     '*': {
+      '$': 'mobileutils'
+    },
+    'mobileutils': {
       '$': 'zepto'
     }
   }

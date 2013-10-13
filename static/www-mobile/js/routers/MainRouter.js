@@ -15,10 +15,11 @@ define([
     '../models/Song',
 
     // views
+    '../views/HomeView',
     '../views/PartyView'
   ],
 
-  function ($, Backbone, Session, PartyModel, SongModel) {
+  function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend({
@@ -34,7 +35,7 @@ define([
             if (Session.get('party') === null) {
               window.location.hash = '#';
             } else {
-              window.location.hash = '#party';
+              window.location.hash = '#party/' + Session.get('party').get('name');
             }
 
             Backbone.history.start();
@@ -45,25 +46,12 @@ define([
           }
         });
 
-/*
-        this.homeView = new HomeView({
-          el: '#home'
-        });
+        this.root = $('#app');
 
-        this.partyView = new PartyView({
-          el: '#party'
-        });
-
-        this.searchView = new SearchView({
-          el: '#search'
-        });
-
-        this.shareView = new ShareView({
-          el: '#share'
-        });*/
-
-
-
+        this.pages = {
+          home: new HomeView(),
+          party: new PartyView()
+        };
       },
 
       // Backbone.js Routes
@@ -77,16 +65,12 @@ define([
 
       // Home method
       home: function () {
-
+        this.changePage('home');
       },
 
       party: function () {
-        this.partyView.setParty(Session.get('party'));
-        $.mobile.changePage('#party', {
-          reverse: false,
-          changeHash: false
-        });
-        this.partyView.render();
+        this.pages.party.setParty(Session.get('party'));
+        this.changePage('party');
       },
 
       search: function (query) {
@@ -109,9 +93,12 @@ define([
           changeHash: false
         });
         this.shareView.render();
+      },
+
+      changePage: function(pageName) {
+        this.root.children().remove();
+        this.root.append(this.pages[pageName].$el);
       }
-
-
 
     });
 

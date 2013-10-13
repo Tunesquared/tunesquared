@@ -37,11 +37,9 @@ module.exports = new Framework.Router({
 
       res.setHeader('Content-Type', 'application/json');
       if (err) {
-        res.send('{"error": "' + err + '"}');
+        res.send(err, 400);
       } else if (mod === null) {
-        res.send(JSON.stringify({
-          error: 'Cannot find party ' + name
-        }));
+        res.send('Cannot find party ' + name, 400);
       } else {
 
         req.session.partyId = mod._id;
