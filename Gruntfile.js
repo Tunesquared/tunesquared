@@ -146,7 +146,8 @@ module.exports = function(grunt) {
           'img',
           'css',
           'lib/mobileutils',
-          'lib/bootswatch/cyborg'
+          'lib/bootswatch/cyborg',
+          'index.html'
         ]
       }
     }

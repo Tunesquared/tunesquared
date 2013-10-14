@@ -29,4 +29,34 @@ PartySchema.statics.voteNo = function (id, songId, cb) {
 	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1} }, cb || noop);
 };
 
+/* Changes a vote from 'yes to no' or 'no to yes'.
+params:
+  - id: Party id
+  - songId: song id
+  - val: 'yes_to_no' or 'no_to_yes'
+*/
+PartySchema.statics.changeVote = function(id, songId, val, cb) {
+  if (val === 'yes_to_no') {
+    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1, 'playlist.$.votes_yes': -1}}, cb || noop);
+  } else if (val === 'no_to_yes') {
+    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1, 'playlist.$.votes_no': -1}}, cb || noop);
+  } else {
+    throw new Error('Cannot change vote with: ' + val);
+  }
+};
+
+
+PartySchema.statics.mapVotes = function(data, votes) {
+  var song;
+
+  for(var i = 0 ; i < data.playlist.length ; i++) {
+    song = data.playlist[i];
+    if (song._id in votes) {
+      song.vote = votes[song._id];
+    }
+  }
+
+  return data;
+};
+
 module.exports = mongoose.model('party', PartySchema);

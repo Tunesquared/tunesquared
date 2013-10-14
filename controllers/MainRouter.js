@@ -22,10 +22,5 @@ module.exports = new Framework.Router({
 		} else {
 			res.render('welcome');
 		}
-	},
-
-	// Serves mobile app
-	'/m': function(req, res){
-		res.render('mobile');
 	}
 });

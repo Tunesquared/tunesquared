@@ -8,23 +8,35 @@ var Party = require('../models/Party');
 module.exports = new Framework.Router({
 
   'api/session': function (req, res) {
-    if (req.session.partyId) {
-
-      Party.findOne({
-        _id: req.session.partyId
-      }, function (err, mod) {
-
-        res.send({
-          party: mod,
-          publickey: req.session.publickey,
-          myParty: req.session.myParty
-        });
-
+    // First ensure session is well populated
+    if (!req.session.votes) {
+      req.session.votes = {};
+      req.session.save(function(/*err*/) {
+        proceed();
       });
     } else {
-      res.send({
-        party: null
-      });
+      proceed();
+    }
+
+    function proceed() {
+      if (req.session.partyId) {
+
+        Party.findOne({
+          _id: req.session.partyId
+        }, function (err, mod) {
+
+          res.send({
+            party: Party.mapVotes(mod.toObject(), req.session.votes),
+            publickey: req.session.publickey,
+            myParty: req.session.myParty
+          });
+
+        });
+      } else {
+        res.send({
+          party: null
+        });
+      }
     }
   },
 

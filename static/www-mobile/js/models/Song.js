@@ -6,7 +6,7 @@
 // Includes file dependencies
 define(['$', 'backbone'], function ($, Backbone) {
 
-    var voteTypes = ['Yes', 'No'];
+    var voteTypes = ['yes', 'no'];
 
     // The Model constructor
     var Model = Backbone.Model.extend({
@@ -14,7 +14,8 @@ define(['$', 'backbone'], function ($, Backbone) {
         idAttribute: '_id',
         defaults: {
           name: '',
-          votes: 0
+          votes: 0,
+          vote: 'none'
         },
 
         voteYes: function (callbacks) {
@@ -24,22 +25,33 @@ define(['$', 'backbone'], function ($, Backbone) {
           this.vote('no', callbacks);
         },
         vote: function (type, callbacks) {
-            callbacks = callbacks || {};
-          // yes -> Yes
-          type = type.charAt(0).toUpperCase() + type.substring(1);
+          callbacks = callbacks || {};
+
+          var previous = this.get('vote');
+          var self = this;
+
 
           if (voteTypes.indexOf(type) === -1) {
             throw new Error('Invalid vote method : ' + type);
           }
 
-          $.get('/api/vote' + type + 'Song/' + this.id)
-            .success(function () {
-              if(callbacks.success) callbacks.success();
-            })
-            .error(function () {
-              if(callbacks.error) callbacks.error();
-            });
+          // yes -> Yes
+          var uType = type.charAt(0).toUpperCase() + type.substring(1);
 
+
+          $.ajax({
+            url:'/api/vote' + uType + 'Song/' + this.id,
+            success: function () {
+              if(callbacks.success) callbacks.success();
+            },
+            error: function () {
+              self.set('vote', previous);
+              if(callbacks.error) callbacks.error();
+            }
+          });
+
+          //early update to give a feeling of responsiveness
+          this.set('vote', type);
         }
       });
 

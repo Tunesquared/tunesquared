@@ -282,4 +282,8 @@ rest
 		return;
 	}
 	cb(null, id);
+})
+
+.after('read', function (req, data, cb) {
+  cb(null, Party.mapVotes(data.toObject(), req.session.votes));
 });

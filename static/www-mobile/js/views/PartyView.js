@@ -4,62 +4,72 @@
   View where one can see a party state and vote for most trending songs.
   Also handles the side menu.
 */
-define(['$', 'backbone', 'underscore', 'bs/collapse'], function($, Backbone, _) {
+define([
+  // libs
+  '$', 'backbone', 'underscore',
+
+  // application deps
+  'views/SongView',
+
+  // implicit libs
+  'bs/collapse'
+
+  ], function($, Backbone, _, SongView) {
+
   'use strict';
 
   var PartyView = Backbone.View.extend({
 
-    events: {
-      'click #close-menu, .side-menu': 'onCloseMenu',
-      'click #open-menu': 'onOpenMenu'
-    },
-
     initialize: function() {
-
       // Binds event callbacks to be sure "this" refers to a HomeView instance
-      _.bindAll(this, 'onCloseMenu', 'onOpenMenu');
+      _.bindAll(this, 'addSong');
 
       this.template = _.template($('#partyTemplate').html());
-
-      this.render();
+      this.childViews = [];
     },
 
     render: function() {
+      // Renders only if there is a party
+      if (!this.party) return;
+
+      this.clean();
+
       this.$el.html(this.template({}));
 
-      this.menu = this.$('.side-menu');
+      this.songsList = this.$('#partySongs');
+
+      this.populateSongsList();
     },
 
-    setParty: function() {
+    populateSongsList: function() {
+      this.party.get('playlist').each(this.addSong);
+    },
+
+    addSong: function(s) {
+      var sv = new SongView({model: s});
+      this.songsList.append(sv.el);
+      sv.on('vote', this.party.fetch);
+
+      this.childViews.push(sv);
+    },
+
+    setParty: function(party) {
+      /* events stuff */
+      if (this.party) this.party.off(null, null, this);
+      party.on('sync', this.render, this);
+
+      this.party = party;
       this.render();
     },
 
-    onCloseMenu: function(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
+    clean: function() {
+      for (var i = 0 ; i < this.childViews.length ; i++) {
+        this.childViews[i].release();
+      }
 
-      this.menu.removeClass('active');
-    },
-
-    onOpenMenu: function(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-
-      this.menu.addClass('active');
+      this.childViews.length = 0;
     }
   });
 
   return PartyView;
-
-  // Vote buttons demo logic
-  /*
-  $('.vote-buttons button').click(function(){
-    if ($(this).hasClass('btn-success')) {
-      $(this).parent().children('.btn-info').removeClass('btn-info').removeAttr('disabled').addClass('btn-danger');
-      $(this).removeClass('btn-success').addClass('btn-info').attr('disabled', 'disabled');
-    } else if ($(this).hasClass('btn-danger')) {
-      $(this).parent().children('.btn-info').removeClass('btn-info').removeAttr('disabled').addClass('btn-success');
-      $(this).removeClass('btn-danger').addClass('btn-info').attr('disabled', 'disabled');
-    }
-  });*/
 });

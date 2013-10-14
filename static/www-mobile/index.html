@@ -24,7 +24,7 @@
     </div>
 
     <!-- -->
-    <script type="text/template" id="partyTemplate">
+    <script type="text/template" id="mainTemplate">
       <!-- -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="navbar-header">
@@ -39,7 +39,7 @@
                 <input type="text" />
               </form>
             </div>
-            <a href="../" class="navbar-brand brand-offset">My awesome party</a>
+            <a href="../" class="navbar-brand brand-offset partyName"></a>
           </div>
         </nav>
 
@@ -53,24 +53,27 @@
           </div>
         </div>
 
-        <div class="content">
-          <!-- songs here -->
+        <div id="contents">
 
         </div>
       <!-- -->
     </script>
     <!-- -->
 
+    <script type="text/template" id="partyTemplate">
+      <div id="partySongs"></div>
+    </script>
+
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
-          <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+          <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default btn-success"><i class="icon-thumbs-up"></i> 10</button>
-          <button type="button" class="btn btn-default btn-danger">20 <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-info' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-info' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
-        <h2>AC/DC Back in black</h2>
+        <h2><%= title %></h2>
       </div>
     </script>
 
