@@ -140,7 +140,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 									<div class="row">
 										<div class="col-5">
 											<p>Let them scan this code</p>
-											<QRCode data={this.QRCodeURL} />
+											
 										</div>
 										<div class="col-2">
 											<p>OR</p>
@@ -149,7 +149,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 											<p></p>
 											<div class="mobile-prez">
 												<p class="mobile-prez-text" data-role="mobile-text"></p>
-												<img class="img-responsive" src="img/mobile.png" />
+												<img class="img-responsive" src="img/mobile-updated.png" />
 											</div>
 										</div>
 									</div>
