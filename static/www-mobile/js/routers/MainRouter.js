@@ -50,6 +50,7 @@ define([
 
         this.root = $('#app');
 
+        this.currentPage = '';
         this.pages = {
           home: new HomeView(),
           main: new MainView()
@@ -61,11 +62,10 @@ define([
 
       // Backbone.js Routes
       routes: {
-        '': 'home',
-        'help': 'help',
         'party/:name': 'party',
         'share': 'share',
-        'search/:query': 'search'
+        'search/:query': 'search',
+        '*path': 'home'
       },
 
       // Home method
@@ -77,6 +77,7 @@ define([
       },
 
       party: function (name) {
+        var self = this;
         /* Ensures url matches app state:
           If party is not set or doesn't match url, we try to login to that party and go back to home page
           the latter will redirect back here if it succeeded otherwise login page will be shown
@@ -88,11 +89,26 @@ define([
             window.location.href = '#';
           });
         } else {
-          // If everything is fine, show party page
-          this.partyView.setParty(Session.get('party'));
-          this.pages.main.setContents(this.partyView.$el);
-          this.changePage('main');
+          // If everything is fine, updates party and shows it
+          $.mobile.loading('show');
+          Session.get('party').fetch({
+            success: function(){
+              $.mobile.loading('hide');
+              self.showParty();
+            },
+            error: function() {
+              $.mobile.loading('hide');
+              self.showParty();
+            }
+          });
         }
+      },
+
+      /* Actually shows party. This is not where party/:name lands because some verification is required beforehand */
+      showParty: function() {
+        this.partyView.setParty(Session.get('party'));
+        this.pages.main.setContents(this.partyView.$el);
+        this.changePage('main');
       },
 
       search: function (query) {
@@ -103,7 +119,7 @@ define([
           this.searchView.search(decodeURIComponent(query));
 
           this.changePage('main');
-          this.pages.main.setContents(this.searchView.$el);
+          this.pages.main.setContents(this.searchView.$el, 'search');
         }
       },
 
@@ -118,8 +134,11 @@ define([
       },
 
       changePage: function(pageName) {
-        this.root.children().remove();
-        this.root.append(this.pages[pageName].$el);
+        if (this.currentPage != pageName) {
+          this.root.children().remove();
+          this.root.append(this.pages[pageName].$el);
+          this.currentPage = pageName;
+        }
       }
 
     });

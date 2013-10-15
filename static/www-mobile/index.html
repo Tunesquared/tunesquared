@@ -32,11 +32,12 @@
               <span class="icon-reorder"></span>
             </button>
             <div class="navbar-search">
-              <button type="button" >
-                <span class="icon-search"></span>
-              </button>
-              <form action="#">
-                <input type="text" />
+
+              <form action="#" id="navbarSearch">
+                <button type="button" id="searchButton">
+                  <span class="icon-search"></span>
+                </button>
+                <input type="text" id="searchInput"/>
               </form>
             </div>
             <a href="../" class="navbar-brand brand-offset partyName"></a>
@@ -64,14 +65,20 @@
       <div id="partySongs"></div>
     </script>
 
+    <script type="text/template" id="searchTemplate">
+      <div id="partySongs"></div>
+      Or add a new song:
+      <div id="searchSongs"></div>
+    </script>
+
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
           <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-info' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-info' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-primary disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-primary disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
         <h2><%= title %></h2>
       </div>
@@ -80,10 +87,10 @@
     <script type="text/template" id="searchSongTemplate">
       <div class="playlist-song search-result">
         <div class="thumbnail">
-          <img src="http://i.ytimg.com/vi/pAgnJDJN4VA/1.jpg" alt="img"/>
+          <img src="<%= thumb %>" alt="img"/>
         </div>
-        <button type="button" class="btn btn-default song-action">Add</button>
-        <h2>AC/DC Back in black</h2>
+        <button type="button" class="btn btn-default song-action addButton">Add</button>
+        <h2><%= title %></h2>
       </div>
     </script>
 

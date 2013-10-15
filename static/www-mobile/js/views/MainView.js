@@ -13,12 +13,15 @@ define([
 
     events: {
       'click #close-menu, .side-menu': 'onCloseMenu',
-      'click #open-menu': 'onOpenMenu'
+      'click #open-menu': 'onOpenMenu',
+      'submit #navbarSearch': 'onSearch',
+      //'keyup #navbarSearch': 'onLiveSearch',
+      'mousedown #searchButton': 'onSearch'
     },
 
     initialize: function() {
       // Binds event callbacks to be sure "this" refers to a HomeView instance
-      _.bindAll(this, 'onCloseMenu', 'onOpenMenu');
+      _.bindAll(this, 'onCloseMenu', 'onOpenMenu', 'onLiveSearch', 'onSearch');
 
       this.template = _.template($('#mainTemplate').html());
 
@@ -35,15 +38,15 @@ define([
       this.menu = this.$('.side-menu');
       this.contents = this.$('#contents');
       this.$partyName = this.$('.partyName');
+      this.$searchInput = this.$('#searchInput');
     },
 
     update: function() {
-      this.$partyName.text(Session.get('party').get('name'));
+      if (Session.get('party'))
+        this.$partyName.text(Session.get('party').get('name'));
     },
 
-    onCloseMenu: function(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
+    onCloseMenu: function(/*evt*/) {
 
       this.menu.removeClass('active');
     },
@@ -55,7 +58,29 @@ define([
       this.menu.addClass('active');
     },
 
-    setContents: function(el) {
+    onLiveSearch: function() {
+      if (this.$searchInput.val() !== '')
+        this.doSearch();
+    },
+
+    onSearch: function(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      this.doSearch();
+    },
+
+    doSearch: function() {
+      var q = this.$searchInput.val();
+      window.location.hash = 'search/'+encodeURIComponent(q);
+    },
+
+    setContents: function(el, mode) {
+      if (mode === 'search') {
+        this.$searchInput.addClass('active');
+      } else {
+        this.$searchInput.removeClass('active');
+      }
       this.contents.children().remove();
       this.contents.append(el);
     }

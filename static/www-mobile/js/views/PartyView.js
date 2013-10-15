@@ -21,7 +21,7 @@ define([
   var PartyView = Backbone.View.extend({
 
     initialize: function() {
-      // Binds event callbacks to be sure "this" refers to a HomeView instance
+      // Binds event callbacks to be sure "this" refers to a PartyView instance
       _.bindAll(this, 'addSong');
 
       this.template = _.template($('#partyTemplate').html());

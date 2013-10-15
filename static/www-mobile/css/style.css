@@ -74,7 +74,8 @@ body, html {
   padding-left: 6px;
 }
 
-.navbar-header .navbar-search input:focus {
+.navbar-header .navbar-search input:focus,
+.navbar-header .navbar-search input.active {
   background-color: #050505;
   /*left: 0;*/
   width: 100%;
@@ -147,6 +148,10 @@ body, html {
   .side-menu {
     width: 250px;
   }
+
+  #contents {
+    margin-left: 250px;
+  }
 }
 @media screen and (min-width: 768px) {
   .navbar .navbar-search {
@@ -161,16 +166,14 @@ body, html {
     margin-left: 250px;
   }
 
-  .navbar-header .navbar-search input:focus {
+  .navbar-header .navbar-search input:focus,
+  .navbar-header .navbar-search input.active {
     background-color: #050505;
     /*left: 0;*/
     width: 100%;
     border-bottom: 2px white solid;
     z-index: 99;
     opacity: 1;
-  }
-
-  .navbar-header .navbar-search input:focus {
     width: 30%;
   }
 }
