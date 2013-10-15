@@ -111,6 +111,20 @@ define([
 			});
 		},
 
+		toggleQRCodeShow: function() {
+			var qrelement = $(this.refs['qrcode-container'].getDOMNode());
+			var qrActionElement = $(this.refs.qraction.getDOMNode());
+
+			if(qrelement.is(':hidden')) {
+				qrelement.show(500);
+				qrActionElement.text(" Hide");
+			}
+			else {
+				qrelement.hide(500);
+				qrActionElement.text(" Show");
+			}
+		},
+
 		render: function () {
 
 			var session = this.props.session;
@@ -151,8 +165,16 @@ define([
 
 						<div class="container">
 							<div class="col-4" ><br />
-								<div>
-									<QRCode data={ QRCodeURL} />
+								<div ref="qrcode-container" class="panel">
+									<div>
+										<button onClick={this.toggleQRCodeShow} class="qr-toogleshow btn icon-qrcode">
+											<span ref="qraction"> Show</span> QR code
+										</button>
+							 			<br />
+									</div>
+									<div class="qrcode-container" ref="qrcode-container">
+										<QRCode data={ QRCodeURL} />
+									</div>
 								</div>
 								<div ref="affix">
 									<Playlist party={currentParty}/>
