@@ -17,44 +17,12 @@ html {
 body {
 	/* Allows footer to stick to the bottom of the page */
 	position: relative;
-	/* Makes some room for the footer */
-	padding-bottom: 80px;
-	min-height: 100%;
+	/*Makes some room for the footer */
+	/*padding-bottom: 80px;
+	min-height: 100%;*/
+	padding-bottom: 15px;
 }
 
-footer {
-	background-color: #333;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	padding: 20px;
-}
-
-
-.splash {
-	padding-bottom: 80px;
-	background-color: #202349;
-}
-
-.splash > .contents {
-	margin-top: 100px;
-}
-
-.splash > .contents .lead {
-	margin-bottom: 50px;
-}
-
-.splash > .contents {
-	text-align: center;
-}
-
-.splash > .contents .btn-large {
-	margin: 0px 12px;
-}
-
-.splash > .header {
-	padding-top: 8px;
-}
 
 /* modal */
 .modal-content {
@@ -79,8 +47,40 @@ footer {
 	box-shadow: 0px -1px 2px #000;
 }
 
+.splash {
+	padding-bottom: 80px;
+	/*background-color: #202349;*/
+background: #202349; /* Old browsers */
+background: -moz-linear-gradient(top, #202349 1%, #2d4a74 86%, #3c7aaa 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#202349), color-stop(86%,#2d4a74), color-stop(100%,#3c7aaa)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #202349 1%,#2d4a74 86%,#3c7aaa 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #202349 1%,#2d4a74 86%,#3c7aaa 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #202349 1%,#2d4a74 86%,#3c7aaa 100%); /* IE10+ */
+background: linear-gradient(to bottom, #202349 1%,#2d4a74 86%,#3c7aaa 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#202349', endColorstr='#3c7aaa',GradientType=0 ); /* IE6-9 */
+}
+.splash > .contents {
+	margin-top: 100px;
+}
+
+.splash > .contents .lead {
+	margin-bottom: 50px;
+}
+
+.splash > .contents {
+	text-align: center;
+}
+
+.splash > .contents .btn-large {
+	margin: 0px 12px;
+}
+
+.splash > .header {
+	padding-top: 8px;
+}
+
 .demoline1 {
-	background-color: #3B78A8;
+	background-color: #3C7aaa;
 	margin-right: 0px;
 	margin-left: 0px;
 	width: 100%;
@@ -88,18 +88,64 @@ footer {
 }
 
 .demoline2 {
-	background-color: #3BA8A2;
+	/*background-color: #3BA8A2;*/
+	background-color: #4e6caa;
 	width: 100%;
-	padding: 20px;
+	padding: 20px;	
 }
 
 .demoline3 {
-	background-color: #3BA86B;
+	background-color: #647596;
 	width: 100%;
 	padding: 20px;
 }
-.demoline-title {
-	color: black;
+
+body { background-color: #333;}
+
+#betalogo {
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(30deg);
+	-ms-transform: rotate(30deg);
+	-o-transform: rotate(30deg);
+	position: absolute;
+	right: -110px;
+	top: 2px;
+	width: 300px;
 	text-align: center;
+	background-color: #cc6d00;
+	padding: 10px;
+	color: #f0f0f0;
+	font-size: 28px;
+	font-weight: bold;
+	height: 50px;
+	margin-top: 10px;
 }
 
+footer {
+	background-color: #22689e;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 5px;
+	color: black;
+
+}
+
+.demoline-content {
+	font-size: 24px;
+	color: black;
+}
+
+.btn-primary {
+	background-color: #995200;
+	border: none;
+	
+	-moz-box-shadow:    3px 3px 5px 1px black;
+	  -webkit-box-shadow: 3px 3px 5px 1px black;
+	  box-shadow:         3px 3px 5px 1px black;
+}
+
+.btn-primary:hover {
+	background-color: #c16a05;
+	color: #dcdcdc;
+}
