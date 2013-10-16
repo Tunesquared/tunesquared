@@ -122,16 +122,17 @@ define([
     },
 
     search: function(q) {
-      this.query = this.searchAggregator.query(q);
-      this.query.exec();
-      this.queryText = q;
+      if (this.queryText !== q) {
+        this.query = this.searchAggregator.query(q);
+        this.query.exec();
+        this.queryText = q;
+        this.$searchSongs.empty();
+
+        Search.util.fetchResults(this.query, this.CHUNK_SIZE, {
+          read: this.loadResult
+        });
+      }
       this.filterPartySongs();
-
-      this.$searchSongs.empty();
-
-      Search.util.fetchResults(this.query, this.CHUNK_SIZE, {
-        read: this.loadResult
-      });
     }
   });
 

@@ -14,6 +14,7 @@ define([
     events: {
       'click #close-menu, .side-menu': 'onCloseMenu',
       'click #open-menu': 'onOpenMenu',
+      'click #navbar-refresh': 'onRefresh',
       'submit #navbarSearch': 'onSearch',
       //'keyup #navbarSearch': 'onLiveSearch',
       'mousedown #searchButton': 'onSearch'
@@ -56,6 +57,24 @@ define([
       evt.stopPropagation();
 
       this.menu.addClass('active');
+    },
+
+    onRefresh: function(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var p = Session.get('party');
+      if(p){
+        $.mobile.loading('show');
+        p.fetch({
+          success: function(){
+            $.mobile.loading('hide');
+          },
+          error: function(){
+            $.mobile.loading('hide');
+          }
+        });
+      }
     },
 
     onLiveSearch: function() {

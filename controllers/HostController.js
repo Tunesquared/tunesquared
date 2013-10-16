@@ -285,5 +285,5 @@ rest
 })
 
 .after('read', function (req, data, cb) {
-  cb(null, Party.mapVotes(data.toObject(), req.session.votes));
+  cb(null, Party.mapVotes((data != null) ? data.toObject() : data, req.session.votes));
 });

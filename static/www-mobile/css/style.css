@@ -17,7 +17,7 @@ body, html {
 }
 
 .navbar-brand.brand-offset {
-  margin-left: 48px;
+  /*margin-left: 96px;*/
 }
 
 .navbar-header button {
@@ -26,12 +26,12 @@ body, html {
   height: 50px;
   width: 48px;
   top: 0;
-  position: absolute;
   color: #fff;
   margin: 0;
   font-size: 18pt;
   border-radius: 0;
-  border-color: #333333;
+  border: 1px #333 solid;
+  border-width: 0 1px 0 0;
 }
 
 .navbar-header button:hover {
@@ -40,7 +40,6 @@ body, html {
 
 .navbar-header button.navbar-toggle {
   border-width: 0 1px 0 0;
-  left: 0;
 }
 
 .navbar-header button.navbar-help {
@@ -54,8 +53,12 @@ body, html {
   position: absolute;
   right: 0;
   top: 0;
-  left: 48px;
+  left: 96px;
   border-width: 0 1px 0 0;
+}
+
+.navbar-header #navbar-refresh {
+  /*margin-left: 48px;*/
 }
 
 
@@ -155,11 +158,8 @@ body, html {
 }
 @media screen and (min-width: 768px) {
   .navbar .navbar-search {
-    left: 0;
-  }
-
-  .navbar-brand {
-    margin-left: 0;
+    left: initial;
+    width: 500px;
   }
 
   .content {
@@ -174,7 +174,6 @@ body, html {
     border-bottom: 2px white solid;
     z-index: 99;
     opacity: 1;
-    width: 30%;
   }
 }
 

@@ -26,7 +26,7 @@ module.exports = new Framework.Router({
         }, function (err, mod) {
 
           res.send({
-            party: Party.mapVotes(mod.toObject(), req.session.votes),
+            party: (mod != null) ? Party.mapVotes(mod.toObject(), req.session.votes) : null,
             publickey: req.session.publickey,
             myParty: req.session.myParty
           });
