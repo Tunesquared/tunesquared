@@ -2,26 +2,40 @@ requirejs.config({
   paths: {
     'underscore': '../lib/underscore',
     'backbone': '../lib/backbone',
-    'jquery': '../lib/jquery',
-    'jquerymobile': '../lib/jquerymobile',
     'search': '../lib/search',
-    'text': '../lib/text'
+    'text': '../lib/text',
+    'zepto': '../lib/zepto',
+    'bs': '../lib/bootstrapAMD/js',
+    'jquery': '../lib/zepto2jquery',
+    'mobileutils': '../lib/mobileutils/mobileutils'
   },
 
   shim: {
     'backbone': {
       //These script dependencies should be loaded before loading
       //backbone.js
-      deps: ['underscore', 'jquery'],
+      deps: ['underscore', '$'],
       //Once loaded, use the global 'Backbone' as the
       //module value.
       exports: 'Backbone'
     },
     'underscore': {
+      deps: ['$'],
       exports: '_'
     },
-    'jquerymobile.config': ['jquery'],
-    'jquerymobile': ['jquery','jquerymobile.config']
+
+    'zepto': {
+      exports: 'Zepto'
+    }
+  },
+
+  map: {
+    '*': {
+      '$': 'mobileutils'
+    },
+    'mobileutils': {
+      '$': 'zepto'
+    }
   }
 });
 
