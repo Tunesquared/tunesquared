@@ -16,7 +16,7 @@ define([
       'click #open-menu': 'onOpenMenu',
       'click #navbar-refresh': 'onRefresh',
       'submit #navbarSearch': 'onSearch',
-      //'keyup #navbarSearch': 'onLiveSearch',
+      // 'keyup #navbarSearch': 'onLiveSearch',
       'mousedown #searchButton': 'onSearch'
     },
 

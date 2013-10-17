@@ -34,6 +34,7 @@ define([
       // Remembers party song views in order to free them when no more needed
       this.partySongViews = {};
 
+
       this.template = _.template($('#searchTemplate').html());
 
       this.render();
@@ -68,7 +69,7 @@ define([
         },
         error: function() {
           $.mobile.loading('hide');
-          $.alert('An error occured', $.tooltip.ERROR);
+          $.mobile.alert('An error occured', $.mobile.tooltip.ERROR);
         },
         //silent: true
       });

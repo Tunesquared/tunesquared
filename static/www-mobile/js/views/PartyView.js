@@ -10,11 +10,12 @@ define([
 
   // application deps
   'views/SongView',
+  'models/Party',
 
   // implicit libs
   'bs/collapse'
 
-  ], function($, Backbone, _, SongView) {
+  ], function($, Backbone, _, SongView, Party) {
 
   'use strict';
 
@@ -34,7 +35,7 @@ define([
 
       this.clean();
 
-      this.$el.html(this.template({}));
+      this.$el.html(this.template((this.party) && this.party.toJSON() || new Party()));
 
       this.songsList = this.$('#partySongs');
 

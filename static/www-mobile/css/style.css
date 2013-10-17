@@ -217,7 +217,7 @@ input[type="text"]:focus:-ms-input-placeholder { color: #1E536D; }
 
 .playlist-song .thumbnail {
   float: left;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 .playlist-song .thumbnail > img {
@@ -260,4 +260,45 @@ input[type="text"]:focus:-ms-input-placeholder { color: #1E536D; }
   padding: 4px 8px;
   font-size: 12px;
   height: 100%;
+}
+
+.contents-header {
+  border-top: 1px #222 solid;
+}
+
+.contents-header h1 {
+  margin: 0;
+  padding: 5px 8px;
+  font-size: 20pt;
+}
+
+#currentSong {
+  height: 100px;
+  padding: 10px;
+  background-color: #111;
+}
+
+#currentSong:hover {
+  background-color: #222;
+}
+
+#currentSong .thumbnail {
+  float: left;
+  margin-top: 2px;
+}
+
+#currentSong .thumbnail > img {
+  height: 60px;
+  width: 60px;
+}
+
+#currentSong h2 {
+  margin: 0 0 0 80px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#currentSong .labels {
+  margin-left: 100px;
+  margin-top: 10px;
 }
