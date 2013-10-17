@@ -1,303 +1,141 @@
-// Search View
-// =============
+define([
+  // libs
+  '$', 'backbone', 'underscore',
 
-'use strict';
+  // application deps
+  'views/SongView',
+  'views/SearchSongView',
+  'models/Song',
+  'search/Search',
 
-// Includes file dependencies
-define(['jquery',
-    'search/Search',
-    'search/YoutubeSource',
-    'text!templates/searchresult.jst',
-    'backbone',
-    'underscore'
-  ],
-  function($, SearchAggregator, YoutubeSource, searchResultTemplate, Backbone, _) {
+  // implicit libs
+  'bs/collapse'
 
-    // make one list element
+  ], function($, Backbone, _, SongView, SearchSongView, Song, Search) {
 
-    var SearchResultView = Backbone.View.extend({
+  'use strict';
 
-      tagName: 'li',
+  var SearchView = Backbone.View.extend({
+    CHUNK_SIZE: 20,
 
-      events: {
-        'vclick [ref=addToPlaylist]': 'onClick', //ref
-        //'click a ': 'onClick',
-        'click .addsong': 'AddSong',
-        'click .close2': 'Close'
-      },
+    initialize: function() {
+      _.bindAll(this, 'loadResult', 'addSong');
 
-      initialize: function() {
-        _.bindAll(this, 'onClick', 'AddSong', 'Close');
+      this.searchAggregator = new Search({
+        chunkSize: this.CHUNK_SIZE,
+        preloadThreshold: 3
+      });
 
-        this.template = _.template(searchResultTemplate);
+      this.searchAggregator.addSrc('youtube');
 
-      },
+      this.queryText = '';
+      this.query = null;
 
-      render: function() {
-        console.log('render listel');
-        var listel = this.template({
-          result: this.model
-        });
-
-        this.$el.html(listel);
-
-        this.$('[ref="asking"]').hide();
+      // Remembers party song views in order to free them when no more needed
+      this.partySongViews = {};
 
 
-      },
+      this.template = _.template($('#searchTemplate').html());
 
-      onClick: function(evt) {
-        evt.preventDefault();
+      this.render();
+    },
 
-        this.$('[ref="asking"]').toggle();
+    render: function() {
+      this.$el.html(this.template({}));
 
+      this.$partySongs = this.$('#partySongs');
+      this.$searchSongs = this.$('#searchSongs');
+    },
 
-        $('[ref="asking"] .addsong').button().buttonMarkup('refresh');
-        $('[ref="asking"] .close2').button().buttonMarkup('refresh');
+    loadResult: function(result) {
+      var song = new Song(result);
+      var view = new SearchSongView({
+        model: song
+      });
 
+      view.on('addSong', this.addSong);
 
-        /*
+      this.$searchSongs.append(view.$el);
+    },
 
-            $('#popups').empty();
+    // Adds a new song to the playlist
+    addSong: function(song) {
+      $.mobile.loading('show');
+      console.log(song);
+      this.party.get('playlist').add(song, {
+        success: function() {
+          $.mobile.loading('hide');
+          window.location.hash = '#';
+        },
+        error: function() {
+          $.mobile.loading('hide');
+          $.mobile.alert('An error occured', $.mobile.tooltip.ERROR);
+        },
+        //silent: true
+      });
+    },
 
-            var result = this.model;
+    filterPartySongs: function () {
+      var q = this.queryText;
+      var newViews = {};
+      var view, i;
 
-            var $popup = new PopupView({
-                model: result,
-            });
+      // Filters collection
+      var songs = this.party.get('playlist').filter(function(m) {
+        return m.get('title').toLowerCase().indexOf(q.toLowerCase()) !== -1;
+      });
 
-            $popup.render();
-
-            $('#popups').append($popup.$el);
-
-            var song = this.model;
-
-            console.log(this.model); */
-
-        // $('[ref="asking"] .addsong' ).button().buttonMarkup( "refresh" );
-        // $('[ref="asking"] .close2' ).button().buttonMarkup( "refresh" );
-
-        //$('#popup'+ song.data).popup().popup("open");
-
-
-        //$('#popup'+ song.data).find($('.addSong')).on('click', this.mafonction(song.data));
-
-
-        //$('#popup'+ song.data).button();
-
-        // if(button==yes) close popup and add song to the playlist.
-
-        //setTimeout( $('#popupBasic').popup("close"), 1500 );
-
-        //app.getParty().get('playlist').songs.add(this.model);
-      },
-
-      AddSong: function(evt) {
-        evt.preventDefault();
-        console.log('addSong');
-        this.trigger('addSong', this.model);
-        this.$('[ref="asking"]').hide();
-
-
-      },
-
-      Close: function(evt) {
-        evt.preventDefault();
-        console.log('close popup');
-        this.$('[ref="asking"]').hide();
+      // Generate missing dom nodes
+      for(i in songs) {
+        view = this.partySongViews[i];
+        if (view === undefined) {
+          view = new SongView({model: songs[i]});
+          this.$partySongs.append(view.el);
+        } else {
+          delete this.partySongViews[i];
+        }
+        newViews[i] = view;
       }
-      /*
-        mafonction: function(data){
-            console.log("mafonction");
-            // $('#popup'+ data).popup("close");
 
-        }
-*/
+      // Removes previous dom nodes we no longer need
+      for (i in this.partySongViews) {
+        this.partySongViews[i].el.remove();
+        this.partySongViews[i].release();
+      }
 
-    });
-    /*
-    var PopupView = Backbone.View.extend({
-        tagName: 'div',
-        events:{
-            'click .addsong': 'AddSong',
-            'click .close2' : 'Close'
-        },
+      this.partySongViews = newViews;
+    },
 
-        initialize: function() {
-            _.bindAll(this, 'AddSong', 'Close');
+    clean: function() {
+      for(var i in this.partySongViews) {
+        this.partySongViews[i].release();
+        delete this.partySongViews[i];
+      }
+      this.$partySongs.children().remove();
+    },
 
-            this.template = _.template(popupTemplate);
-
-
-
-
-
-
-        },
-
-        render: function() {
-            console.log("render popup");
-            popup = this.template({result: this.model});
-
-
-            this.$el.html(popup);
-
-
-
-        },
-         AddSong: function(evt){
-            evt.preventDefault();
-            console.log('addSong');
-
-
-        },
-
-        Close: function(evt){
-            evt.preventDefault();
-            console.log("close popup")
-        }
-
-
-
-
-    }); */
-
-    return Backbone.View.extend({
-
-      dataLoading: false,
-      keywords: '',
-      CHUNK_SIZE: 20,
-      sources: [],
-
-      events: {
-        'keydown :input': 'logKey'
-      },
-
-      initialize: function() {
-        _.bindAll(this, 'loadResult', 'addSrc', 'removeSrc', 'disableSrc', 'addSong');
-
-        this.searchAggregator = new SearchAggregator({
-          chunkSize: this.CHUNK_SIZE,
-          preloadThreshold: 3
-        });
-
-        this.searchAggregator.addSrc(YoutubeSource);
-
-        this.addSrc(YoutubeSource);
-
-
-      },
-
-      setParty: function(party) {
-
+    setParty: function(party) {
+      if (this.party == null || party.id != this.party.id) {
+        this.clean();
         this.party = party;
-
-      },
-
-      loadResult: function(result) {
-        console.log('loadResult function');
-
-        $.mobile.loading('hide');
-
-
-        var $result = new SearchResultView({
-          model: result,
-        });
-        $result.on('addSong', this.addSong);
-        $result.render();
-
-        this.$('#dynamicResults').append($result.$el);
-
-
-        this.$('#dynamicResults').listview('refresh');
-        //this.$('#popups').popup();
-        this.dataLoading = false; // what is this?
-      },
-
-      addSong: function(song) {
-        $.mobile.loading('show');
-        this.party.get('playlist').add(song, {
-          success: function() {
-            $.mobile.loading('hide');
-            window.location.hash = '#party';
-          },
-          error: function() {
-            $.mobile.loading('hide');
-            window.location.hash = '#party'; //TODO: handel error
-
-          }
-        });
-      },
-
-
-      search: function(keywords) {
-        //Modification 1
-        console.log('searching');
-        this.$('#dynamicResults').empty();
-        this.keywords = keywords;
-        this.queryIterator = this.searchAggregator.query(this.keywords);
-        console.log('searching2');
-        this.queryIterator.on('end', $.proxy(function() {
-          //this.loader.hide();
-          this.$el.find('#dynamicResults').append('No results were found.');
-        }, this));
-        this.queryIterator.on('error', function(err) {
-          console.log('An error as occured while searching - ' + err);
-        });
-        this.queryIterator.exec();
-      },
-
-
-      render: function() {
-
-
-        var self = this;
-
-        SearchAggregator.util.fetchResults(this.queryIterator, this.CHUNK_SIZE, {
-          read: self.loadResult
-        });
-
-        /* Loader (it will be hidden by loadResult) */
-        $.mobile.loading('show');
-
-        return this;
-      },
-
-      logKey: function(e) {
-        if (e.keyCode == 13) {
-          e.preventDefault();
-
-          var toAdd = $('input[id="search-1"]').val();
-          //this.search(toAdd);
-          console.log(toAdd);
-          location.hash = '#search/' + toAdd;
-        }
-      },
-
-      addSrc: function(source) {
-
-        // Change -> removed 'var' source = ..
-        source = source.title ? source : SearchAggregator.util.mapToSource(source);
-
-        // If it is not just disabled, it's not in the sources array, we add it
-        if (this.sources.indexOf(source) === -1) {
-          this.sources.push(source);
-        }
-        // And add the source to the search aggregator
-        this.searchAggregator.addSrc(source);
-      },
-      removeSrc: function(source) {
-        var index = this.sources.indexOf(source);
-        if (index != -1) {
-          this.sources.slice(index, 1);
-        }
-        this.searchAggregator.removeSrc(source);
-      },
-
-      /* Disables a source : keeps it in the local sources array (so it remains in the source select dropdown)
-       * but removes it from the search aggregator so the result does not include the source anymore */
-      disableSrc: function(source) {
-        this.searchAggregator.removeSrc(source);
+        this.render();
       }
-    });
+    },
+
+    search: function(q) {
+      if (this.queryText !== q) {
+        this.query = this.searchAggregator.query(q);
+        this.query.exec();
+        this.queryText = q;
+        this.$searchSongs.empty();
+
+        Search.util.fetchResults(this.query, this.CHUNK_SIZE, {
+          read: this.loadResult
+        });
+      }
+      this.filterPartySongs();
+    }
   });
+
+  return SearchView;
+});

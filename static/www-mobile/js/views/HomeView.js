@@ -1,63 +1,64 @@
-// Home View
-// =============
-    'use strict';
-// Includes file dependencies
-define([ 'jquery', '../models/Session', 'backbone' ,'underscore'], function( $, Session , Backbone, _ ) {
+/*
+  HomeView.js -- screen shown when a non-logged user enters the app.
 
-    // Extends Backbone.View
-    var HomeView = Backbone.View.extend( {
+  Goals: Shows a login screen and some help to enable the user to access the app.
 
-        events: {
+*/
+define(['backbone', 'underscore', '$', 'models/Session'], function(Backbone, _, $, Session) {
+  'use strict';
 
-            'submit [action=join]': 'join',
+  var HomeView = Backbone.View.extend({
 
-        },
+    events: {
+      'submit #joinForm': 'onJoinSubmit'
+    },
 
-        // The View Constructor
-        initialize: function() {
-            _.bindAll(this, 'join');
+    initialize: function() {
 
+      // Binds event callbacks to be sure "this" refers to a HomeView instance
+      _.bindAll(this, 'onJoinSubmit');
 
-            //this.joinText = this.$('[name="text-join"]');
-        },
+      this.template = _.template($('#homeTemplate').html());
 
-        join: function(evt){
-            $.mobile.loading( 'show' );
+      this.render();
+    },
 
-            this.joinText = this.$('[name="text-join"]');
+    render: function() {
+      this.$el.html(this.template({}));
 
-            console.log('joining');
+      this.partyNameInput = this.$('#partyNameInput');
+    },
 
-            evt.preventDefault();
-            evt.stopPropagation();
+    /* Method called when user submits the join form */
+    onJoinSubmit: function(evt) {
+      /* Takes care of the event */
+      evt.preventDefault();
+      evt.stopPropagation();
 
-            var partyName = this.joinText.val();
+      /* Gets the input data */
+      var pName = this.partyNameInput.val();
 
-            Session.joinPartyByName(partyName , function(err){
+      if (pName.length === 0) {
+        console.log('TODO: display error');
+      } else {
+        this.join(pName);
+      }
+    },
 
-                console.log(err);
-
-                $.mobile.loading('hide');
-
-                if(err !== null) {
-                    // show error message
-                    $.mobile.showPageLoadingMsg( $.mobile.pageLoadErrorMessageTheme, $.mobile.pageLoadErrorMessage, true );
-                    // hide after delay
-                    setTimeout( $.mobile.hidePageLoadingMsg, 1500 );
-                }
-                else {
-                    window.location.hash = '#party';
-                }
-            });
-
-            return false;
-
+    /* Joins the party with the given partyName */
+    join: function(partyName) {
+      $.mobile.loading('show');
+      Session.joinPartyByName(partyName , function(err){
+        $.mobile.loading('hide');
+        if(err !== null) {
+          $.mobile.alert('Cannot join party "' + partyName + '"<br />Did you type it right ?', $.mobile.tooltip.ERROR);
         }
+        else {
+          window.location.hash = '#party/partyName';
+        }
+      });
+    }
+  });
 
-
-    } );
-
-    // Returns the View class
-    return HomeView;
-
-} );
+  return HomeView;
+});

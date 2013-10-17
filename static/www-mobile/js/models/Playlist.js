@@ -1,6 +1,6 @@
 'use strict';
 
-define(['jquery', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, Song) {
+define(['$', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, Song) {
 
 	var add = Backbone.Collection.prototype.add;
 
@@ -24,20 +24,28 @@ define(['jquery', 'underscore', 'backbone', 'models/Song'], function($, _, Backb
 				return add.apply(this, arguments);
 			}
 
+			song = (song instanceof Song) ? song.toJSON() : song;
+
+			var args = arguments;
+
 			callbacks = callbacks || {};
 			var self = this;
 			console.log(song);
 
-			$.post('api/playlistAddSong', {
-				song: song
-			})
-				.success(function() {
-					add.call(self, song);
+			$.ajax({
+				type: 'post',
+				url: 'api/playlistAddSong',
+				data: {
+					song: song
+				},
+				success: function() {
+					add.apply(self, args);
 					if (callbacks.success) callbacks.success();
-				})
-				.error(function() {
+				},
+				error: function() {
 					if (callbacks.error) callbacks.error();
-				});
+				}
+			});
 		}
 	});
 

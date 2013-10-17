@@ -3,7 +3,7 @@
 // ==============
 
 // Includes file dependencies
-define(['jquery', 'backbone', 'models/Playlist'], function ($, Backbone, Playlist) {
+define(['$', 'backbone', 'underscore', 'models/Playlist'], function ($, Backbone, _, Playlist) {
 
   // The Party constructor
   var Party = Backbone.Model.extend({
@@ -14,7 +14,7 @@ define(['jquery', 'backbone', 'models/Playlist'], function ($, Backbone, Playlis
     },
 
     initialize: function () {
-      console.log('initializing');
+      _.bindAll(this, 'fetch');
 
       if (!(this.get('playlist') instanceof Playlist)) {
         this.set('playlist', new Playlist(this.get('playlist')));

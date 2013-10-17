@@ -1,0 +1,304 @@
+@import url("../lib/mobileutils/mobileutils.css");
+
+/* Place custom layout here */
+#logo {
+  margin: 0 auto;
+  padding-top: 80px;
+  display: block;
+  text-align: center;
+}
+
+body, html {
+  height: 100%;
+}
+
+#app {
+  padding-top: 50px;
+}
+
+.navbar-brand.brand-offset {
+  /*margin-left: 96px;*/
+}
+
+.navbar-header button {
+  background: none;
+  padding: 0;
+  height: 50px;
+  width: 48px;
+  top: 0;
+  color: #fff;
+  margin: 0;
+  font-size: 18pt;
+  border-radius: 0;
+  border: 1px #333 solid;
+  border-width: 0 1px 0 0;
+}
+
+.navbar-header button:hover {
+  background-color: #333333;
+}
+
+.navbar-header button.navbar-toggle {
+  border-width: 0 1px 0 0;
+}
+
+.navbar-header button.navbar-help {
+  right: 0;
+  left: initial;
+  border-width: 0 0 0 1px;
+}
+
+.navbar-header .navbar-search {
+  height: 48px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 96px;
+  border-width: 0 1px 0 0;
+}
+
+.navbar-header #navbar-refresh {
+  /*margin-left: 48px;*/
+}
+
+
+.navbar-header .navbar-search input {
+  background: none;
+  border: none;
+  height: 48px;
+  position: absolute;
+  right: 0;
+  /*left: 120px;*/
+  width: 48px;
+  transition-property: width;
+  transition-duration: 300ms;
+  z-index: 101;
+  opacity: 0;
+  padding-left: 6px;
+}
+
+.navbar-header .navbar-search input:focus,
+.navbar-header .navbar-search input.active {
+  background-color: #050505;
+  /*left: 0;*/
+  width: 100%;
+  border-bottom: 2px white solid;
+  z-index: 99;
+  opacity: 1;
+}
+
+.navbar-header .navbar-search button {
+  border: none;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  left: initial;
+  z-index: 100;
+}
+
+.navbar-header .navbar-search button:hover {
+  background: none;
+}
+
+.navbar {
+  padding: 0;
+  border-radius: 0;
+}
+
+.side-menu {
+  position: fixed;
+  left: -500px;
+  top: 0;
+  width: 500px;
+  z-index: 2000;
+  height: 100%;
+  transition-property: left;
+  transition-duration: 300ms;
+}
+
+.side-menu.active {
+  left: 0px;
+  width: 100%;
+}
+
+.side-menu .menu {
+  background-color: #333;
+  min-width: 200px;
+  width: 100%;
+  max-width: 250px;
+  height: 100%;
+}
+
+.side-menu .menu-close {
+  width: 100%;
+  text-align: right;
+  border-radius: 0;
+  font-size: 23px;
+  padding: 10px;
+  height: 50px;
+}
+
+@media (min-width: 768px) {
+  .side-menu {
+    z-index: 1000;
+    left: 0;
+    width: 250px;
+  }
+  .side-menu.active {
+    width: 250px;
+  }
+
+  .side-menu {
+    width: 250px;
+  }
+
+  #contents {
+    margin-left: 250px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .navbar .navbar-search {
+    left: initial;
+    width: 500px;
+  }
+
+  .content {
+    margin-left: 250px;
+  }
+
+  .navbar-header .navbar-search input:focus,
+  .navbar-header .navbar-search input.active {
+    background-color: #050505;
+    /*left: 0;*/
+    width: 100%;
+    border-bottom: 2px white solid;
+    z-index: 99;
+    opacity: 1;
+  }
+}
+
+
+.center {
+  text-align: center;
+}
+
+input[type="text"] {
+  background-color: #282828;
+  color: #96BED1;
+  border-color: #424242;
+}
+
+input[type="text"]:focus {
+  background-color: #0E0E0E;
+  color: #50C5FD;
+}
+
+input[type="text"]::-webkit-input-placeholder { color: #51778A; }
+input[type="text"]:focus::-webkit-input-placeholder { color: #1E536D; }
+/* Firefox 18- */
+input[type="text"]:-moz-placeholder { color: #51778A; }
+input[type="text"]:focus:-moz-placeholder { color: #1E536D; }
+/* Firefox 19+ */
+input[type="text"]::-moz-placeholder { color: #51778A; }
+input[type="text"]:focus::-moz-placeholder { color: #1E536D; }
+
+input[type="text"]:-ms-input-placeholder { color: #51778A; }
+input[type="text"]:focus:-ms-input-placeholder { color: #1E536D; }
+
+
+#partyNameInput {
+  width: 80%;
+  margin: auto;
+}
+
+.join-party-btn {
+  min-width: 100px;
+}
+
+.playlist-song .thumbnail {
+  float: left;
+  margin-top: 2px;
+}
+
+.playlist-song .thumbnail > img {
+  height: auto;
+  width: 50px;
+}
+
+.playlist-song {
+  height: 80px;
+  padding: 10px;
+  border-bottom: 1px #222 solid;
+  background-color: #111;
+}
+
+.playlist-song:hover {
+  background-color: #222;
+}
+
+.playlist-song h2 {
+  padding: 18px 6px;
+  margin: 0;
+  font-size: 16pt;
+  white-space: nowrap;
+  margin-right: 100px;
+  overflow: hidden;
+}
+
+.playlist-song.search-result h2 {
+  margin-right: 55px;
+}
+
+.playlist-song .song-action {
+  margin: 10px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+}
+
+.playlist-song .vote-buttons > button {
+  padding: 4px 8px;
+  font-size: 12px;
+  height: 100%;
+}
+
+.contents-header {
+  border-top: 1px #222 solid;
+}
+
+.contents-header h1 {
+  margin: 0;
+  padding: 5px 8px;
+  font-size: 20pt;
+}
+
+#currentSong {
+  height: 100px;
+  padding: 10px;
+  background-color: #111;
+}
+
+#currentSong:hover {
+  background-color: #222;
+}
+
+#currentSong .thumbnail {
+  float: left;
+  margin-top: 2px;
+}
+
+#currentSong .thumbnail > img {
+  height: 60px;
+  width: 60px;
+}
+
+#currentSong h2 {
+  margin: 0 0 0 80px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#currentSong .labels {
+  margin-left: 100px;
+  margin-top: 10px;
+}
