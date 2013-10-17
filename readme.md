@@ -3,6 +3,8 @@ React view must be built before starting the app. You will need grunt-cli for al
 `npm install -g grunt-cli`
 Then run `grunt react` every time you want to compile react views (be sure to `npm install` before running any grunt task).
 
+Every prebuild steps should run on "npm install" so with `git pull && npm install` everything should run just fine on a stable branch.
+
 To compile from ST2:
 Tools -> build System -> New Build system...
 copy this JSON :

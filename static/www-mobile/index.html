@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tunesquared - vote for your playlist !</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0," />
+
+    <link rel="stylesheet" type="text/css" href="/m/lib/bootswatch/cyborg/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+    <link rel="stylesheet" href="/m/css/style.css" />
+
+    <script data-main="/m/js/main" src="lib/require.js"></script>
+
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Default content to be replaced by app -->
+      <div id="logo">
+        <img src="/m/img/logo.png" alt="Tunesquared" title="tunesquared"/><br />
+        <img src="/m/lib/mobileutils/ajax-loader.gif" alt="loading" title="loading"/>
+      </div>
+    </div>
+
+    <!-- -->
+    <script type="text/template" id="mainTemplate">
+      <!-- -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="navbar-header">
+            <button class="navbar-toggle pull-left" type="button" id="open-menu">
+              <span class="icon-reorder"></span>
+            </button>
+            <button class=" pull-left" type="button" id="navbar-refresh">
+              <span class="icon-refresh"></span>
+            </button>
+            <div class="navbar-search">
+
+              <form action="#" id="navbarSearch">
+                <button type="button" id="searchButton">
+                  <span class="icon-search"></span>
+                </button>
+                <input type="text" id="searchInput"/>
+              </form>
+            </div>
+            <a href="../" class="navbar-brand brand-offset partyName"></a>
+          </div>
+        </nav>
+
+        <div class="side-menu">
+          <div class="menu">
+            <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
+            <ul class="nav nav-stacked">
+              <li class="active"><a href="#">Party</a></li>
+              <li><a href="#">Share</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="contents">
+
+        </div>
+      <!-- -->
+    </script>
+    <!-- -->
+
+    <script type="text/template" id="partyTemplate">
+      <% if (currentSong){ %>
+        <div class="contents-header"><h1>Currently played:</h1></div>
+        <div id="currentSong">
+          <div class="thumbnail">
+            <img src="<%= currentSong.get('thumb') %>" alt="img" />
+          </div>
+          <h2><%= currentSong.get('title') %></h2>
+          <div class="labels">
+            <span class="label label-success"><i class="icon-thumbs-up"></i> <%= currentSong.get('votes_yes') %></span>
+            <span class="label label-danger"><i class="icon-thumbs-down"></i> <%= currentSong.get('votes_no') %></span>
+          </div>
+        </div>
+      <% } %>
+      <div class="contents-header"><h1>Playlist:</h1></div>
+      <div id="partySongs"></div>
+    </script>
+
+    <script type="text/template" id="searchTemplate">
+    <div class="contents-header"><h1>Playlist:</h1></div>
+      <div id="partySongs"></div>
+      <div class="contents-header"><h1>or add a new song:</h1></div>
+      <div id="searchSongs"></div>
+    </script>
+
+    <script type="text/template" id="songTemplate">
+      <div class="playlist-song">
+        <div class="thumbnail">
+          <img src="<%= thumb %>" alt="img"/>
+        </div>
+        <div class="btn-group vote-buttons song-action">
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-primary disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-primary disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+        </div>
+        <h2><%= title %></h2>
+      </div>
+    </script>
+
+    <script type="text/template" id="searchSongTemplate">
+      <div class="playlist-song search-result">
+        <div class="thumbnail">
+          <img src="<%= thumb %>" alt="img"/>
+        </div>
+        <button type="button" class="btn btn-default song-action addButton">Add</button>
+        <h2><%= title %></h2>
+      </div>
+    </script>
+
+    <!-- -->
+    <script type="text/template" id="homeTemplate">
+      <!---->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
+            <span class="icon-question"></span>
+          </button>
+          <a href="../" class="navbar-brand">Tune²</a>
+        </div>
+
+        <div class="collapse navbar-help-panel">
+          <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <h2>What is this ?</h2>
+            <p class="lead">Tunesquared allows you to choose the music that is being played at some place or event.</p>
+            <p>If you want attend such event, <strong>ask someone for the party name</strong>, then <strong>type it in the text field</strong> below and start picking your favourite songs!</p>
+            <p>If you want to create such an event, please visit our <a href="/">main page</a>.<br />&nbsp;</p>
+          </div>
+        </div>
+      </nav>
+
+
+      <div class="container center">
+        <h1>Welcome to tunesquared</h1>
+        <p class="lead">
+          Join a party and start choosing what you want to listen to.
+        </p>
+
+        <form class="form" role="form" id="joinForm">
+          <div class="form-group">
+            <input type="text" class="form-control" id="partyNameInput" placeholder="Enter party name" id="party-name-input">
+          </div>
+          <button type="submit" class="btn btn-primary btn-large join-party-btn">Join this party!</button>
+        </form>
+      </div>
+      <!-- -->
+    </script>
+    <!-- -->
+  </body>
+</html>

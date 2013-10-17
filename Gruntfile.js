@@ -14,6 +14,18 @@ module.exports = function(grunt) {
       },
     },
 
+    wrap: {
+      mobile: {
+        cwd: 'static/www-mobile/lib/bootstrap/',
+        expand: true,
+        src: ['js/*.js'],
+        dest: 'static/www-mobile/lib/bootstrapAMD/',
+        options: {
+          wrapper: ['require(["jquery"], function ($) {\n', '\n});']
+        }
+      },
+    },
+
     requirejs: {
       desktop: {
         options: {
@@ -50,6 +62,7 @@ module.exports = function(grunt) {
       },
 
       mobile: {
+        /* TODO: minify mobile css */
         options: {
           mainConfigFile: 'static/www-mobile/js/main.js',
           out: 'tmp/mobile.js',
@@ -58,8 +71,6 @@ module.exports = function(grunt) {
           optimize: 'none',
           paths: {
             // Files that should be loaded from a CDN
-           /* jquery: 'empty:',
-            underscore: 'empty:'*/
           }
         }
       },
@@ -70,23 +81,27 @@ module.exports = function(grunt) {
       dist: ['tmp', 'dist'],
     },
 
-    removelogging: {
+    strip : {
       welcome: {
         src: 'tmp/welcome.js',
         dest: 'tmp/welcome.nolog.js',
-        options: {
-          replaceWith: '0;'
+        options : {
+          nodes : ['console.log', 'debug']
         }
       },
       desktop: {
         src: 'tmp/desktop.js',
         dest: 'tmp/desktop.nolog.js',
-        options: {}
+        options : {
+          nodes : ['console.log', 'debug']
+        }
       },
       mobile: {
         src: 'tmp/mobile.js',
         dest: 'tmp/mobile.nolog.js',
-        options: {}
+        options : {
+          nodes : ['console.log', 'debug']
+        }
       }
     },
 
@@ -127,9 +142,12 @@ module.exports = function(grunt) {
         input: 'static/www-mobile',
         output: 'dist/www-mobile',
         dist: [
-          {src: '../../tmp/mobile.built.js', dst: 'js/main.js'},
+          {src: '../../tmp/mobile.nolog.js', dst: 'js/main.js'},
           'img',
-          'css'
+          'css',
+          'lib/mobileutils',
+          'lib/bootswatch/cyborg',
+          'index.html'
         ]
       }
     }
@@ -137,11 +155,16 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-react');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-remove-logging');
+  grunt.loadNpmTasks('grunt-strip');
   grunt.loadNpmTasks('grunt-dist');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-wrap');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
+  // Builds and prepare code for deployment (the all-in-one command)
   grunt.registerTask('publish', ['build', 'dist']);
-  grunt.registerTask('build', ['clean', 'react', 'requirejs', 'removelogging', 'uglify']);
+  // Builds precompiled files to run in development
+  grunt.registerTask('setup', ['react', 'wrap']);
+  // Builds everything
+  grunt.registerTask('build', ['clean', 'setup', 'requirejs', 'strip', 'uglify']);
 };
