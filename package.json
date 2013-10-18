@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "install": "grunt setup",
     "start": "node app.js"
   },
   "dependencies": {
