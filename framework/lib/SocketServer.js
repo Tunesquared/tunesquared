@@ -20,8 +20,8 @@ var Server = module.exports = function () {
       sessionStore = require('./sessionStore'),
       Socket = require('./Socket');
 
-    var RedisStore = require('socket.io/lib/stores/redis'),
-      redis = require('socket.io/node_modules/redis'),
+    var RedisStore = require('socket.io').RedisStore,
+      redis = require('redis'),
       pub = redis.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1'),
       sub = redis.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1'),
       client = redis.createClient(config.redis_port || 6379, config.redis_host || '127.0.0.1');
