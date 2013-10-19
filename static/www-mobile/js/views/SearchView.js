@@ -90,6 +90,7 @@ define([
         view = this.partySongViews[i];
         if (view === undefined) {
           view = new SongView({model: songs[i]});
+          view.on('vote', this.party.fetch);
           this.$partySongs.append(view.el);
         } else {
           delete this.partySongViews[i];
@@ -116,10 +117,25 @@ define([
 
     setParty: function(party) {
       if (this.party == null || party.id != this.party.id) {
-        this.clean();
+
+
+        // Events
+        if (this.party) {
+          this.party.off(null, null, this);
+        }
+        party.on('sync change', this.onPartyUpdate, this);
+
         this.party = party;
+
+        // DOM
+        this.clean();
         this.render();
       }
+    },
+
+    onPartyUpdate: function() {
+      this.clean();
+      this.filterPartySongs();
     },
 
     search: function(q) {
