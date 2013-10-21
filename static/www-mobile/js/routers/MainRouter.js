@@ -18,7 +18,7 @@ define([
     '../views/HomeView',
     '../views/PartyView',
     '../views/MainView',
-    '../views/searchView'
+    '../views/SearchView'
   ],
 
   function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView, MainView, SearchView) {
