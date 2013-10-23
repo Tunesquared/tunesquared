@@ -7,7 +7,8 @@ requirejs.config({
     'zepto': '../lib/zepto',
     'bs': '../lib/bootstrapAMD/js',
     'jquery': '../lib/zepto2jquery',
-    'mobileutils': '../lib/mobileutils/mobileutils'
+    'mobileutils': '../lib/mobileutils/mobileutils',
+    'lib': '../lib'
   },
 
   shim: {
