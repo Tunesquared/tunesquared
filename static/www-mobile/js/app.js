@@ -1,10 +1,13 @@
 define([
     '$',
-    'routers/MainRouter'
+    'routers/MainRouter',
+    'lib/fastclick'
   ],
-  function ($, MainRouter) {
+  function ($, MainRouter, FastClick) {
     'use strict';
+
+    FastClick.attach(document.body);
+
     // Instantiates a new Backbone.js Mobile Router
     new MainRouter();
-
   });
