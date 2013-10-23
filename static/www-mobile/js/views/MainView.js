@@ -48,15 +48,22 @@ define([
     },
 
     onCloseMenu: function(/*evt*/) {
+      window.history.back();
+    },
 
+    hideMenu: function() {
       this.menu.removeClass('active');
+    },
+
+    showMenu: function() {
+      this.menu.addClass('active');
     },
 
     onOpenMenu: function(evt) {
       evt.preventDefault();
       evt.stopPropagation();
 
-      this.menu.addClass('active');
+      window.location.hash = 'menu';
     },
 
     onRefresh: function(evt) {

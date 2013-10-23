@@ -58,6 +58,18 @@ define([
 
         this.partyView = new PartyView();
         this.searchView = new SearchView();
+
+        /* Ok this may look shitty, but in order to allow pysical "back" button to close the menu,
+          it must be linked to a route. Therefore, there's this "#menu" route which opens the menu.
+          Whenever another route is matched, this callback will be called so we can close the menu here.
+        */
+        this.on('route', function (route) {
+          if (route === 'menu') {
+            this.pages.main.showMenu();
+          } else {
+            this.pages.main.hideMenu();
+          }
+        });
       },
 
       // Backbone.js Routes
@@ -65,16 +77,20 @@ define([
         'party/:name': 'party',
         'share': 'share',
         'search/:query': 'search',
+        'menu': 'menu', // Weired route to show menu
         '*path': 'home'
       },
 
       // Home method
       home: function () {
         if (Session.get('party') != null) {
-          window.location.hash = '#party/'+Session.get('party').get('name');
+          window.location.hash = '#party/' + Session.get('party').get('name');
         }
         this.changePage('home');
       },
+
+      // Does nothing, see "this.on('all')" comment in initialize method
+      menu: function () {},
 
       party: function (name) {
         var self = this;
@@ -84,7 +100,7 @@ define([
         */
         if (Session.get('party') == null || Session.get('party').get('name') !== name) {
           $.mobile.loading('show');
-          Session.joinPartyByName(name, function() {
+          Session.joinPartyByName(name, function () {
             $.mobile.loading('hide');
             window.location.href = '#';
           });
@@ -92,11 +108,11 @@ define([
           // If everything is fine, updates party and shows it
           $.mobile.loading('show');
           Session.get('party').fetch({
-            success: function(){
+            success: function () {
               $.mobile.loading('hide');
               self.showParty();
             },
-            error: function() {
+            error: function () {
               $.mobile.loading('hide');
               self.showParty();
             }
@@ -105,7 +121,7 @@ define([
       },
 
       /* Actually shows party. This is not where party/:name lands because some verification is required beforehand */
-      showParty: function() {
+      showParty: function () {
         this.partyView.setParty(Session.get('party'));
         this.pages.main.setContents(this.partyView.$el);
         this.changePage('main');
@@ -133,7 +149,7 @@ define([
         this.shareView.render();
       },
 
-      changePage: function(pageName) {
+      changePage: function (pageName) {
         if (this.currentPage != pageName) {
           this.root.children().remove();
           this.root.append(this.pages[pageName].$el);
