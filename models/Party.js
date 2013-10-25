@@ -19,6 +19,11 @@ var PartySchema = new mongoose.Schema({
 	currentSong: mongoose.SchemaTypes.ObjectId
 });
 
+PartySchema.pre('save', function(next) {
+  this.name = this.name.toLowerCase();
+  next();
+});
+
 /* Utilities method to vote */
 
 PartySchema.statics.voteYes = function (id, songId, cb) {

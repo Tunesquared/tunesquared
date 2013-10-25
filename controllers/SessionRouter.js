@@ -41,7 +41,7 @@ module.exports = new Framework.Router({
   },
 
   'api/joinPartyByName/:name': function (req, res) {
-    var name = req.param('name');
+    var name = req.param('name').toLowerCase();
 
     Party.findOne({
       name: name

@@ -16,7 +16,7 @@ new framework.Router({
 	/* Direct access to a party */
 	'party/:name': function (req, res) {
 		Party.findOne({
-      name: req.param('name')
+      name: req.param('name').toLowerCase()
     }, function (err, mod) {
 
       res.setHeader('Content-Type', 'application/json');
