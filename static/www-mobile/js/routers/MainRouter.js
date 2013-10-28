@@ -18,10 +18,11 @@ define([
     '../views/HomeView',
     '../views/PartyView',
     '../views/MainView',
-    '../views/SearchView'
+    '../views/SearchView',
+    '../views/ShareView'
   ],
 
-  function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView, MainView, SearchView) {
+  function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView, MainView, SearchView, ShareView) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend({
@@ -58,6 +59,7 @@ define([
 
         this.partyView = new PartyView();
         this.searchView = new SearchView();
+        this.shareView = new ShareView();
 
         /* Ok this may look shitty, but in order to allow pysical "back" button to close the menu,
           it must be linked to a route. Therefore, there's this "#menu" route which opens the menu.
@@ -140,13 +142,16 @@ define([
       },
 
       share: function () {
-        console.log('#share');
-        this.shareView.setParty(Session.get('party'));
-        $.mobile.changePage('#share', {
-          reverse: false,
-          changeHash: false
-        });
-        this.shareView.render();
+        if (Session.get('party') == null) {
+          window.location.href = '#';
+        } else {
+          console.log('#share');
+          //this.shareView.setParty(Session.get('party'));
+
+          this.changePage('main');
+          this.pages.main.setContents(this.shareView.$el);
+        }
+
       },
 
       changePage: function (pageName) {
