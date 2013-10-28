@@ -24,13 +24,18 @@ module.exports = new Framework.Router({
         Party.findOne({
           _id: req.session.partyId
         }, function (err, mod) {
-
-          res.send({
-            party: (mod != null) ? Party.mapVotes(mod.toObject(), req.session.votes) : null,
-            publickey: req.session.publickey,
-            myParty: req.session.myParty
-          });
-
+          if (mod == null) {
+            req.session.partyId = null;
+            req.session.save(function() {
+              res.send('No party with such id', 400);
+            });
+          } else {
+            res.send({
+              party: Party.mapVotes(mod.toObject(), req.session.votes),
+              publickey: req.session.publickey,
+              myParty: req.session.myParty
+            });
+          }
         });
       } else {
         res.send({

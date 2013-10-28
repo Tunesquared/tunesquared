@@ -79,7 +79,7 @@ define(['jquery', 'underscore', 'backbone', 'models/Party'], function ($, _, Bac
     parse: function (response) {
 
       return _.extend(response, {
-        party: new Party(response.party)
+        party: (response.party && new Party(response.party)) || null
       });
     }
 

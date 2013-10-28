@@ -7,6 +7,8 @@
 
 var Framework = require('../framework');
 
+var Party = require('../models/Party');
+
 module.exports = new Framework.Router({
 
 	// TODO : check mobile browser
@@ -18,7 +20,18 @@ module.exports = new Framework.Router({
 	*/
 	'/': function(req, res){
 		if(req.session.myParty != null){
-			res.render('desktop');
+			Party.findOne({
+        _id: req.session.partyId
+      }, function (err, mod) {
+				if (mod != null)
+					res.render('desktop');
+				else {
+					req.session.myParty = null;
+					req.session.partyId = null;
+					req.session.save();
+					res.render('welcome');
+				}
+			});
 		} else {
 			res.render('welcome');
 		}

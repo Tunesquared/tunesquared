@@ -15,6 +15,7 @@ function noop(){}
 var PartySchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true, validate: validate('len', 1, PARTY_TITLE_MAX_LEN) },
 	owner: { type: String, required: true, validate: validate('len', 36, 36) }, // Just a session publickey for now
+  lastUse: { expires: 12, type: Date, default: Date.now},
 	playlist: [Song],
 	currentSong: mongoose.SchemaTypes.ObjectId
 });
@@ -27,11 +28,11 @@ PartySchema.pre('save', function(next) {
 /* Utilities method to vote */
 
 PartySchema.statics.voteYes = function (id, songId, cb) {
-	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1} }, cb || noop);
+	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1}, $set: { 'lastUse': Date.now() } }, cb || noop);
 };
 
 PartySchema.statics.voteNo = function (id, songId, cb) {
-	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1} }, cb || noop);
+	this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1}, $set: { 'lastUse': Date.now() } }, cb || noop);
 };
 
 /* Changes a vote from 'yes to no' or 'no to yes'.
@@ -42,12 +43,32 @@ params:
 */
 PartySchema.statics.changeVote = function(id, songId, val, cb) {
   if (val === 'yes_to_no') {
-    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_no': 1, 'playlist.$.votes_yes': -1}}, cb || noop);
-  } else if (val === 'no_to_yes') {
-    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, { $inc: { 'playlist.$.votes_yes': 1, 'playlist.$.votes_no': -1}}, cb || noop);
-  } else {
+    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, {
+      $inc: { 'playlist.$.votes_no': 1, 'playlist.$.votes_yes': -1},
+      $set: { 'lastUse': Date.now() }
+    }, cb || noop);
+  }
+  else if (val === 'no_to_yes') {
+    this.findOneAndUpdate({_id: id, 'playlist._id': songId}, {
+      $inc: { 'playlist.$.votes_yes': 1, 'playlist.$.votes_no': -1},
+      $set: { 'lastUse': Date.now() }
+    }, cb || noop);
+  }
+  else {
     throw new Error('Cannot change vote with: ' + val);
   }
+};
+
+PartySchema.statics.addSongs = function(partyId, songs, cb) {
+  this.findByIdAndUpdate(partyId, {
+    $pushAll: {
+      playlist: songs
+    },
+
+    $set: {
+      lastUse: Date.now()
+    }
+  }, cb);
 };
 
 
