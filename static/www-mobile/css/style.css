@@ -69,8 +69,7 @@ body, html {
   height: 48px;
   position: absolute;
   right: 0;
-  /*left: 120px;*/
-  width: 48px;
+  width: 50%;
   transition-property: width;
   transition-duration: 300ms;
   z-index: 101;
@@ -92,7 +91,7 @@ body, html {
   border: none;
   padding: 8px;
   position: absolute;
-  right: 0;
+  right: 5px;
   left: initial;
   z-index: 100;
 }
