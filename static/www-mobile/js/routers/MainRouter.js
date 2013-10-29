@@ -79,6 +79,7 @@ define([
         'party/:name': 'party',
         'share': 'share',
         'search/:query': 'search',
+        'exit': 'exit',
         'menu': 'menu', // Weired route to show menu
         '*path': 'home'
       },
@@ -93,6 +94,14 @@ define([
 
       // Does nothing, see "this.on('all')" comment in initialize method
       menu: function () {},
+
+      exit: function() {
+        $.mobile.loading('show');
+        Session.leave(function(){
+          $.mobile.loading('hide');
+          window.location.hash = '#';
+        });
+      },
 
       party: function (name) {
         var self = this;

@@ -53,6 +53,8 @@
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
               <li><a href="#share">Share</a></li>
+              <hr />
+              <li><a href="#exit"><span class="icon-signout"></span> Exit</a></li>
             </ul>
           </div>
         </div>
@@ -103,8 +105,8 @@
           <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success' : 'btn-success disabled' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger' : 'btn-danger disabled' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
         <h2><%= title %></h2>
       </div>
