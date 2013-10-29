@@ -70,11 +70,25 @@ define([
 		},
 
 		componentDidMount: function(){
+			var self = this;
 			this.props.session.fetch({
         success: function () {
-          Backbone.history.start();
+					if (self.props.session.get('party') == null) {
+						partyExpired();
+					} else {
+						Backbone.history.start();
+          }
+        },
+        error: function() {
+					partyExpired();
         }
       });
+
+      function partyExpired() {
+				self.setState({
+					error: [{type: 'critical', message: 'Your party has expired'}]
+				});
+      }
 
       window.app = this;
 		},
@@ -117,11 +131,11 @@ define([
 
 			if(qrelement.is(':hidden')) {
 				qrelement.show(500);
-				qrActionElement.text(" Hide");
+				qrActionElement.text(' Hide');
 			}
 			else {
 				qrelement.hide(500);
-				qrActionElement.text(" Show");
+				qrActionElement.text(' Show');
 			}
 		},
 
