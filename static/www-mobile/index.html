@@ -52,7 +52,7 @@
             <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
-              <li><a href="#">Share</a></li>
+              <li><a href="#share">Share</a></li>
             </ul>
           </div>
         </div>
@@ -91,8 +91,10 @@
 
     <script type="text/template" id="shareTemplate">
       <div class="contents-header"> <h1>QR-Code:</h1></div>
-      <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div>
-      <div id="qrcode"></div>
+      <div class="col-xs-12">
+        <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div>
+        <div id="qrcode"></div>
+      </div>
     </script>
 
     <script type="text/template" id="songTemplate">
@@ -126,7 +128,7 @@
           <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
             <span class="icon-question"></span>
           </button>
-          <a href="../" class="navbar-brand">Tune²</a>
+          <a href="#" class="navbar-brand">Tune²</a>
         </div>
 
         <div class="collapse navbar-help-panel">
