@@ -16,16 +16,18 @@ define ([
         var message = 'Error : ' + this.props.message;
         errortype = errortype[0].toUpperCase() + errortype.substring(1);
 
-        var button;
-        var link;
+        var button = <a class="btn btn-primary" href="/" >Ok</a>;
+        var link = "";
+
+        // Oh man(u) !
         if (message.indexOf('flash') != -1){
-                  link = "http://get.adobe.com/flashplayer/";
-                  button = "Install Flash Player";
-                  window.onblur = function(){
-                    window.onfocus = function(){
-                     location.reload();
-                    };
-                  };
+          link = "http://get.adobe.com/flashplayer/";
+          button = <a class="btn btn-primary" href={link} target="_blank">Install Flash Player</a>;
+          window.onblur = function(){
+            window.onfocus = function(){
+             location.reload();
+            };
+          };
         }
 
         return (
@@ -40,7 +42,7 @@ define ([
                   <p>{link}</p>
                 </div>
                 <div class="modal-footer">
-                  <a class="btn btn-primary" href={link} target="_blank">{button}</a>
+                  {button}
                 </div>
               </div>
             </div>

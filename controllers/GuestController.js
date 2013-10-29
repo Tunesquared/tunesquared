@@ -40,20 +40,13 @@ new framework.Router({
 	'post:api/playlistAddSong': function (req, res) {
 		var song = new Song(req.body.song);
 
-		Party.update(
-			{
-				_id: req.session.partyId
-			}, {
-				$pushAll: {
-					playlist: [song]
-				}
-			}, function (err) {
-				if(err) throw err;
-				framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
-					partyId: req.session.partyId,
-					songs: [song]
-				});
+		Party.addSongs(req.session.partyId, [song], function (err) {
+			if(err) throw err;
+			framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
+				partyId: req.session.partyId,
+				songs: [song]
 			});
+		});
 		res.end();
 	},
 
