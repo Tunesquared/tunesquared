@@ -8,14 +8,15 @@ var Song = require('./Song').schema;
 /* Maximum string length for party title. (see client create dialog) */
 var PARTY_TITLE_MAX_LEN = 32;
 
-// maybe put this in some utils somewhere
+// A few constants needed in this file
 function noop(){}
+var HALF_A_DAY = 3600*12;
 
 
 var PartySchema = new mongoose.Schema({
 	name: { type: String, required: true, unique: true, validate: validate('len', 1, PARTY_TITLE_MAX_LEN) },
 	owner: { type: String, required: true, validate: validate('len', 36, 36) }, // Just a session publickey for now
-  lastUse: { expires: 12, type: Date, default: Date.now},
+  lastUse: { expires: HALF_A_DAY, type: Date, default: Date.now},
 	playlist: [Song],
 	currentSong: mongoose.SchemaTypes.ObjectId
 });
