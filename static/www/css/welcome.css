@@ -18,9 +18,7 @@ body {
 	/* Allows footer to stick to the bottom of the page */
 	position: relative;
 	/*Makes some room for the footer */
-	padding-bottom: 80px;
 	min-height: 100%;
-	padding-bottom: 15px;
 	overflow-x: hidden;
 }
 
@@ -100,19 +98,13 @@ body {
 
 footer {
 	background-color: #1A1A1A;
-	position: fixed;
 	bottom: 0;
 	width: 100%;
 	padding: 5px;
 	color: #999;
 }
 
-.demoline-content {
-	font-size: 24px;
-	color: black;
-}
-
-.demoline1 {
+.demoline {
 	padding-top: 40px;
 	padding-bottom: 80px;
 }
