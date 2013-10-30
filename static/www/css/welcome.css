@@ -50,7 +50,8 @@ body {
 
 .splash {
 	background-color: #003A4D;
-	background: url(/img/Party%20Santo%20Domingo%2075_touched.jpg) center fixed no-repeat #6BBDBC;
+	/*background: url(/img/Party%20Santo%20Domingo%2075_touched.jpg) center fixed no-repeat #6BBDBC; */
+	background: url(/img/test5.jpg) center fixed no-repeat #000;
 }
 .splash > .contents {
 	padding-top: 100px;
@@ -98,8 +99,8 @@ body {
 }
 
 footer {
-	background-color: #002829;
-	position: absolute;
+	background-color: #1A1A1A;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
 	padding: 5px;
