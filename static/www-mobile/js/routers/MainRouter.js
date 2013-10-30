@@ -44,7 +44,7 @@ define([
 
           },
           error: function () {
-            console.log('Session.fetch Error.. ');
+            window.location.reload();
           }
         });
 
