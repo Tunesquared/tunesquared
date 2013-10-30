@@ -51,6 +51,7 @@ body {
 	/*background: url(/img/Party%20Santo%20Domingo%2075_touched.jpg) center fixed no-repeat #6BBDBC; */
 	/*background: url(/img/bokeh2.jpg) center fixed no-repeat #000;*/
 	background: url(/img/bokehblue.jpg) center fixed no-repeat #000;
+	background-size: cover;
 }
 .splash > .contents {
 	padding-top: 100px;
