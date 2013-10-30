@@ -9,6 +9,9 @@ var Framework = require('../framework');
 
 var Party = require('../models/Party');
 
+var mUtils = require('../utils/mobileUtils');
+
+
 module.exports = new Framework.Router({
 
 	// TODO : check mobile browser
@@ -19,21 +22,35 @@ module.exports = new Framework.Router({
 		The welcome page is separated from the app so that it can be displayed fast
 	*/
 	'/': function(req, res){
-		if(req.session.myParty != null){
-			Party.findOne({
-        _id: req.session.partyId
-      }, function (err, mod) {
-				if (mod != null)
-					res.render('desktop');
-				else {
-					req.session.myParty = null;
-					req.session.partyId = null;
-					req.session.save();
-					res.render('welcome');
-				}
-			});
+		if (mUtils.isMobile(req)) {
+			res.redirect('/m');
 		} else {
-			res.render('welcome');
+			if(req.session.myParty != null){
+				Party.findOne({
+		      _id: req.session.partyId
+			    }, function (err, mod) {
+						if (mod != null)
+							res.render('desktop');
+						else {
+							req.session.myParty = null;
+							req.session.partyId = null;
+							req.session.save();
+							res.render('welcome');
+						}
+					});
+			} else {
+				res.render('welcome');
+			}
 		}
+	},
+
+	'/desktop': function(req, res) {
+		mUtils.forceDesktop(res);
+		res.redirect('/');
+	},
+
+	'/m': function(req, res, next) {
+		mUtils.clearForce(req, res);
+		next();
 	}
 });
