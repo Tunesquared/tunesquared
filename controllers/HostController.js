@@ -65,20 +65,11 @@ framework.Controller({
 					if (errors.length !== 0){
 						ack(errors);
 					} else {
-						performUpdate();
+						Party.addSongs(data.party, modelSongs, function(err){
+							ack(err, modelSongs);
+						});
 					}
 				}
-			}
-
-			// Actual action on the model
-			function performUpdate() {
-				Party.findByIdAndUpdate(data.party, {
-					$pushAll: {
-						playlist: modelSongs
-					}
-				}, function (err) {
-					ack(err, modelSongs);
-				});
 			}
 		});
 	},
@@ -238,6 +229,7 @@ rest
 		cb('already owns a party');
 	} else {
 		data.owner = req.session.publickey;
+		data.name = data.name.toLowerCase();
 		cb(null, data);
 	}
 })

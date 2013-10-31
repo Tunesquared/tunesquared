@@ -13,7 +13,7 @@ requirejs.config({
         'jquery': '../lib/jquery',
         'wizard': '../lib/wizard',
         'react': '../lib/react',
-        'components': 'components-build', 
+        'components': 'components-build',
         'qrgenerator': '../lib/qrcode.min'
     },
 
@@ -35,7 +35,7 @@ requirejs.config({
         },
 
         'qrgenerator': {
-            exports: "QRCode"
+            exports: 'QRCode'
         }
 
     }

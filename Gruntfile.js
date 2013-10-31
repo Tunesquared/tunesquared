@@ -78,7 +78,8 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      dist: ['tmp', 'dist'],
+      tmp: ['tmp'],
+      dist: ['dist'],
     },
 
     strip : {
@@ -162,9 +163,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Builds and prepare code for deployment (the all-in-one command)
-  grunt.registerTask('publish', ['build', 'dist']);
+  grunt.registerTask('publish', ['build', 'clean:dist', 'dist']);
   // Builds precompiled files to run in development
   grunt.registerTask('setup', ['react', 'wrap']);
   // Builds everything
-  grunt.registerTask('build', ['clean', 'setup', 'requirejs', 'strip', 'uglify']);
+  grunt.registerTask('build', ['clean:tmp', 'setup', 'requirejs', 'strip', 'uglify']);
 };

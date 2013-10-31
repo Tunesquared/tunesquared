@@ -3,3 +3,5 @@ node_modules/
 static/www/js/components-build/
 tmp/
 dist/
+nohup.out
+dump.rdb

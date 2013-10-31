@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, 'bootstrap/modal', 'wizard'],
-	function(React, $, jqEvents, QR /*, JSON*/){
+define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json'*/, 'bootstrap/modal', 'wizard'],
+	function(React, $, jqEvents, QRCode /*, JSON*/){
 
 	/* Maximum string length for party title. (see Party server model) */
 	var PARTY_TITLE_MAX_LEN = 32;
@@ -26,28 +26,24 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 		},
 
 		componentWillUnmount: function(){
-			if (!this._hiding){
-				this._hiding = true;
-				this.node.modal('hide');
-				this._hiding = false;
-			}
+			this.node.modal('hide');
 		},
 
 		getInitialState: function(){
-			this.QRCodeURL = '';
 			return {
-				error: null
+				error: null,
+				partyName: ''
 			};
 		},
 
 		// Custom methods
 
 		onHide: function() {
-			if (!this._hiding){
-				this._hiding = true;
-				this.props.onHide();
-				this._hiding = false;
-			}
+			var onHide = this.props.onHide;
+			// Defers callback call to avoid scrollbar issue
+			window.setTimeout(function(){
+				onHide();
+			});
 		},
 
 		onWizardComplete: function(){
@@ -65,7 +61,9 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 				this.setState({error:'You must provide a name'});
 				evt.cancel();
 			} else {
+				// Pauses wizard page transition, showing a loading
 				var lock = evt.lock();
+
 				this.props.session.createParty({name: name}, function (err /*, party */) {
 					if(err != null){
 						// Performs some checks to be sure what error we are talking about
@@ -82,13 +80,16 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 						} else {
 							this.setState({error: 'Something went wrong'});
 						}
+
+						// Cancels wizard transition
 						lock(true);
 					} else {
-						this.QRCodeURL = 
-							'http://'
-							+ window.location.host
-							+ '/party/'
-							+ encodeURIComponent(name);
+
+						this.setState({
+							partyName: name
+						});
+
+						// Resumes wizard transition
 						lock();
 					}
 				}.bind(this));
@@ -140,7 +141,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 									<div class="row">
 										<div class="col-5">
 											<p>Let them scan this code</p>
-											
+											<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
 										</div>
 										<div class="col-2">
 											<p>OR</p>
@@ -149,7 +150,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'qrgenerator'/*, TODO :'json'*/, '
 											<p></p>
 											<div class="mobile-prez">
 												<p class="mobile-prez-text" data-role="mobile-text"></p>
-												<img class="img-responsive" src="img/mobile-updated.png" />
+												<img class="img-responsive" src="img/mobile.png" />
 											</div>
 										</div>
 									</div>

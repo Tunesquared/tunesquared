@@ -21,6 +21,8 @@ body {
 	/*padding-bottom: 80px;
 	min-height: 100%;*/
 	padding-bottom: 15px;
+	background-color: #333;
+	overflow-x: hidden;
 }
 
 
@@ -91,7 +93,7 @@ body {
 	/*background-color: #3BA8A2;*/
 	background-color: #4e6caa;
 	width: 100%;
-	padding: 20px;	
+	padding: 20px;
 }
 
 .demoline3 {
@@ -99,8 +101,6 @@ body {
 	width: 100%;
 	padding: 20px;
 }
-
-body { background-color: #333;}
 
 #betalogo {
 	-webkit-transform: rotate(45deg);
@@ -139,7 +139,7 @@ footer {
 .mainhome > .btn-primary {
 	background-color: #995200;
 	border: none;
-	
+
 	-moz-box-shadow:    3px 3px 5px 1px black;
 	  -webkit-box-shadow: 3px 3px 5px 1px black;
 	  box-shadow:         3px 3px 5px 1px black;

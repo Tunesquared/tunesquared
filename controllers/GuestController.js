@@ -16,7 +16,7 @@ new framework.Router({
 	/* Direct access to a party */
 	'party/:name': function (req, res) {
 		Party.findOne({
-      name: req.param('name')
+      name: req.param('name').toLowerCase()
     }, function (err, mod) {
 
       res.setHeader('Content-Type', 'application/json');
@@ -40,20 +40,13 @@ new framework.Router({
 	'post:api/playlistAddSong': function (req, res) {
 		var song = new Song(req.body.song);
 
-		Party.update(
-			{
-				_id: req.session.partyId
-			}, {
-				$pushAll: {
-					playlist: [song]
-				}
-			}, function (err) {
-				if(err) throw err;
-				framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
-					partyId: req.session.partyId,
-					songs: [song]
-				});
+		Party.addSongs(req.session.partyId, [song], function (err) {
+			if(err) throw err;
+			framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
+				partyId: req.session.partyId,
+				songs: [song]
 			});
+		});
 		res.end();
 	},
 
