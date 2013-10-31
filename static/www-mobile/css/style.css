@@ -12,8 +12,41 @@ body, html {
   height: 100%;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #1B1B1B;
+  padding: 5px;
+  margin-top: 15px;
+}
+
+.footer a {
+  font-weight: bold;
+  color: #23556D;
+}
+
+.footer a:hover {
+  text-decoration: none;
+  color: #3C89AD;
+}
+
+.copyright {
+  color: #646464;
+}
+
+.home {
+  padding-bottom: 40px;
+}
+
 #app {
   padding-top: 50px;
+  height: 100%;
+}
+
+#app > div {
+  min-height: 100%;
+  position: relative;
 }
 
 .navbar-brand.brand-offset {
