@@ -45,14 +45,17 @@ define(['$', 'underscore', '../models/Party', 'backbone', 'backbone'], function 
     leave: function (callback) {
       var self = this;
 
-      $.get('api/leaveParty')
-        .success(function () {
+      $.ajax({
+        url: 'api/leaveParty',
+        success: function () {
           self.set('partyId', null);
+          self.set('party', null);
           if (callback) callback(null);
-        })
-        .error(function () {
+        },
+        error:function () {
           if (callback) callback('Network error');
-        });
+        }
+      });
 
     },
 

@@ -52,7 +52,9 @@
             <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
-              <li><a href="#">Share</a></li>
+              <li><a href="#share">Share</a></li>
+              <hr />
+              <li><a href="#exit"><span class="icon-signout"></span> Exit</a></li>
             </ul>
           </div>
         </div>
@@ -89,14 +91,22 @@
       <div id="searchSongs"></div>
     </script>
 
+    <script type="text/template" id="shareTemplate">
+      <div class="contents-header"> <h1>QR-Code:</h1></div>
+      <div class="col-xs-12">
+        <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div>
+        <div id="qrcode"></div>
+      </div>
+    </script>
+
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
           <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-primary disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-primary disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
         <h2><%= title %></h2>
       </div>
@@ -120,7 +130,7 @@
           <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
             <span class="icon-question"></span>
           </button>
-          <a href="../" class="navbar-brand">Tune²</a>
+          <a href="#" class="navbar-brand">Tune²</a>
         </div>
 
         <div class="collapse navbar-help-panel">
