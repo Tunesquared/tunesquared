@@ -9,7 +9,7 @@ var Framework = require('../framework');
 
 var Party = require('../models/Party');
 
-var mUtils = require('../utils/mobileUtils');
+var mUtils = require('../utils/mobileutils');
 
 
 module.exports = new Framework.Router({
