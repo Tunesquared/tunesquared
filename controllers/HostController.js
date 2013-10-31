@@ -229,6 +229,7 @@ rest
 		cb('already owns a party');
 	} else {
 		data.owner = req.session.publickey;
+		data.name = data.name.toLowerCase();
 		cb(null, data);
 	}
 })

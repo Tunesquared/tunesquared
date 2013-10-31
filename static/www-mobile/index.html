@@ -52,7 +52,9 @@
             <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
-              <li><a href="#">Share</a></li>
+              <li><a href="#share">Share</a></li>
+              <hr />
+              <li><a href="#exit"><span class="icon-signout"></span> Exit</a></li>
             </ul>
           </div>
         </div>
@@ -89,14 +91,22 @@
       <div id="searchSongs"></div>
     </script>
 
+    <script type="text/template" id="shareTemplate">
+      <div class="contents-header"> <h1>QR-Code:</h1></div>
+      <div class="col-xs-12">
+        <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div>
+        <div id="qrcode"></div>
+      </div>
+    </script>
+
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
           <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-primary disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-primary disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
         <h2><%= title %></h2>
       </div>
@@ -120,21 +130,21 @@
           <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
             <span class="icon-question"></span>
           </button>
-          <a href="../" class="navbar-brand">Tune²</a>
+          <a href="#" class="navbar-brand">Tune²</a>
         </div>
 
         <div class="collapse navbar-help-panel">
           <div class="col-xs-12 col-md-8 col-md-offset-2">
             <h2>What is this ?</h2>
             <p class="lead">Tunesquared allows you to choose the music that is being played at some place or event.</p>
-            <p>If you want attend such event, <strong>ask someone for the party name</strong>, then <strong>type it in the text field</strong> below and start picking your favourite songs!</p>
+            <p>If you are attending such event, <strong>ask someone for the party name</strong>, then <strong>type it in the text field</strong> below and start picking your favourite songs!</p>
             <p>If you want to create such an event, please visit our <a href="/">main page</a>.<br />&nbsp;</p>
           </div>
         </div>
       </nav>
 
 
-      <div class="container center">
+      <div class="container center home">
         <h1>Welcome to tunesquared</h1>
         <p class="lead">
           Join a party and start choosing what you want to listen to.
@@ -147,6 +157,16 @@
           <button type="submit" class="btn btn-primary btn-large join-party-btn">Join this party!</button>
         </form>
       </div>
+
+      <div class="footer">
+        <div class="container">
+          <span class="pull-right copyright">
+            &copy; TuneSquared, 2013
+          </span>
+          <a href="/desktop">Desktop version</a>
+        </div>
+      </div>
+
       <!-- -->
     </script>
     <!-- -->
