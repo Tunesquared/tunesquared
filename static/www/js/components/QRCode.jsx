@@ -1,33 +1,15 @@
 /** @jsx React.DOM */
 'use strict';
 
-/*
-	Dark background prevents QR from being read (see issue #25)
-	There are two solutions:
-	- 1: add a light colored margin, the code gets even uglier this way but it's readable
-	- 2: reverse colors, this might lead to compatibility issues
-*/
 
-// Solution 1:
-/*
+
 var QR_PROPS = {
 	width: 128,
 	height: 128,
-	margin: 5,
+	margin: 10,
 	colorLight: '#ffffff',
 	colorDark: '#000000'
 };
-//*/
-// Solution 2:
-//*
-var QR_PROPS = {
-	width: 128,
-	height: 128,
-	margin: 0,
-	colorLight: '#000000',
-	colorDark: '#ffffff'
-};
-//*/
 
 
 define(['react', 'qrgenerator'], function(React, QR) {
