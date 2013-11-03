@@ -277,5 +277,8 @@ rest
 })
 
 .after('read', function (req, data, cb) {
-  cb(null, Party.mapVotes((data != null) ? data.toObject() : data, req.session.votes));
+	if (data == null)
+		cb('Unable to read party');
+	else
+		cb(null, Party.mapVotes( data.toObject(), req.session.votes));
 });
