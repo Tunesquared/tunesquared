@@ -165,15 +165,15 @@ footer {
 	box-shadow: 0px -1px 2px #000;
 }
 
-.qr-toogleshow {
-	background-color: Grey;
-	color: White;
-}
-
-.qr-content {
+.qr-code {
 	padding-top: 20px;
 }
 
 .qrcode-container {
 	display: none;
+}
+
+.home-row {
+	background-color: #111;
+	padding: 20px 0;
 }
