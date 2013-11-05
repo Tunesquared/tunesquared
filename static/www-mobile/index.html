@@ -67,7 +67,7 @@
     <!-- -->
 
     <script type="text/template" id="partyTemplate">
-      <% if (currentSong){ %>
+      <% if (typeof currentSong !== 'undefined'){ %>
         <div class="contents-header"><h1>Currently played:</h1></div>
         <div id="currentSong">
           <div class="thumbnail">
