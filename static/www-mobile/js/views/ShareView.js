@@ -4,9 +4,17 @@
   A QR-Code make it easy to share the page with friends on the party. Get everyone involved and have fun!
 */
 
+var QR_PROPS = {
+  width: 128,
+  height: 128,
+  margin: 10,
+  colorLight: '#ffffff',
+  colorDark: '#000000'
+};
+
 define([
 	// libs
-  '$', 'backbone', 'underscore',
+  '$', 'backbone', 'underscore', 'qrgenerator',
 
   // application deps
   //'models/Party',
@@ -16,12 +24,18 @@ define([
 
   //], function($, Backbone, _, Party) {
 
-  ], function($, Backbone, _) {
+  ], function($, Backbone, _, QR) {
 
   'use strict';
 
 
 var ShareView = Backbone.View.extend({
+
+    events: {
+      'click' : 'qr_load'
+    },
+
+
 
     initialize: function() {
       // Binds event callbacks to be sure "this" refers to a PartyView instance
@@ -31,12 +45,42 @@ var ShareView = Backbone.View.extend({
     },
 
     render: function() {
+
     	this.$el.html(this.template({}));
+      if (document.getElementById("qrcode")) {
+        qr_load();
+      };
 
 
     },
 
-    clean: function(){
+    qr_load: function(){
+      if (this.qrcode)
+        this.qrcode.clear();
+
+      var qrelement = document.getElementById("qrcode");
+      $(qrelement).empty();
+
+      this.qrcode = new QR(qrelement, {
+        text:  'http://'
+        + window.location.host
+        + '/party/'
+        /*+ name of party */,
+
+
+        width: QR_PROPS.width,
+        height: QR_PROPS.height,
+        colorDark: QR_PROPS.colorDark,
+        colorLight: QR_PROPS.colorLight
+      });
+
+      $(qrelement).css({
+        'padding': QR_PROPS.margin + 'px',
+        'background-color': QR_PROPS.colorLight,
+        'width' : (QR_PROPS.margin*2 + QR_PROPS.width) + 'px',
+        'height': (QR_PROPS.margin*2 + QR_PROPS.height) + 'px'
+      });
+
 
     },
 
@@ -48,7 +92,7 @@ var ShareView = Backbone.View.extend({
 
       this.party = party;
       this.render();
-    },
+    }
 
 
   });
