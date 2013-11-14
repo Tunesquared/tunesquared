@@ -159,6 +159,7 @@ define([
 
           this.changePage('main');
           this.pages.main.setContents(this.shareView.$el);
+          this.shareView.qr_load();
         }
 
       },

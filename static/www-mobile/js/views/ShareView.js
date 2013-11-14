@@ -32,7 +32,7 @@ define([
 var ShareView = Backbone.View.extend({
 
     events: {
-      'click' : 'qr_load'
+
     },
 
 
@@ -41,16 +41,13 @@ var ShareView = Backbone.View.extend({
       // Binds event callbacks to be sure "this" refers to a PartyView instance
       //_.bindAll(this);
       this.template = _.template($('#shareTemplate').html());
-      this.render();
+
+
     },
 
     render: function() {
 
-    	this.$el.html(this.template({}));
-      if (document.getElementById("qrcode")) {
-        qr_load();
-      };
-
+      this.$el.html(this.template({}));
 
     },
 
@@ -58,29 +55,32 @@ var ShareView = Backbone.View.extend({
       if (this.qrcode)
         this.qrcode.clear();
 
-      var qrelement = document.getElementById("qrcode");
+      var qrelement = document.getElementById('qrcode');
+      //var qrelement = $("#qrcode");
       $(qrelement).empty();
 
-      this.qrcode = new QR(qrelement, {
-        text:  'http://'
-        + window.location.host
-        + '/party/'
-        /*+ name of party */,
+      if(qrelement!==null){
+
+        this.qrcode = new QR(qrelement, {
+          text:  'http://'
+          + window.location.host
+          + '/party/'
+          /*+ name of party */,
 
 
-        width: QR_PROPS.width,
-        height: QR_PROPS.height,
-        colorDark: QR_PROPS.colorDark,
-        colorLight: QR_PROPS.colorLight
-      });
+          width: QR_PROPS.width,
+          height: QR_PROPS.height,
+          colorDark: QR_PROPS.colorDark,
+          colorLight: QR_PROPS.colorLight
+        });
 
-      $(qrelement).css({
-        'padding': QR_PROPS.margin + 'px',
-        'background-color': QR_PROPS.colorLight,
-        'width' : (QR_PROPS.margin*2 + QR_PROPS.width) + 'px',
-        'height': (QR_PROPS.margin*2 + QR_PROPS.height) + 'px'
-      });
-
+        $(qrelement).css({
+          'padding': QR_PROPS.margin + 'px',
+          'background-color': QR_PROPS.colorLight,
+          'width' : (QR_PROPS.margin*2 + QR_PROPS.width) + 'px',
+          'height': (QR_PROPS.margin*2 + QR_PROPS.height) + 'px'
+        });
+      };
 
     },
 
