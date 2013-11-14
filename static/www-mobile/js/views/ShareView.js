@@ -55,8 +55,8 @@ var ShareView = Backbone.View.extend({
       if (this.qrcode)
         this.qrcode.clear();
 
-      var qrelement = document.getElementById('qrcode');
-      //var qrelement = $("#qrcode");
+      //var qrelement = document.getElementById('qrcode');
+      var qrelement =  this.$("#qrcode").get()[0];
       $(qrelement).empty();
 
       if(qrelement!==null){
@@ -65,7 +65,7 @@ var ShareView = Backbone.View.extend({
           text:  'http://'
           + window.location.host
           + '/party/'
-          /*+ name of party */,
+          + this.party.get('name'),
 
 
           width: QR_PROPS.width,
