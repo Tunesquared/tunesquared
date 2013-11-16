@@ -32,7 +32,7 @@ define([
 var ShareView = Backbone.View.extend({
 
     events: {
-
+      'click .sms' : 'sendSMS'
     },
 
 
@@ -82,6 +82,17 @@ var ShareView = Backbone.View.extend({
         });
       };
 
+    },
+
+    sendSMS: function(){
+      var ua = navigator.userAgent.toLowerCase();
+      var url = "sms:";
+      url += (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1) ? ";" : "?";
+      url += "body=" + encodeURIComponent('http://'
+          + window.location.host
+          + '/party/'
+          + this.party.get('name'));
+      location.href = url;
     },
 
 
