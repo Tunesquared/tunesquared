@@ -92,8 +92,7 @@ define([
       if(p){
         $.mobile.loading('show');
         p.fetch({
-          offline : false,
-          refresh : false,
+          cache : false,
           success: function(){
             $.mobile.loading('hide');
           },
