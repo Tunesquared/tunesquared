@@ -1,6 +1,7 @@
 'use strict';
 
-define(['underscore', 'backbone'], function (_, Backbone) {
+define(['underscore', 'backbone', 'players/LayoutManager', 'jquery'],
+	function (_, Backbone, LayoutManager, $) {
 
 	/**
 		Creates a player for the given song attached to the givent html element
@@ -11,12 +12,22 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 		setTimeout(function () {
 			// Mandatory : must save the song as this.song !
 			this.song = song;
-			this.el = element;
+			this.el = $(element)
+			// Adds a dummy visualisation
+			.append($('<div />').css({
+				'background-color': 'blue',
+				'width': '100%',
+				'height': '100%'
+			}));
 
 			this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
 			this._interval = null;
 			this._currentTime = 0;
 			this._state = 'paused';
+
+			this.layoutManager = new LayoutManager(this.el, {
+				inner: true
+			});
 
 			ready(null, this);
 		}.bind(this), 1);
@@ -71,6 +82,14 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 	// Seeks to time in msecs
 	FakePlayer.prototype.seekTo = function (time) {
 		this._currentTime = time;
+	};
+
+
+	// Visual :
+
+	// Returns a DOM node
+	FakePlayer.prototype.getLayoutManager = function() {
+		return this.layoutManager;
 	};
 
 	// Getters :

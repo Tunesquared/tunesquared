@@ -14,7 +14,7 @@ requirejs.config({
         'wizard': '../lib/wizard',
         'react': '../lib/react',
         'components': 'components-build',
-        'qrgenerator': '../lib/qrcode.min'
+        'qrgenerator': '../lib/qrcode'
     },
 
     shim: {

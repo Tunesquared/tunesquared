@@ -1,15 +1,5 @@
 /** @jsx React.DOM */
 
-
-
-      /* REFACTOR: put this somewhere
-      var QRCodeURL =
-        'http://'
-        + window.location.host
-        + '/party/'
-        + encodeURIComponent(currentParty.get('name'));
-      */
-
 'use strict';
 define([
   'react',
@@ -17,6 +7,8 @@ define([
   'underscore',
   'components/SongVignette',
   'components/QRCode',
+  'components/Playlist',
+  'players/LayoutProxy',
   'utils'
 ], function(
   React,
@@ -24,24 +16,36 @@ define([
   _,
   SongVignette,
   QRCode,
+  Playlist,
+  LayoutProxy,
   utils){
 
 	var Home = React.createClass({
 
 		getInitialState: function() {
-			return {
-			};
+			return { };
 		},
 
 		componentDidMount: function() {
-      this.props.party.on('change', this.updateQRCodeURL);
+      this.props.party.on('change', this.updateQRCodeURL, this);
+      LayoutProxy.on('change removed', this.updateVisualisation, this);
+      this.updateVisualisation(null, LayoutProxy.getLayout());
+      this.updateQRCodeURL();
 		},
+
+    componentWillUnmount: function() {
+      this.props.party.off(null, null, this);
+      LayoutProxy.off(null, null, this);
+
+      this.updateVisualisation(LayoutProxy.getLayout(), null);
+    },
 
     componentWillReceiveProps: function(props) {
       this.updateQRCodeURL(props.party);
     },
 
     updateQRCodeURL: function(party) {
+      party = party || this.props.party;
       this.setState({
         QRCodeURL: 'http://' +
           window.location.host +
@@ -50,21 +54,26 @@ define([
       });
     },
 
-		onChooseSong: function (song) {
-			this.props.party.get('playlist').add(song);
-		},
+    updateVisualisation: function(oldVisu, newVisu) {
+      if (oldVisu) {
+        oldVisu.hide();
+      }
+      if (newVisu) {
+        newVisu.attachTo(this.refs.visu.getDOMNode());
+      }
+    },
 
 		render: function(){
 
 			return (
-				<div>
-					<div class="row home-row">
-            <div class="col-3">
-              <QRCode data={this.state.QRCodeURL} />
-            </div>
-            <div class="col-9">
-              Player here
-            </div>
+				<div class="row home">
+          <div class="col-3">
+            <QRCode data={this.state.QRCodeURL} />
+          </div>
+          <div id="visu-anchor" ref="visu" class="col-9" >
+          </div>
+          <div class="col-12">
+            <Playlist playlist={this.props.party.get('playlist')} />
           </div>
 				</div>
 			);

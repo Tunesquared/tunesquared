@@ -169,7 +169,12 @@ footer {
 	padding-top: 20px;
 }
 
-.home-row {
+.home {
 	background-color: #111;
 	padding: 20px 0;
+}
+
+#visu-anchor {
+	width: 500px;
+	height: 300px;
 }

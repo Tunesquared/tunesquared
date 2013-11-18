@@ -1,6 +1,7 @@
 'use strict';
 
-define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject) {
+define(['underscore', 'backbone', 'swfobject', 'players/LayoutManager'],
+	function (_, Backbone, swfobject, LayoutManager) {
 
 	var MIN_FLASH_VERSION = '10.1';
 
@@ -63,6 +64,10 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 		// Mandatory : must save the song as this.song !
 		this.song = song;
 		this.el = element;
+
+		this.layoutManager = new LayoutManager(this.el, {
+			resizeMethod: 'attr'
+		});
 
 		// Saves a local copy of unique count and increments
 		this._id = counter++;
@@ -146,7 +151,7 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 
 	// Returns current time in msec
 	YoutubePlayer.prototype.getSeekTime = function () {
-		this.seekTime = this._player.getCurrentTime() * 1000
+		this.seekTime = this._player.getCurrentTime() * 1000;
 		return this._seekTime;
 	};
 
@@ -161,6 +166,10 @@ define(['underscore', 'backbone', 'swfobject'], function (_, Backbone, swfobject
 	YoutubePlayer.prototype.getState = function () {
 		return (this._player.getPlayerState() === 1 || this._player.getPlayerState() === 3) ?
 			'playing' : 'stopped';
+	};
+
+	YoutubePlayer.prototype.getLayoutManager = function() {
+		return this.layoutManager;
 	};
 
 	YoutubePlayer.prototype.release = function () {

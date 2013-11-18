@@ -12,8 +12,20 @@
   add it to the playlist. One cannot force a song to go in the player, it has
   to be first in the playlist at the moment songs are switched.
 */
-define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap-slider'],
-  function (React, jquery, PlayerFactory, persist) {
+define([
+  'react',
+  'jquery',
+  'players/PlayerFactory',
+  'mixins/persist',
+  'players/LayoutProxy',
+  'bootstrap-slider'],
+  function (
+    React,
+    jquery,
+    PlayerFactory,
+    persist,
+    LayoutProxy
+) {
 
   var PROGRESS_STEP = 1000;
 
@@ -179,6 +191,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
 
         /* Exposes the player to make tests, very handy ;) */
         window.player = player;
+
+        /* sets new visualisation layout manager */
+        LayoutProxy.setLayout(player.getLayoutManager());
 
         // Initialize slave player with master state
         player.setVolume(this.state.volume);
