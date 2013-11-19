@@ -175,6 +175,13 @@ footer {
 }
 
 #visu-anchor {
-	width: 500px;
-	height: 300px;
+	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
+	width: 853px;
+	height: 480px;
+
+	margin: auto;
+}
+
+.qr-inner {
+	margin: auto;
 }

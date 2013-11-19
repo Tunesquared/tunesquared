@@ -70,7 +70,8 @@ define([
           <div class="col-3">
             <QRCode data={this.state.QRCodeURL} />
           </div>
-          <div id="visu-anchor" ref="visu" class="col-9" >
+          <div class="col-9 visu-container">
+            <div id="visu-anchor" ref="visu"/>
           </div>
           <div class="col-12">
             <Playlist playlist={this.props.party.get('playlist')} />
