@@ -9,7 +9,7 @@ requirejs.config({
         'socket.io': '../socket.io/socket.io',
         'underscore': '../lib/underscore',
         'backbone': '../lib/backbone',
-        'bootstrap': '../lib/bootstrap/js',
+        'bootstrap': '../lib/bootstrapAMD/js',
         'jquery': '../lib/jquery',
         'wizard': '../lib/wizard',
         'react': '../lib/react',
