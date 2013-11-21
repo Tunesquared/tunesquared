@@ -143,7 +143,9 @@ define([
 					</div>
 					<footer>
 						<div class="container">
-							Blabla
+							<div class="pull-right">
+								&copy; 2013 Tunesquared
+							</div>
 						</div>
 					</footer>
 					{dialog}

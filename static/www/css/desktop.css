@@ -22,6 +22,19 @@ footer {
 	padding: 20px;
 }
 
+.home {
+	background-color: #111;
+	padding: 20px 0;
+}
+
+#visu-anchor {
+	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
+	width: 853px;
+	height: 480px;
+
+	margin: auto;
+}
+
 .navbar {
 	margin-bottom: 0;
 	border: 0;
@@ -61,10 +74,6 @@ footer {
 .top {
 	padding: 20px 0px;
 	background-color: #181818;
-}
-
-.affix {
-	top: 50px;
 }
 
 /* player */
@@ -114,23 +123,20 @@ footer {
 /* Playlist */
 
 #playlist {
-	margin-top: 20px;
+	overflow: hidden;
+	margin: 10px;
 }
 
-.playlist-item .remove-btn {
-	position: absolute;
-	right: 5px;
-	top: 3px;
-	cursor: pointer;
-	color: #393939;
+.playlist-inner {
+	height: 160px;
+	width: 10000px;
+	background-color: #060606;
+	padding: 20px;
 }
 
-.playlist-item .remove-btn:hover {
-	color: #ccc;
-}
-
-.playlist-item h3 {
-	margin-top: 0;
+.playlist-item {
+	float: left;
+	width: 300px;
 }
 
 /* Search page */
@@ -167,19 +173,6 @@ footer {
 
 .qr-code {
 	padding-top: 20px;
-}
-
-.home {
-	background-color: #111;
-	padding: 20px 0;
-}
-
-#visu-anchor {
-	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
-	width: 853px;
-	height: 480px;
-
-	margin: auto;
 }
 
 .qr-inner {

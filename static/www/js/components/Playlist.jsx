@@ -2,6 +2,9 @@
 'use strict';
 
 define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistItem, utils){
+
+	var ITEMS_N = 5; // Number of playlist item shown
+
 	var Playlist = React.createClass({
 		componentDidUpdate: function () {
 		},
@@ -18,20 +21,26 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 
 		render: function () {
 			var i = 0;
-			var isNext = utils.onceTrue();
-			var list = this.props.playlist.map(function(song){
+			var list = this.props.playlist.first(ITEMS_N).map(function(song){
 				return <PlaylistItem
 						pos={++i}
 						song={song}
-						isNext={isNext()}
 
 						// We need to add spice to the key otherwise react fails to detect change
 						key={song.cid + song.get('votes_yes') + song.get('votes_no')} />
 			});
 
+			var isEmpty = this.props.playlist.isEmpty();
+
+			var emptyMessage = <span class="mute">No songs in queue</span>
+			var title = <h2>Next up:</h2>
+
 			return (
 				<div id="playlist" >
-        	{list}
+					{(isEmpty) ? '' : title }
+					<div class="playlist-inner">
+        		{(isEmpty) ? emptyMessage : list}
+        	</div>
 	      </div>
       );
 		}
