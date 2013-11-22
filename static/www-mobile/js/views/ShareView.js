@@ -86,9 +86,9 @@ var ShareView = Backbone.View.extend({
 
     sendSMS: function(){
       var ua = navigator.userAgent.toLowerCase();
-      var url = "sms:";
-      url += (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1) ? ";" : "?";
-      url += "body=" + encodeURIComponent('http://'
+      var url = 'sms:';
+      url += (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1) ? ';' : '?';
+      url += 'body=' + encodeURIComponent('Hi there! Join me on TuneSquared and play the music: http://'
           + window.location.host
           + '/party/'
           + this.party.get('name'));
