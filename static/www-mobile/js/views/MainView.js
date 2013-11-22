@@ -88,6 +88,7 @@ define([
       evt.stopPropagation();
       evt.preventDefault();
 
+
       var p = Session.get('party');
       if(p){
         $.mobile.loading('show');

@@ -12,7 +12,7 @@ requirejs.config({
     'socket.io': '/socket.io/socket.io',
     'underscore': '../lib/underscore',
     'backbone': '../lib/backbone',
-    'bootstrap': '../lib/bootstrap/js',
+    'bootstrap': '../lib/bootstrapAMD/js',
     'jquery': '../lib/jquery',
     'bootstrap-slider': '../lib/slider/js/bootstrap-slider',
     'wizard': '../lib/wizard',

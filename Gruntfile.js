@@ -15,6 +15,15 @@ module.exports = function(grunt) {
     },
 
     wrap: {
+      desktop: {
+        cwd: 'static/www/lib/bootstrap/',
+        expand: true,
+        src: ['js/*.js'],
+        dest: 'static/www/lib/bootstrapAMD/',
+        options: {
+          wrapper: ['require(["jquery"], function ($) {\n', '\n});']
+        }
+      },
       mobile: {
         cwd: 'static/www-mobile/lib/bootstrap/',
         expand: true,

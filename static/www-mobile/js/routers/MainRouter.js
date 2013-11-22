@@ -155,10 +155,11 @@ define([
           window.location.href = '#';
         } else {
           console.log('#share');
-          //this.shareView.setParty(Session.get('party'));
+          this.shareView.setParty(Session.get('party'));
 
           this.changePage('main');
           this.pages.main.setContents(this.shareView.$el);
+          this.shareView.qr_load();
         }
 
       },
