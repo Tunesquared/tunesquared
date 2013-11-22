@@ -8,6 +8,7 @@ requirejs.config({
     'bs': '../lib/bootstrapAMD/js',
     'jquery': '../lib/zepto2jquery',
     'mobileutils': '../lib/mobileutils/mobileutils',
+    'qrgenerator': '../lib/qrcode.min',
     'lib': '../lib'
   },
 
@@ -27,6 +28,10 @@ requirejs.config({
 
     'zepto': {
       exports: 'Zepto'
+    },
+
+    'qrgenerator': {
+      exports: 'QRCode'
     }
   },
 
