@@ -162,6 +162,10 @@ define([
         playlist = this.props.party.get('playlist');
 
       if (playlist.length === 0){
+        // If we cannot get a new player right now, we discard current visualisation
+        // Otherwise, we let onNextSong handle it
+        LayoutProxy.setLayout(null);
+
         console.log('try again');
         playlist.once('add', function() {
           this.fetchPlaylistForNextSong(playlist);
@@ -192,9 +196,6 @@ define([
         /* Exposes the player to make tests, very handy ;) */
         window.player = player;
 
-        /* sets new visualisation layout manager */
-        LayoutProxy.setLayout(player.getLayoutManager());
-
         // Initialize slave player with master state
         player.setVolume(this.state.volume);
         if(this.state.playing) player.play();
@@ -208,6 +209,9 @@ define([
 
           console.log('setting song : '+song);
           this.props.party.set('currentSong', song);
+
+          /* sets new visualisation layout manager */
+          LayoutProxy.setLayout(player.getLayoutManager());
 
           if (options) {
             console.log(options);

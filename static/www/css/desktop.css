@@ -31,7 +31,7 @@ footer {
 	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
 	width: 853px;
 	height: 480px;
-
+	overflow: hidden;
 	margin: auto;
 }
 
@@ -74,6 +74,10 @@ footer {
 .top {
 	padding: 20px 0px;
 	background-color: #181818;
+}
+
+.suggestions {
+	height: 100%;
 }
 
 /* player */

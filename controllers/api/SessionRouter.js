@@ -1,8 +1,8 @@
 'use strict';
 
-var Framework = require('../framework');
+var Framework = require('../../framework');
 
-var Party = require('../models/Party');
+var Party = require('../../models/Party');
 
 
 module.exports = new Framework.Router({

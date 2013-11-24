@@ -6,9 +6,9 @@
 */
 
 
-var framework = require('../framework');
-var Party = require('../models/Party');
-var Song = require('../models/Song');
+var framework = require('../../framework');
+var Party = require('../../models/Party');
+var Song = require('../../models/Song');
 
 framework.Controller({
 
