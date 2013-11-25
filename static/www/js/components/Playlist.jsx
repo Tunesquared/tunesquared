@@ -10,13 +10,18 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 		},
 
 		componentDidMount: function () {
-			this.props.playlist.on('add remove change sort', utils.forceUpdateFix(this));
+			this.props.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
+		},
+
+		componentWillUnmount: function() {
+			if(this.props.playlist)
+				this.props.playlist.off(null, null, this);
 		},
 
 		componentWillReceiveProps: function (newProps) {
 			if(this.props.playlist)
 				this.props.playlist.off(null, null, this);
-			newProps.playlist.on('add remove change sort', utils.forceUpdateFix(this));
+			newProps.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
 		},
 
 		render: function () {

@@ -16,19 +16,31 @@ var suggestions = [
     data: '_ovdm2yX4MA',
     source: 'youtube',
     thumb: 'http://i.ytimg.com/vi/_ovdm2yX4MA/1.jpg',
-    title: 'Avicii - Levels',
+    title: 'Levels',
   }, {
     artist: 'LMFAO',
     data: 'SkTt9k4Y-a8',
     source: 'youtube',
     thumb: 'http://i.ytimg.com/vi/SkTt9k4Y-a8/1.jpg',
-    title: 'LMFAO - Sorry For Party Rocking'
+    title: 'Sorry For Party Rocking'
   }, {
-    artist: 'AWOLNATION',
-    data: 'JaAWdljhD5o',
+    artist: 'Scott & Brendo',
+    data: 'JW6N18cEZuc',
     source: 'youtube',
-    thumb: 'http://i.ytimg.com/vi/JaAWdljhD5o/1.jpg',
-    title: 'SAIL - AWOLNATION'
+    thumb: 'http://i.ytimg.com/vi/JW6N18cEZuc/1.jpg',
+    title: 'Higher (feat. Peter Hollens)'
+  }, {
+    artist: 'Art District',
+    data: 'z0LUFgItzYw',
+    source: 'youtube',
+    thumb: 'http://i.ytimg.com/vi/z0LUFgItzYw/1.jpg',
+    title: 'Cell'
+  }, {
+    artist: 'MACKLEMORE & RYAN LEWIS',
+    data: 'QK8mJJJvaes',
+    source: 'youtube',
+    thumb: 'http://i.ytimg.com/vi/QK8mJJJvaes/1.jpg',
+    title: 'THRIFT SHOP FEAT. WANZ (OFFICIAL VIDEO)'
   }
 ];
 

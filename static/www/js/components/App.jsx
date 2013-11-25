@@ -88,7 +88,7 @@ define([
       window.app = this;
 		},
 
-		onNewCurrentPlayer: function (player) {
+		onUpdateCurrentPlayer: function (player) {
 			this.setState({
 				currentPlayer: player
 			});
@@ -132,7 +132,7 @@ define([
 						<div class="container">
 							<Player
 								party={ currentParty }
-								onNewCurrentPlayer={this.onNewCurrentPlayer}
+								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
 								onError={this.onPlayerError}/>
 						</div>
 					</div>

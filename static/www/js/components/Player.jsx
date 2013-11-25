@@ -202,7 +202,9 @@ define([
         else player.pause();
 
         if (this.state.currentPlayer == null){
-          this.props.onNewCurrentPlayer(player);
+          // Tells upper level that player changed
+          this.props.onUpdateCurrentPlayer(player);
+
           player.on('end', this.onPlayerEnd);
           player.on('play', this.onPlayerPlay);
           player.on('pause', this.onPlayerPause);
@@ -250,6 +252,7 @@ define([
       this.setState({
         currentPlayer: null
       });
+      this.props.onUpdateCurrentPlayer(null);
 
       // Then try to get a new one AFTER new state has been applied
       _.defer(this.fetchPlaylistForNextSong);

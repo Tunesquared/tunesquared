@@ -45,10 +45,7 @@ define([
     componentWillUnmount: function() {
       this.props.party.off(null, null, this);
       LayoutProxy.off(null, null, this);
-      var self = this;
-      _.defer(function(){
-        self.updateVisualisation(LayoutProxy.getLayout(), null);
-      });
+      this.updateVisualisation(LayoutProxy.getLayout(), null, {setState: false});
     },
 
     componentWillReceiveProps: function(props) {
@@ -65,17 +62,22 @@ define([
       });
     },
 
-    updateVisualisation: function(oldVisu, newVisu) {
-      console.log('updating visualisation');
+    updateVisualisation: function(oldVisu, newVisu, options) {
+      options = _.defaults(options || {}, {
+        setState: true
+      });
+
       if (oldVisu) {
         oldVisu.hide();
       }
       if (newVisu) {
-        this.setState({
-          visu: true
-        });
+        if (options.setState !== false) {
+          this.setState({
+            visu: true
+          });
+        }
         newVisu.attachTo(this.refs.visu.getDOMNode());
-      } else {
+      } else if (options.setState !== false) {
         this.setState({
           visu: false
         });
@@ -89,17 +91,8 @@ define([
         dataType: 'json',
         url: request,
         success: function(data){
-          var res = [];
-          for(var i in data){
-            res.push({
-              title   :   data[i].title,
-              source  :   data[i].source,
-              thumb   :   data[i].thumb,
-              data    :   data[i].data
-            });
-          }
           self.setState({
-            suggestions: res
+            suggestions: data
           });
         },
         error: function(){
@@ -113,8 +106,6 @@ define([
     },
 
 		render: function(){
-
-      console.log("rendering home");
       var suggestions = [];
       for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
         var row = [];
@@ -133,7 +124,7 @@ define([
         You can also use the search bar if you want something specific.
         Let your guests scan this code to access your party more easily.
         </p>
-        <p class="alert-success alert">Tip: Show this screen on a beamer in fullscreen for best effect!</p>
+        <p class="alert-success alert">Tip: Show this page on a beamer in fullscreen for best effect!</p>
         <div class="panel panel-primary suggestions">
           <div class="panel-heading">
             <h3 class="panel-title">Suggestions:</h3>
