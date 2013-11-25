@@ -10,8 +10,6 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
     <link rel="stylesheet" href="/m/css/style.css" />
 
-    <script data-main="/m/js/main" src="lib/require.js"></script>
-
   </head>
 
   <body>
@@ -22,6 +20,14 @@
         <img src="/m/lib/mobileutils/ajax-loader.gif" alt="loading" title="loading"/>
       </div>
     </div>
+
+    <!-- requirejs -->
+    <script type="text/javascript">
+      window.require = {
+          waitSeconds: 90
+      };
+    </script>
+    <script data-main="/m/js/main" src="lib/require.js"></script>
 
     <!-- -->
     <script type="text/template" id="mainTemplate">
