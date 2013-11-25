@@ -97,7 +97,6 @@ define([
         }
       });
 			this.props.session.on('sync', this.updateQRCodeURL, this);
-      this.updateQRCodeURL();
 
       function partyExpired() {
 				self.setState({
