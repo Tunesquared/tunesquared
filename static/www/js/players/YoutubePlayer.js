@@ -83,7 +83,7 @@ define(['underscore', 'backbone', 'swfobject', 'players/LayoutManager'],
 
 
 		swfobject.embedSWF(
-			'http://www.youtube.com/apiplayer?enablejsapi=1&version=3&playerapiid=' + this._id,
+			'//www.youtube.com/apiplayer?enablejsapi=1&version=3&playerapiid=' + this._id,
 			target.id,
 			200,
 			200,
