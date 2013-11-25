@@ -43,6 +43,7 @@ module.exports = function(grunt) {
           name: 'main',
           baseURL: '.',
           optimize: 'none',
+          waitSeconds: 0,
           paths: {
             // Files that should be loaded from a CDN
             'socket.io': 'empty:'
@@ -60,6 +61,7 @@ module.exports = function(grunt) {
           name: 'welcome',
           baseURL: '.',
           optimize: 'none',
+          waitSeconds: 0,
           paths: {
             // Files that should be loaded from a CDN
             'socket.io': 'empty:'
@@ -78,6 +80,7 @@ module.exports = function(grunt) {
           name: 'main',
           baseURL: '.',
           optimize: 'none',
+          waitSeconds: 0,
           paths: {
             // Files that should be loaded from a CDN
           }
