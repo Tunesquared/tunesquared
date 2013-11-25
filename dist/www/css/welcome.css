@@ -1,0 +1,112 @@
+/* General rules */
+
+input.form-control {
+	background-color: #181818;
+	color: #96BED1;
+}
+
+input.form-control:focus {
+	background-color: #0E0E0E;
+	color: #50C5FD;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	/* Allows footer to stick to the bottom of the page */
+	position: relative;
+	/*Makes some room for the footer */
+	min-height: 100%;
+	overflow-x: hidden;
+}
+
+
+/* modal */
+.modal-content {
+	background-color: #111;
+}
+
+.modal-header, .modal-footer {
+	background-color: #181818;
+	border: none;
+}
+
+.modal-body {
+	margin-bottom: 10px;
+}
+
+.modal-header {
+	box-shadow: 0px 1px 2px #000;
+}
+
+.modal-footer {
+	margin: 0;
+	box-shadow: 0px -1px 2px #000;
+}
+
+.splash {
+	background-color: #003A4D;
+	/*background: url(/img/Party%20Santo%20Domingo%2075_touched.jpg) center fixed no-repeat #6BBDBC; */
+	/*background: url(/img/bokeh2.jpg) center fixed no-repeat #000;*/
+	background: url(/img/bokehblue.jpg) center fixed no-repeat #000;
+	background-size: cover;
+}
+.splash > .contents {
+	padding-top: 100px;
+
+}
+
+.splash > .contents h1 {
+	color: #fff;
+}
+
+.splash > .contents .lead {
+	margin-bottom: 50px;
+	color: #fff;
+}
+
+.splash > .contents {
+	text-align: center;
+}
+
+.splash > .contents .btn-large {
+	margin: 0px 12px;
+}
+
+.header {
+	background-color: black;
+}
+
+#betalogo {
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(30deg);
+	-ms-transform: rotate(30deg);
+	-o-transform: rotate(30deg);
+	position: absolute;
+	right: -110px;
+	top: 2px;
+	width: 300px;
+	text-align: center;
+	background-color: #cc6d00;
+	padding: 10px;
+	color: #f0f0f0;
+	font-size: 28px;
+	font-weight: bold;
+	height: 50px;
+	margin-top: 10px;
+}
+
+footer {
+	background-color: #1A1A1A;
+	bottom: 0;
+	width: 100%;
+	padding: 5px;
+	color: #999;
+}
+
+.demoline {
+	padding-top: 40px;
+	padding-bottom: 80px;
+}
