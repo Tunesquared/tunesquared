@@ -22,6 +22,19 @@ footer {
 	padding: 20px;
 }
 
+.home {
+	background-color: #111;
+	padding: 20px 0;
+}
+
+#visu-anchor {
+	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
+	width: 853px;
+	height: 480px;
+	overflow: hidden;
+	margin: auto;
+}
+
 .navbar {
 	margin-bottom: 0;
 	border: 0;
@@ -63,8 +76,8 @@ footer {
 	background-color: #181818;
 }
 
-.affix {
-	top: 50px;
+.suggestions {
+	height: 100%;
 }
 
 /* player */
@@ -114,23 +127,20 @@ footer {
 /* Playlist */
 
 #playlist {
-	margin-top: 20px;
+	overflow: hidden;
+	margin: 10px;
 }
 
-.playlist-item .remove-btn {
-	position: absolute;
-	right: 5px;
-	top: 3px;
-	cursor: pointer;
-	color: #393939;
+.playlist-inner {
+	height: 160px;
+	width: 10000px;
+	background-color: #060606;
+	padding: 20px;
 }
 
-.playlist-item .remove-btn:hover {
-	color: #ccc;
-}
-
-.playlist-item h3 {
-	margin-top: 0;
+.playlist-item {
+	float: left;
+	width: 300px;
 }
 
 /* Search page */
@@ -165,15 +175,10 @@ footer {
 	box-shadow: 0px -1px 2px #000;
 }
 
-.qr-toogleshow {
-	background-color: Grey;
-	color: White;
-}
-
 .qr-code {
 	padding-top: 20px;
 }
 
-.qrcode-container {
-	display: none;
+.qr-inner {
+	margin: auto;
 }
