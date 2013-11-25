@@ -32,15 +32,15 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
         preloadThreshold: 0 // Since we load results before the user reaches the bottom, we don't want to preload
       });
 
-      this.searchAggregator.addSrc(YoutubeSource);
-      //this.searchAggregator.addSrc('fakesrc');
+			this.searchAggregator.addSrc(YoutubeSource);
+			// this.searchAggregator.addSrc('fakesrc');
 
       this.initQuery();
 		},
 
 		componentWillUnmount: function () {
 			this.mainContents.unbind('scroll', this.checkScroll);
-			this.abortQuery();
+			this.abortQuery(false);
 		},
 
 		componentWillReceiveProps: function (newProps) {
@@ -48,12 +48,12 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			this.initQuery(newProps, true);
 		},
 
-		abortQuery: function (){
+		abortQuery: function (setState){
 			if(this.queryIterator){
 				this.queryIterator.release();
 				this.queryIterator = null;
 			}
-			if(this.state.loading){
+			if(this.state.loading && setState !== false){
 				this.setState({
 					loading: false
 				});

@@ -26,12 +26,18 @@ define(['react', 'qrgenerator'], function(React, QR) {
 			this.generate();
 		},
 
+		componentWillUnmount: function() {
+			if (this.qrcode)
+				this.qrcode.clear();
+		},
+
 		componentDidUpdate: function() {
 			this.generate();
 		},
 
 		// Creates the appropriate QRCode and inserts it in the DOM
 		generate: function() {
+		console.log ('regeneration');
 			if (this.qrcode)
 				this.qrcode.clear();
 			var qrelement = this.refs.qrcode.getDOMNode();

@@ -1,73 +1,151 @@
 /** @jsx React.DOM */
+
 'use strict';
-define(['react', 'jquery', 'underscore', 'components/SongVignette'], function(React, $, _, SongVignette){
+define([
+  'react',
+  'jquery',
+  'underscore',
+  'components/SongVignette',
+  'components/QRCode',
+  'components/Playlist',
+  'players/LayoutProxy',
+  'utils'
+], function(
+  React,
+  $,
+  _,
+  SongVignette,
+  QRCode,
+  Playlist,
+  LayoutProxy,
+  utils){
+
 	var Home = React.createClass({
 
 		getInitialState: function() {
 			return {
-				suggestions: []
-			};
+        visu: false, // Tells wether a visualisation is available or not
+        suggestions: []
+      };
 		},
 
 		componentDidMount: function() {
-			this.refreshSuggestions();
+      this.props.party.on('change', this.updateQRCodeURL, this);
+      LayoutProxy.on('change removed', this.updateVisualisation, this);
+
+      var self = this;
+      _.defer(function(){
+        self.updateVisualisation(null, LayoutProxy.getLayout());
+      });
+      this.updateQRCodeURL();
+
+      this.refreshSuggestions();
 		},
 
-		onChooseSong: function (song) {
-			this.props.party.get('playlist').add(song);
-		},
+    componentWillUnmount: function() {
+      this.props.party.off(null, null, this);
+      LayoutProxy.off(null, null, this);
+      this.updateVisualisation(LayoutProxy.getLayout(), null, {setState: false});
+    },
 
-		refreshSuggestions: function(cb) {
-			var self = this;
-			var request = 'https://gdata.youtube.com/feeds/api/standardfeeds/most_popular?category=Music&alt=json';
+    componentWillReceiveProps: function(props) {
+      this.updateQRCodeURL(props.party);
+    },
+
+    updateQRCodeURL: function(party) {
+      party = party || this.props.party;
+      this.setState({
+        QRCodeURL: 'http://' +
+          window.location.host +
+          '/party/' +
+          encodeURIComponent(party.get('name'))
+      });
+    },
+
+    updateVisualisation: function(oldVisu, newVisu, options) {
+      options = _.defaults(options || {}, {
+        setState: true
+      });
+
+      if (oldVisu) {
+        oldVisu.hide();
+      }
+      if (newVisu) {
+        if (options.setState !== false) {
+          this.setState({
+            visu: true
+          });
+        }
+        newVisu.attachTo(this.refs.visu.getDOMNode());
+      } else if (options.setState !== false) {
+        this.setState({
+          visu: false
+        });
+      }
+    },
+
+    refreshSuggestions: function(cb) {
+                        var self = this;
+                        var request = '/api/suggestions';
       $.ajax({
-        dataType: 'jsonp',
+        dataType: 'json',
         url: request,
         success: function(data){
-          var res = [];
-          for(var i in data.feed.entry){
-            res.push({
-              title   :   data.feed.entry[i].title.$t,
-              source     :   'youtube',
-              thumb   :   data.feed.entry[i].media$group.media$thumbnail[1].url,
-              data    :   _.last(data.feed.entry[i].id.$t.split('/'))
-            });
-          }
           self.setState({
-						suggestions: res
-					});
-				},
+            suggestions: data
+          });
+        },
         error: function(){
           console.error('error retreiving suggestions');
         }
       });
-		},
+    },
+
+    onChooseSong: function (song) {
+      this.props.party.get('playlist').add(song);
+    },
 
 		render: function(){
-			var suggestions = [];
-			for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
-				var row = [];
-				for(var j = 0 ; i*3 + j < this.state.suggestions.length && j < 3; j++) {
-					var sug = this.state.suggestions[i*3+j];
-					row.push(<div class="col-4">
-						<SongVignette song={sug} onClick={this.onChooseSong} />
-					</div>);
-				}
-				suggestions.push(<div class="row">{row}</div>);
-			}
+      var suggestions = [];
+      for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
+        var row = [];
+        for(var j = 0 ; i*3 + j < this.state.suggestions.length && j < 3; j++) {
+          var sug = this.state.suggestions[i*3+j];
+          row.push(<div class="col-4">
+            <SongVignette song={sug} onClick={this.onChooseSong} />
+          </div>);
+        }
+        suggestions.push(<div class="row">{row}</div>);
+      }
 
-			return ( 
-				<div>
-					<h1>Welcome to your party !</h1>
-					<p class="lead">Use the search bar to add your first songs or pick one of our suggestions</p>
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h3 class="panel-title">Suggestions:</h3>
-						</div>
-						<div class="panel-body">
-							{suggestions}
-						</div>
-					</div>
+      var visu_placeholder = <div>
+        <h1>Party: {this.props.party.get('name')}</h1>
+        <p class="lead">Your party is on! Pick some songs to get started. <br />
+        You can also use the search bar if you want something specific.
+        Let your guests scan this code to access your party more easily.
+        </p>
+        <p class="alert-success alert">Tip: Show this page on a beamer in fullscreen for best effect!</p>
+        <div class="panel panel-primary suggestions">
+          <div class="panel-heading">
+            <h3 class="panel-title">Suggestions:</h3>
+          </div>
+          <div class="panel-body">
+            {suggestions}
+          </div>
+        </div>
+      </div>;
+
+			return (
+				<div class="row home">
+          <div class="col-3">
+            <QRCode data={this.state.QRCodeURL} />
+          </div>
+          <div class="col-9 visu-container">
+            { (!this.state.visu) ? visu_placeholder : <div id="visu-anchor" ref="visu" /> }
+          </div>
+          <div class="col-12">
+            <Playlist playlist={this.props.party.get('playlist')} />
+          </div>
 				</div>
 			);
 		}

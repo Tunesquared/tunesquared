@@ -10,14 +10,11 @@ define([
 	'models/Session',
 	'models/Party',
 	'components/Player',
-	'components/Playlist',
 	'components/PartyInfo',
 	'components/Home',
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
-	'components/QRCode',
-	'bootstrap/affix'
 ], function(
 	React,
 	$,
@@ -27,13 +24,11 @@ define([
 	Session,
 	Party,
 	Player,
-	Playlist,
 	PartyInfo,
 	HomeView,
 	SearchView,
 	Navbar,
-	ErrorDialog,
-	QRCode
+	ErrorDialog
 ){
 
 	var App = React.createClass({
@@ -93,20 +88,7 @@ define([
       window.app = this;
 		},
 
-		componentDidUpdate: function () {
-			var affix = $(this.refs.affix.getDOMNode());
-			/*affix.affix({
-		    offset: {
-		      top: affix.offset().top
-		    , bottom: function () {
-						// Footer height to stop the affix at page bottom
-		        return 0;//(this.bottom = $('.bs-footer').outerHeight(true))
-		      }
-		    }
-		  });*/
-		},
-
-		onNewCurrentPlayer: function (player) {
+		onUpdateCurrentPlayer: function (player) {
 			this.setState({
 				currentPlayer: player
 			});
@@ -125,32 +107,12 @@ define([
 			});
 		},
 
-		toggleQRCodeShow: function() {
-			var qrelement = $(this.refs['qrcode-container'].getDOMNode());
-			var qrActionElement = $(this.refs.qraction.getDOMNode());
-
-			if(qrelement.is(':hidden')) {
-				qrelement.show(500);
-				qrActionElement.text(' Hide');
-			}
-			else {
-				qrelement.hide(500);
-				qrActionElement.text(' Show');
-			}
-		},
-
 		render: function () {
 
 			var session = this.props.session;
 			var currentParty = session.get('party') || new Party();
 
 			var dialog = [];
-
-			var QRCodeURL =
-				'http://'
-				+ window.location.host
-				+ '/party/'
-				+ encodeURIComponent(currentParty.get('name'));
 
 			var main;
 			if (this.state.main === 'home')
@@ -170,38 +132,20 @@ define([
 						<div class="container">
 							<Player
 								party={ currentParty }
-								onNewCurrentPlayer={this.onNewCurrentPlayer}
+								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
 								onError={this.onPlayerError}/>
 						</div>
 					</div>
 					<div class="contents">
-
-
-						<div class="container">
-							<div class="col-4" ><br />
-								<div ref="qrcode-container" class="panel">
-									<div>
-										<button onClick={this.toggleQRCodeShow} class="qr-toogleshow btn icon-qrcode">
-											<span ref="qraction"> Show</span> QR code
-										</button>
-							 			<br />
-									</div>
-									<div class="qrcode-container" ref="qrcode-container">
-										<QRCode data={ QRCodeURL} />
-									</div>
-								</div>
-								<div ref="affix">
-									<Playlist party={currentParty}/>
-								</div>
-							</div>
-							<div class="col-8 main-contents">
-								{main}
-							</div>
+						<div class="container main-contents">
+							{main}
 						</div>
 					</div>
 					<footer>
 						<div class="container">
-							Blabla
+							<div class="pull-right">
+								&copy; 2013 Tunesquared
+							</div>
 						</div>
 					</footer>
 					{dialog}

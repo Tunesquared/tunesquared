@@ -12,8 +12,20 @@
   add it to the playlist. One cannot force a song to go in the player, it has
   to be first in the playlist at the moment songs are switched.
 */
-define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap-slider'],
-  function (React, jquery, PlayerFactory, persist) {
+define([
+  'react',
+  'jquery',
+  'players/PlayerFactory',
+  'mixins/persist',
+  'players/LayoutProxy',
+  'bootstrap-slider'],
+  function (
+    React,
+    jquery,
+    PlayerFactory,
+    persist,
+    LayoutProxy
+) {
 
   var PROGRESS_STEP = 1000;
 
@@ -150,6 +162,10 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         playlist = this.props.party.get('playlist');
 
       if (playlist.length === 0){
+        // If we cannot get a new player right now, we discard current visualisation
+        // Otherwise, we let onNextSong handle it
+        LayoutProxy.setLayout(null);
+
         console.log('try again');
         playlist.once('add', function() {
           this.fetchPlaylistForNextSong(playlist);
@@ -186,13 +202,18 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         else player.pause();
 
         if (this.state.currentPlayer == null){
-          this.props.onNewCurrentPlayer(player);
+          // Tells upper level that player changed
+          this.props.onUpdateCurrentPlayer(player);
+
           player.on('end', this.onPlayerEnd);
           player.on('play', this.onPlayerPlay);
           player.on('pause', this.onPlayerPause);
 
           console.log('setting song : '+song);
           this.props.party.set('currentSong', song);
+
+          /* sets new visualisation layout manager */
+          LayoutProxy.setLayout(player.getLayoutManager());
 
           if (options) {
             console.log(options);
@@ -231,6 +252,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
       this.setState({
         currentPlayer: null
       });
+      this.props.onUpdateCurrentPlayer(null);
 
       // Then try to get a new one AFTER new state has been applied
       _.defer(this.fetchPlaylistForNextSong);

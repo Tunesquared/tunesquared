@@ -2,44 +2,50 @@
 'use strict';
 
 define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistItem, utils){
+
+	var ITEMS_N = 5; // Number of playlist item shown
+
 	var Playlist = React.createClass({
 		componentDidUpdate: function () {
-			// console.log('Playlist update');
-			// console.log(this.props);
 		},
 
 		componentDidMount: function () {
-			this.props.party.get('playlist').on('add remove change sort', utils.forceUpdateFix(this));
+			this.props.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
+		},
+
+		componentWillUnmount: function() {
+			if(this.props.playlist)
+				this.props.playlist.off(null, null, this);
 		},
 
 		componentWillReceiveProps: function (newProps) {
-			if(this.props.party.get('playlist'))
-				this.props.party.get('playlist').off(null, null, this);
-			newProps.party.get('playlist').on('add remove change sort', utils.forceUpdateFix(this));
+			if(this.props.playlist)
+				this.props.playlist.off(null, null, this);
+			newProps.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
 		},
 
 		render: function () {
 			var i = 0;
-			var isNext = utils.onceTrue();
-			var party = this.props.party;
-			var list = this.props.party.get('playlist').map(function(song){
-				if (party.get('currentSong') != null && song.id === party.get('currentSong').id) return;
-
+			var list = this.props.playlist.first(ITEMS_N).map(function(song){
 				return <PlaylistItem
 						pos={++i}
 						song={song}
-						isNext={isNext()}
 
 						// We need to add spice to the key otherwise react fails to detect change
 						key={song.cid + song.get('votes_yes') + song.get('votes_no')} />
 			});
 
+			var isEmpty = this.props.playlist.isEmpty();
+
+			var emptyMessage = <span class="mute">No songs in queue</span>
+			var title = <h2>Next up:</h2>
+
 			return (
-				<div id="playlist" class="panel panel-primary" >
-					<div class="panel-heading">
-	          <h3 class="panel-title">Playlist :</h3>
-         	</div>
-        	<div id="playlist-container" class="panel-body list-group">{list}</div>
+				<div id="playlist" >
+					{(isEmpty) ? '' : title }
+					<div class="playlist-inner">
+        		{(isEmpty) ? emptyMessage : list}
+        	</div>
 	      </div>
       );
 		}
