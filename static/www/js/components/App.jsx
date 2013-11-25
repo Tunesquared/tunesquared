@@ -15,6 +15,8 @@ define([
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
+	'components/QRCode',
+	'components/Playlist',
 ], function(
 	React,
 	$,
@@ -28,7 +30,9 @@ define([
 	HomeView,
 	SearchView,
 	Navbar,
-	ErrorDialog
+	ErrorDialog,
+	QRCode,
+	Playlist
 ){
 
 	var App = React.createClass({
@@ -60,6 +64,20 @@ define([
 			}
 		},
 
+		componentWillReceiveProps: function(props) {
+      this.updateQRCodeURL(props.party);
+    },
+
+    updateQRCodeURL: function(party) {
+      party = party || this.props.party;
+      this.setState({
+        QRCodeURL: 'http://' +
+          window.location.host +
+          '/party/' +
+          encodeURIComponent(party.get('name'))
+      });
+    },
+
 		getBackboneModels: function () {
 			return [this.props.session];
 		},
@@ -78,6 +96,8 @@ define([
 					partyExpired();
         }
       });
+			this.props.session.on('sync', this.updateQRCodeURL, this);
+      this.updateQRCodeURL();
 
       function partyExpired() {
 				self.setState({
@@ -138,7 +158,17 @@ define([
 					</div>
 					<div class="contents">
 						<div class="container main-contents">
-							{main}
+							<div class="row">
+								<div class="col-3">
+			            <QRCode data={this.state.QRCodeURL} />
+			            <div class="col-12">
+				            <Playlist playlist={currentParty.get('playlist')} />
+				          </div>
+			          </div>
+			          <div class="col-9">
+								{main}
+								</div>
+							</div>
 						</div>
 					</div>
 					<footer>
