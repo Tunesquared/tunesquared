@@ -26,7 +26,7 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 
 		render: function () {
 			var i = 0;
-			var list = this.props.playlist.first(ITEMS_N).map(function(song){
+			var list = this.props.playlist.map(function(song){
 				return <PlaylistItem
 						pos={++i}
 						song={song}

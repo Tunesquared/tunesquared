@@ -6,8 +6,6 @@ define([
   'jquery',
   'underscore',
   'components/SongVignette',
-  'components/QRCode',
-  'components/Playlist',
   'players/LayoutProxy',
   'utils'
 ], function(
@@ -15,8 +13,6 @@ define([
   $,
   _,
   SongVignette,
-  QRCode,
-  Playlist,
   LayoutProxy,
   utils){
 
@@ -30,14 +26,13 @@ define([
 		},
 
 		componentDidMount: function() {
-      this.props.party.on('change', this.updateQRCodeURL, this);
       LayoutProxy.on('change removed', this.updateVisualisation, this);
 
       var self = this;
       _.defer(function(){
         self.updateVisualisation(null, LayoutProxy.getLayout());
       });
-      this.updateQRCodeURL();
+
 
       this.refreshSuggestions();
 		},
@@ -48,19 +43,7 @@ define([
       this.updateVisualisation(LayoutProxy.getLayout(), null, {setState: false});
     },
 
-    componentWillReceiveProps: function(props) {
-      this.updateQRCodeURL(props.party);
-    },
 
-    updateQRCodeURL: function(party) {
-      party = party || this.props.party;
-      this.setState({
-        QRCodeURL: 'http://' +
-          window.location.host +
-          '/party/' +
-          encodeURIComponent(party.get('name'))
-      });
-    },
 
     updateVisualisation: function(oldVisu, newVisu, options) {
       options = _.defaults(options || {}, {
@@ -136,17 +119,9 @@ define([
       </div>;
 
 			return (
-				<div class="row home">
-          <div class="col-3">
-            <QRCode data={this.state.QRCodeURL} />
-          </div>
-          <div class="col-9 visu-container">
-            { (!this.state.visu) ? visu_placeholder : <div id="visu-anchor" ref="visu" /> }
-          </div>
-          <div class="col-12">
-            <Playlist playlist={this.props.party.get('playlist')} />
-          </div>
-				</div>
+        <div class="visu-container home">
+          { (!this.state.visu) ? visu_placeholder : <div id="visu-anchor" ref="visu" /> }
+        </div>
 			);
 		}
 	});

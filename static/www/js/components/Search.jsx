@@ -152,7 +152,9 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 
 			return (
 				<div>
-					<h3>Search results for "{this.props.query}"</h3>
+					<a class="btn btn-default pull-left" href="#"><i class="icon-chevron-left"></i> Back</a>
+					<h2 class="subpage-title">Search results for "{this.props.query}"</h2>
+					<hr />
 					{vignettes}
 					{loader}
 					{endSign}

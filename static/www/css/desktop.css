@@ -23,14 +23,17 @@ footer {
 }
 
 .home {
-	background-color: #111;
 	padding: 20px 0;
+}
+
+.main-contents {
+	background-color: #111;
 }
 
 #visu-anchor {
 	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
-	width: 853px;
-	height: 480px;
+	width: 640px;
+	height: 360px;
 	overflow: hidden;
 	margin: auto;
 }
@@ -132,15 +135,17 @@ footer {
 }
 
 .playlist-inner {
-	height: 160px;
-	width: 10000px;
 	background-color: #060606;
 	padding: 20px;
 }
 
 .playlist-item {
-	float: left;
 	width: 300px;
+	height: 100px;
+}
+
+.subpage-title {
+	margin-left: 100px;
 }
 
 /* Search page */
