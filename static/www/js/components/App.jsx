@@ -69,7 +69,7 @@ define([
     },
 
     updateQRCodeURL: function(party) {
-      party = party || this.props.party;
+      party = party || this.props.session.get('party');
       this.setState({
         QRCodeURL: 'http://' +
           window.location.host +
@@ -80,6 +80,19 @@ define([
 
 		getBackboneModels: function () {
 			return [this.props.session];
+		},
+
+		updateSessionRefs: function() {
+			var session = this.props.session;
+
+			if (this.party) {
+				this.party.off(null, null, this);
+			}
+
+			this.party = session.get('party');
+			this.party.on('change sync', this.updateQRCodeURL, this);
+
+			this.updateQRCodeURL();
 		},
 
 		componentDidMount: function(){
@@ -96,8 +109,7 @@ define([
 					partyExpired();
         }
       });
-			this.props.session.on('sync', this.updateQRCodeURL, this);
-      this.updateQRCodeURL();
+			this.props.session.on('sync', this.updateSessionRefs, this);
 
       function partyExpired() {
 				self.setState({

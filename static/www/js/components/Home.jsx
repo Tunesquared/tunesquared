@@ -7,6 +7,7 @@ define([
   'underscore',
   'components/SongVignette',
   'players/LayoutProxy',
+  'models/suggestions',
   'utils'
 ], function(
   React,
@@ -14,13 +15,14 @@ define([
   _,
   SongVignette,
   LayoutProxy,
+  suggestions,
   utils){
 
 	var Home = React.createClass({
 
 		getInitialState: function() {
 			return {
-        visu: false, // Tells wether a visualisation is available or not
+        visu: LayoutProxy.getLayout() != null, // Tells wether a visualisation is available or not
         suggestions: []
       };
 		},
@@ -38,7 +40,6 @@ define([
 		},
 
     componentWillUnmount: function() {
-      this.props.party.off(null, null, this);
       LayoutProxy.off(null, null, this);
       this.updateVisualisation(LayoutProxy.getLayout(), null, {setState: false});
     },
@@ -68,18 +69,13 @@ define([
     },
 
     refreshSuggestions: function(cb) {
-                        var self = this;
-                        var request = '/api/suggestions';
-      $.ajax({
-        dataType: 'json',
-        url: request,
-        success: function(data){
+      var self = this;
+      console.log('sugg');
+      suggestions.fetch({
+        success: function(sugg){
           self.setState({
-            suggestions: data
+            suggestions: sugg.toJSON()
           });
-        },
-        error: function(){
-          console.error('error retreiving suggestions');
         }
       });
     },
@@ -118,9 +114,16 @@ define([
         </div>
       </div>;
 
+      var currentSong = this.props.party.get('currentSong');
+
+      var visu_real = <div>
+        <h2>{(currentSong && currentSong.get('title') || '') + ' '}<small>{(currentSong && currentSong.get('artist')) || ''}</small></h2>
+        <div id="visu-anchor" ref="visu" />
+      </div>;
+
 			return (
         <div class="visu-container home">
-          { (!this.state.visu) ? visu_placeholder : <div id="visu-anchor" ref="visu" /> }
+          { (!this.state.visu) ? visu_placeholder : visu_real }
         </div>
 			);
 		}

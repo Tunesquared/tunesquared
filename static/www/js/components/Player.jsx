@@ -36,6 +36,7 @@ define([
     persistId: 'player',
 
     getInitialState: function () {
+      var stored = this.load();
       /* States for the player are : 'empty', it waits for a new song to come in and start */
       return {
         /* When true, music is playing or will be as soon as the player will be fed with a song.
@@ -44,7 +45,7 @@ define([
 
         /* Volume is stored in player state so that it actually acts as a master
          and can keep it consistent across different player implementations */
-        volume: 50,
+        volume: stored.volume || 50,
 
         /* Player in foreground it's state is linked to the UI (loading, progress, etc...) */
         currentPlayer: null,
@@ -62,7 +63,7 @@ define([
 
         loading: false,
 
-        progress: 0
+        progress: stored.seek
       };
     },
 
@@ -91,9 +92,6 @@ define([
         this.props.party.get('playlist').off(null, null, this);
 
         var stored = this.load();
-        this.setState({
-          volume: stored.volume || 50
-        });
 
         var playlist = newProps.party.get('playlist');
 
@@ -216,8 +214,6 @@ define([
           LayoutProxy.setLayout(player.getLayoutManager());
 
           if (options) {
-            console.log(options);
-            console.log(player.getDuration());
             if (options.seek)
               player.seekTo(options.seek);
           }
