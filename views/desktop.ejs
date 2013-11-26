@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Tunes² : let the music begin.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="lib/bootswatch/cyborg/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
-        <link rel="stylesheet" type="text/css" href="css/desktop.css" />
-    </head>
-    <body>
-        <div id="app">loading...</div>
-        <script type="text/javascript">
-        window.require = {
-            waitSeconds: 90
-        };
-        </script>
-        <script data-main="js/main" src="lib/require.js"></script>
-    </body>
+  <head>
+    <title>Tunes² : let the music begin.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="lib/bootswatch/cyborg/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
+  </head>
+  <body>
+    <div id="app">loading...</div>
+    <% include footer.ejs %>
+    <script type="text/javascript">
+    window.require = {
+        waitSeconds: 90
+    };
+    </script>
+    <script data-main="js/main" src="lib/require.js"></script>
+  </body>
 </html>

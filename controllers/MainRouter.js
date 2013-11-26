@@ -52,5 +52,13 @@ module.exports = new Framework.Router({
 	'/m': function(req, res, next) {
 		mUtils.clearForce(req, res);
 		next();
+	},
+
+	/* Terms of service */
+	'/tos': function(req, res) {
+		res.render('tos');
 	}
+
+	/* For /contact, see contact.js */
+
 });
