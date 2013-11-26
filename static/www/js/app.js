@@ -3,6 +3,7 @@
 define(['jquery', 'react', 'components/App', 'models/Session', 'controllers/PubSubController'],
 	function($, React, App, Session, PubSubCtrl) {
 
+  mixpanel.track('show desktop');
   var session = new Session();
   new PubSubCtrl(session);
 

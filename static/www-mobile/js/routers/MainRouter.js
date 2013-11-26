@@ -140,11 +140,19 @@ define([
       },
 
       search: function (query) {
+        var clean_query = decodeURIComponent(query);
+
         if (Session.get('party') == null) {
           window.location.href = '#';
         } else {
+          mixpanel.track('search', {
+            party_id: Session.get('party').id,
+            q: clean_query,
+            platform: 'mobile'
+          });
+
           this.searchView.setParty(Session.get('party'));
-          this.searchView.search(decodeURIComponent(query));
+          this.searchView.search(clean_query);
 
           this.changePage('main');
           this.pages.main.setContents(this.searchView.$el, 'search');
