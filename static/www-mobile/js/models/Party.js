@@ -5,6 +5,9 @@
 // Includes file dependencies
 define(['$', 'backbone', 'underscore', 'models/Playlist'], function ($, Backbone, _, Playlist) {
 
+  // Saves the method fetch in a local variable (doesn't execute it yet)
+  var fetch = Backbone.Model.prototype.fetch;
+
   // The Party constructor
   var Party = Backbone.Model.extend({
     urlRoot: 'api/party',
@@ -41,6 +44,15 @@ define(['$', 'backbone', 'underscore', 'models/Playlist'], function ($, Backbone
         playlist.remove(attr.currentSong);
       }
       return attr;
+    },
+
+    // We override Model's fetch method here
+    fetch: function(opts) {
+      // To make sure cache: false is being passed
+      opts = _.extend(opts || {}, {cache : false});
+
+      // And then we must call Backbone's fetch with our current context
+      fetch.call(this, opts);
     }
   });
 

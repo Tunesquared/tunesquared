@@ -22,6 +22,9 @@ module.exports = {
     redis_db: redisAuth && redisAuth[0],
     redis_pass: redisAuth && redisAuth[1],
 
-    mongo_uri: process.env.MONGOLAB_URI || 'mongodb://localhost/tunesquared'
-    // , web_port: '500'+Math.floor(Math.random()*10)
+    mongo_uri: process.env.MONGOLAB_URI || 'mongodb://localhost/tunesquared',
+    // web_port: '500'+Math.floor(Math.random()*10),
+
+    recaptcha_public: process.env.RECAPTCHA_PUBLIC || '6LcM6OoSAAAAAAyVheksVLjdNP3PczfAYP7haF7v', // Default works for localhost
+    recaptcha_private: process.env.RECAPTCHA_PRIVATE || '6LcM6OoSAAAAAMsNEvlQ-w1X4jzg2TWxcfeKFrUv'
 };

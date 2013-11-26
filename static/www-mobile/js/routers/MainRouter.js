@@ -88,8 +88,9 @@ define([
       home: function () {
         if (Session.get('party') != null) {
           window.location.hash = '#party/' + Session.get('party').get('name');
+        } else {
+          this.changePage('home');
         }
-        this.changePage('home');
       },
 
       // Does nothing, see "this.on('all')" comment in initialize method

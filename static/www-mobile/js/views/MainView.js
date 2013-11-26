@@ -93,7 +93,6 @@ define([
       if(p){
         $.mobile.loading('show');
         p.fetch({
-          cache : false,
           success: function(){
             $.mobile.loading('hide');
           },
