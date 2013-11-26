@@ -13,15 +13,6 @@ body {
 	min-height: 100%;
 }
 
-footer {
-
-	background-color: #12152B;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	padding: 20px;
-}
-
 .home {
 	padding-bottom: 20px;
 }

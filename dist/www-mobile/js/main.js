@@ -4787,6 +4787,9 @@ define('models/Playlist',['$', 'underscore', 'backbone', 'models/Song'], functio
 // Includes file dependencies
 define('models/Party',['$', 'backbone', 'underscore', 'models/Playlist'], function ($, Backbone, _, Playlist) {
 
+  // Saves the method fetch in a local variable (doesn't execute it yet)
+  var fetch = Backbone.Model.prototype.fetch;
+
   // The Party constructor
   var Party = Backbone.Model.extend({
     urlRoot: 'api/party',
@@ -4823,6 +4826,15 @@ define('models/Party',['$', 'backbone', 'underscore', 'models/Playlist'], functi
         playlist.remove(attr.currentSong);
       }
       return attr;
+    },
+
+    // We override Model's fetch method here
+    fetch: function(opts) {
+      // To make sure cache: false is being passed
+      opts = _.extend(opts || {}, {cache : false});
+
+      // And then we must call Backbone's fetch with our current context
+      fetch.call(this, opts);
     }
   });
 
@@ -5421,7 +5433,6 @@ define('views/MainView',[
       if(p){
         $.mobile.loading('show');
         p.fetch({
-          cache : false,
           success: function(){
             $.mobile.loading('hide');
           },
@@ -6981,8 +6992,9 @@ define('routers/MainRouter',[
       home: function () {
         if (Session.get('party') != null) {
           window.location.hash = '#party/' + Session.get('party').get('name');
+        } else {
+          this.changePage('home');
         }
-        this.changePage('home');
       },
 
       // Does nothing, see "this.on('all')" comment in initialize method
