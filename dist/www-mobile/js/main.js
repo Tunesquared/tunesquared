@@ -5882,9 +5882,16 @@ define('views/SearchView',[
     // Adds a new song to the playlist
     addSong: function(song) {
       $.mobile.loading('show');
-      0;
-      this.party.get('playlist').add(song, {
+
+      var party = this.party;
+
+      party.get('playlist').add(song, {
         success: function() {
+          mixpanel.track('pick search', {
+            party_id: party.id,
+            song_title: song.get('title'),
+            platform: 'mobile'
+          });
           $.mobile.loading('hide');
           window.location.hash = '#';
         },
@@ -6861,7 +6868,7 @@ var ShareView = Backbone.View.extend({
       var ua = navigator.userAgent.toLowerCase();
       var url = 'sms:';
       url += (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1) ? ';' : '?';
-      url += 'body=' + encodeURIComponent('Hi there! Join me on TuneSquared and play the music: http://'
+      url += 'body=' + encodeURIComponent('Hi there! Join me on TuneSquared and play the music you like: http://'
           + window.location.host
           + '/party/'
           + this.party.get('name'));
@@ -7025,11 +7032,19 @@ define('routers/MainRouter',[
       },
 
       search: function (query) {
+        var clean_query = decodeURIComponent(query);
+
         if (Session.get('party') == null) {
           window.location.href = '#';
         } else {
+          mixpanel.track('search', {
+            party_id: Session.get('party').id,
+            q: clean_query,
+            platform: 'mobile'
+          });
+
           this.searchView.setParty(Session.get('party'));
-          this.searchView.search(decodeURIComponent(query));
+          this.searchView.search(clean_query);
 
           this.changePage('main');
           this.pages.main.setContents(this.searchView.$el, 'search');
@@ -7851,6 +7866,8 @@ define('app',[
   ],
   function ($, MainRouter, FastClick) {
     
+
+    mixpanel.track('show mobile');
 
     FastClick.attach(document.body);
 

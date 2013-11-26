@@ -83,6 +83,10 @@ footer {
 	height: 100%;
 }
 
+.side-title {
+	margin-left: 20px;
+}
+
 /* player */
 
 .player-control {
@@ -140,8 +144,16 @@ footer {
 }
 
 .playlist-item {
-	width: 300px;
+	width: 100%;
 	height: 100px;
+}
+
+.remove-btn {
+	margin-top: 40px;
+	margin-left: -15px;
+	color: #aaa;
+	text-decoration: none;
+	float: left;
 }
 
 .subpage-title {
@@ -180,8 +192,8 @@ footer {
 	box-shadow: 0px -1px 2px #000;
 }
 
-.qr-code {
-	padding-top: 20px;
+.side-column {
+	border-right: 1px #333 solid;
 }
 
 .qr-inner {
