@@ -6,6 +6,7 @@
 	"globals": {
 		"define": true,
 		"requirejs": true,
-		"require": true
+		"require": true,
+    "mixpanel": true
 	}
 }

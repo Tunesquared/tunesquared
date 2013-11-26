@@ -81,6 +81,10 @@ define([
     },
 
     onChooseSong: function (song) {
+      mixpanel.track('pick suggestion', {
+        party_id: this.props.party.id,
+        song_title: song.title
+      });
       this.props.party.get('playlist').add(song);
     },
 
