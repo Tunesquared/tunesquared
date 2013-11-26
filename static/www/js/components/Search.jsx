@@ -121,6 +121,11 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 		},
 
 		onChooseSong: function (song) {
+			mixpanel.track('pick search', {
+				party_id: this.props.party.id,
+				song_title: song.title,
+				platform: 'desktop'
+			});
 			this.props.party.get('playlist').add(song);
 		},
 

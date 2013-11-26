@@ -49,6 +49,11 @@ define([
 
 		routes: {
 			'search/:q': function (q) {
+				mixpanel.track('search', {
+					party_id: this.props.session.get('party').id,
+					q: q,
+					platform: 'desktop'
+				});
 				this.setState({
 					dialog: null,
 					main: 'search',
@@ -121,6 +126,12 @@ define([
 		},
 
 		onUpdateCurrentPlayer: function (player) {
+			if (player != null && this.props.session.get('party') != null) {
+				mixpanel.track('song played', {
+					party_id: this.props.session.get('party').id,
+					song_title: player.song.get('title')
+				});
+			}
 			this.setState({
 				currentPlayer: player
 			});

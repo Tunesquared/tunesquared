@@ -6,6 +6,7 @@
 
 requirejs.config({
     paths: {
+        'lib': '../lib',
         'socket.io': '../socket.io/socket.io',
         'underscore': '../lib/underscore',
         'backbone': '../lib/backbone',
@@ -51,7 +52,8 @@ require(['jquery', 'react', 'components/CreateDialog', 'models/Session'],
     */
     function($, React, CreateDialog, Session) {
 
-        // TODO : refactor this in a react component
+        mixpanel.track('show welcome');
+
         var session = new Session();
 
         function onCreateHide() {
