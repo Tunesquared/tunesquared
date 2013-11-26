@@ -18,6 +18,7 @@ define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 			var song = this.props.song;
 			return (
 				<div class="playlist-item" key={song.cid} >
+					<a class="remove-btn" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
 					<div class="pull-left" href="#">
 						<img class="media-object" src={song.get('thumb')} />
 					</div>
