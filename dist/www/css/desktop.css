@@ -1,0 +1,192 @@
+@import "/lib/slider/css/slider.css";
+
+html {
+	height: 100%;
+}
+
+body {
+	padding-top: 50px;
+	/* Allows footer to stick to the bottom of the page */
+	position: relative;
+	/* Makes some room for the footer */
+	padding-bottom: 80px;
+	min-height: 100%;
+}
+
+.home {
+	padding-bottom: 20px;
+}
+
+.main-contents {
+	background-color: #111;
+}
+
+#visu-anchor {
+	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
+	width: 640px;
+	height: 360px;
+	overflow: hidden;
+	margin: auto;
+}
+
+.navbar {
+	margin-bottom: 0;
+	border: 0;
+	box-shadow: 0px 1px 3px #000;
+}
+
+.navbar input {
+	background-color: #181818;
+	color: #96BED1;
+	width: 50%;
+	transition-property: width;
+	transition-duration: 300ms;
+}
+
+.navbar input:focus {
+	background-color: #0E0E0E;
+	color: #50C5FD;
+	width: 90%;
+}
+
+.navbar input::-webkit-input-placeholder { color: #37525F; }
+.navbar input:focus::-webkit-input-placeholder { color: #1E536D; }
+/* Firefox 18- */
+.navbar input:-moz-placeholder { color: #37525F; }
+.navbar input:focus:-moz-placeholder { color: #1E536D; }
+/* Firefox 19+ */
+.navbar input::-moz-placeholder { color: #37525F; }
+.navbar input:focus::-moz-placeholder { color: #1E536D; }
+
+.navbar input:-ms-input-placeholder { color: #37525F; }
+.navbar input:focus:-ms-input-placeholder { color: #1E536D; }
+
+.navbar-search {
+	margin-top: 6px;
+}
+
+.top {
+	padding: 20px 0px;
+	background-color: #181818;
+}
+
+.suggestions {
+	height: 100%;
+}
+
+.side-title {
+	margin-left: 20px;
+}
+
+/* player */
+
+.player-control {
+	margin: 10px;
+	box-shadow: 1px 2px 3px #000;
+}
+
+.player-control:hover {
+	box-shadow: 0px 1px 3px #000;
+}
+
+.forward-button {
+	border-radius: 0;
+}
+
+.play-button {
+	margin-right: 0px;
+	margin-left: 20px;
+	border-radius: 0;
+	padding: 16px 20px;
+	font-size: 20px;
+	padding: 12px 16px;
+}
+
+.volume-slider {
+	width: 100px;
+}
+
+.volume-icon.pull-left {
+	margin-top: 3px;
+	margin-right: 10px;
+}
+
+.player-song-title {
+	margin-bottom: 30px;
+}
+
+/* navbar player */
+
+.navbar-player .btn {
+	border-radius: 0;
+	margin: 5px;
+}
+
+/* Playlist */
+
+#playlist {
+	overflow: hidden;
+	margin: 10px;
+}
+
+.playlist-inner {
+	background-color: #060606;
+	padding: 20px;
+}
+
+.playlist-item {
+	width: 100%;
+	height: 100px;
+}
+
+.remove-btn {
+	margin-top: 40px;
+	margin-left: -15px;
+	color: #aaa;
+	text-decoration: none;
+	float: left;
+}
+
+.subpage-title {
+	margin-left: 100px;
+}
+
+/* Search page */
+.media.song-vignette .media-body {
+	min-width: 100px;
+}
+
+.media.song-vignette {
+	margin-bottom: 30px;
+}
+
+/* error message */
+.error .modal-content {
+	background-color: #111;
+}
+
+.error .modal-header, .modal-footer {
+	background-color: #181818;
+	border: none;
+}
+
+.error .modal-body {
+	margin-bottom: 10px;
+}
+
+.error .modal-header {
+	box-shadow: 0px 1px 2px #000;
+}
+
+.error .modal-footer {
+	margin: 0;
+	box-shadow: 0px -1px 2px #000;
+}
+
+.side-column {
+	border-right: 1px #333 solid;
+}
+
+.qr-inner {
+	margin: auto;
+}

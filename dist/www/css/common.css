@@ -1,0 +1,26 @@
+footer {
+  padding: 20px;
+  color: #474747;
+}
+
+footer .container {
+  padding: 0px 10px;
+}
+
+footer .links > a {
+  text-decoration: none;
+  float: right;
+  list-style-type: none;
+  margin-left: 10px;
+  color: #004658;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.19);
+}
+
+footer .links > a:hover {
+  color: #0088AA;
+}
+
+.page {
+  background-color: #222;
+  padding: 20px 0px;
+}
