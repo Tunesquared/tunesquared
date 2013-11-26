@@ -5,7 +5,11 @@ var Recaptcha = require('recaptcha').Recaptcha;
 var config = require('../config');
 
 var nodemailer = require('nodemailer');
+<<<<<<< HEAD
 var transport = nodemailer.createTransport('Direct', {debug: true});
+=======
+var transport = nodemailer.createTransport('Direct', {debug: false});
+>>>>>>> develop
 
 
 var PUBLIC_KEY = config.recaptcha_public,
@@ -20,7 +24,8 @@ module.exports = new framework.Router({
       captcha: recaptcha.toHTML(),
       email: '',
       message: '',
-      captcha_error: false
+      captcha_error: false,
+      other_error: false
     });
   },
 
@@ -49,7 +54,8 @@ module.exports = new framework.Router({
                   captcha: recaptcha.toHTML(),
                   email: req.body.email,
                   message: req.body.message,
-                  captcha_error: true
+                  captcha_error: false,
+                  other_error: true
                 });
             } else {
                 console.log(response);
@@ -64,7 +70,8 @@ module.exports = new framework.Router({
             captcha: recaptcha.toHTML(),
             email: req.body.email,
             message: req.body.message,
-            captcha_error: true
+            captcha_error: true,
+            other_error: false
           });
         }
     });
