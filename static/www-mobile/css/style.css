@@ -24,6 +24,7 @@ body, html {
 .footer a {
   font-weight: bold;
   color: #23556D;
+  margin-right: 10px;
 }
 
 .footer a:hover {

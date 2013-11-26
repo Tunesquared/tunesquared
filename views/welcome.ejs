@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="lib/bootswatch/cyborg/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="stylesheet" type="text/css" href="css/welcome.css" />
   </head>
   <body>
     <div class="header">
       <div class="container">
         <a class="navbar-brand" href="#">Tune²</a>
-        <!--<ul class="nav navbar-nav nav-pills pull-right">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Sign up</a></li>
-        </ul>!-->
         <div class="nav navbar-nav nav-pills pull-right" id="betalogo">
             Beta
         </div>
@@ -74,11 +71,7 @@
       </div>
     </div>
 
-    <footer>
-      <div class="container">
-        <div class="pull-right">&copy; TuneSquared 2013</div>
-      </div>
-    </footer>
+    <% include footer.ejs %>
 
     <div id="create-dialog"></div>
     <script type="text/javascript">
