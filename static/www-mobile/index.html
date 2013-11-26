@@ -10,8 +10,6 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
     <link rel="stylesheet" href="/m/css/style.css" />
 
-    <script data-main="/m/js/main" src="lib/require.js"></script>
-
   </head>
 
   <body>
@@ -22,6 +20,14 @@
         <img src="/m/lib/mobileutils/ajax-loader.gif" alt="loading" title="loading"/>
       </div>
     </div>
+
+    <!-- requirejs -->
+    <script type="text/javascript">
+      window.require = {
+          waitSeconds: 90
+      };
+    </script>
+    <script data-main="/m/js/main" src="lib/require.js"></script>
 
     <!-- -->
     <script type="text/template" id="mainTemplate">
@@ -43,7 +49,7 @@
                 <input type="text" id="searchInput"/>
               </form>
             </div>
-            <a href="../" class="navbar-brand brand-offset partyName"></a>
+            <a href="/m/" class="navbar-brand brand-offset partyName"></a>
           </div>
         </nav>
 
@@ -92,10 +98,14 @@
     </script>
 
     <script type="text/template" id="shareTemplate">
-      <div class="contents-header"> <h1>QR-Code:</h1></div>
-      <div class="col-xs-12">
-        <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div>
-        <div id="qrcode"></div>
+
+        <div class="contents-header"> <h1>QR-Code:</h1></div>
+        <div class="col-xs-12">
+          <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div> <br>
+          <div id="qrcode"></div> <br>
+          <button type="submit" class="sms btn btn-primary btn-large join-party-btn ">Send link per sms.</button>
+          <br>
+        </div>
       </div>
     </script>
 

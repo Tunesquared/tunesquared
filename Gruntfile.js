@@ -140,7 +140,7 @@ module.exports = function(grunt) {
         dist: [
           {src: '../../tmp/desktop.built.js', dst: 'js/main.js'},
           {src: '../../tmp/welcome.built.js', dst: 'js/welcome.js'},
-          'lib/require.js',
+          {src: 'lib/require.min.js', dst: 'lib/require.js'},
           'css',
           'img',
           'lib/slider/css',
