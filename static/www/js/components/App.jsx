@@ -49,6 +49,11 @@ define([
 
 		routes: {
 			'search/:q': function (q) {
+				mixpanel.track('search', {
+					party_id: this.props.session.get('party').id,
+					q: q,
+					platform: 'desktop'
+				});
 				this.setState({
 					dialog: null,
 					main: 'search',
@@ -121,6 +126,12 @@ define([
 		},
 
 		onUpdateCurrentPlayer: function (player) {
+			if (player != null && this.props.session.get('party') != null) {
+				mixpanel.track('song played', {
+					party_id: this.props.session.get('party').id,
+					song_title: player.song.get('title')
+				});
+			}
 			this.setState({
 				currentPlayer: player
 			});
@@ -171,13 +182,14 @@ define([
 					<div class="contents">
 						<div class="container main-contents">
 							<div class="row">
-								<div class="col-3">
+								<div class="col-4 side-column">
+									<h3 class="side-title">Scan to vote!</h3>
 			            <QRCode data={this.state.QRCodeURL} />
 			            <div class="col-12">
 				            <Playlist playlist={currentParty.get('playlist')} />
 				          </div>
 			          </div>
-			          <div class="col-9">
+			          <div class="col-8">
 								{main}
 								</div>
 							</div>
