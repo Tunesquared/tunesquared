@@ -5,11 +5,7 @@ var Recaptcha = require('recaptcha').Recaptcha;
 var config = require('../config');
 
 var nodemailer = require('nodemailer');
-<<<<<<< HEAD
-var transport = nodemailer.createTransport('Direct', {debug: true});
-=======
 var transport = nodemailer.createTransport('Direct', {debug: false});
->>>>>>> develop
 
 
 var PUBLIC_KEY = config.recaptcha_public,
