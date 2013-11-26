@@ -5,10 +5,10 @@
 	to perform actions in this controller
 */
 
-var framework = require('../framework');
+var framework = require('../../framework');
 
-var Party = require('../models/Party');
-var Song = require('../models/Song');
+var Party = require('../../models/Party');
+var Song = require('../../models/Song');
 
 
 new framework.Router({

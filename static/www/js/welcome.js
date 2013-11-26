@@ -6,15 +6,16 @@
 
 requirejs.config({
     paths: {
+        'lib': '../lib',
         'socket.io': '../socket.io/socket.io',
         'underscore': '../lib/underscore',
         'backbone': '../lib/backbone',
-        'bootstrap': '../lib/bootstrap/js',
+        'bootstrap': '../lib/bootstrapAMD/js',
         'jquery': '../lib/jquery',
         'wizard': '../lib/wizard',
         'react': '../lib/react',
         'components': 'components-build',
-        'qrgenerator': '../lib/qrcode.min'
+        'qrgenerator': '../lib/qrcode'
     },
 
     shim: {
@@ -51,7 +52,8 @@ require(['jquery', 'react', 'components/CreateDialog', 'models/Session'],
     */
     function($, React, CreateDialog, Session) {
 
-        // TODO : refactor this in a react component
+        mixpanel.track('show welcome');
+
         var session = new Session();
 
         function onCreateHide() {

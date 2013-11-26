@@ -12,13 +12,15 @@
     "mongoose": "*",
     "mongoose-validator": "*",
     "socket.io": "*",
-    "redis": "~0.9.0"
+    "redis": "~0.9.0",
+    "nodemailer": "~0.5.10",
+    "recaptcha": "~1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-react": "~0.4.0",
     "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-dist": "git://github.com/Agent-H/grunt-dist.git#v0.0.1",
+    "grunt-dist": "git+https://github.com/Agent-H/grunt-dist.git#v0.0.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-strip": "~0.2.1",

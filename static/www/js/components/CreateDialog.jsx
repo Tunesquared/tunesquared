@@ -135,7 +135,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 								<div class="container-fluid">
 									<div class="row-fluid">
 										<div class="col-12">
-											<p>Your guests can now access this party using one of the following method : </p>
+											<p>Your guests can now access this party using one of the following method:</p>
 										</div>
 									</div>
 									<div class="row">

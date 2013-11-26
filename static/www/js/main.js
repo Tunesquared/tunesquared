@@ -12,7 +12,7 @@ requirejs.config({
     'socket.io': '/socket.io/socket.io',
     'underscore': '../lib/underscore',
     'backbone': '../lib/backbone',
-    'bootstrap': '../lib/bootstrap/js',
+    'bootstrap': '../lib/bootstrapAMD/js',
     'jquery': '../lib/jquery',
     'bootstrap-slider': '../lib/slider/js/bootstrap-slider',
     'wizard': '../lib/wizard',
@@ -21,7 +21,7 @@ requirejs.config({
     'search': '../lib/search',
     'swfobject': '../lib/swfobject',
     'json': '../lib/json3',
-    'qrgenerator': '../lib/qrcode.min'
+    'qrgenerator': '../lib/qrcode'
   },
 
   shim: {
@@ -31,7 +31,7 @@ requirejs.config({
       deps: ['underscore', 'jquery'],
       //Once loaded, use the global 'Backbone' as the
       //module value.
-      exports: 'Backbone', 
+      exports: 'Backbone',
 
     },
     'underscore': {
@@ -40,7 +40,7 @@ requirejs.config({
 
     'swfobject': {
       exports: 'swfobject'
-    }, 
+    },
 
     'qrgenerator': {
       exports: 'QRCode'

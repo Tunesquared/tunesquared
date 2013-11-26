@@ -24,6 +24,7 @@ body, html {
 .footer a {
   font-weight: bold;
   color: #23556D;
+  margin-right: 10px;
 }
 
 .footer a:hover {
@@ -155,11 +156,19 @@ body, html {
 }
 
 .side-menu .menu {
-  background-color: #333;
+  background-color: #222;
   min-width: 200px;
   width: 100%;
   max-width: 250px;
   height: 100%;
+}
+
+.side-menu .menu .nav a:hover {
+  background-color: #111;
+}
+
+.side-menu .menu .nav hr {
+  margin: 10px 0px;
 }
 
 .side-menu .menu-close {
@@ -169,7 +178,15 @@ body, html {
   font-size: 23px;
   padding: 10px;
   height: 50px;
+  background-color: #353535;
+  border-color: #353535;
 }
+
+.side-menu .menu-close:hover {
+  background-color: #252525;
+  border-color: #252525;
+}
+
 
 @media (min-width: 768px) {
   .side-menu {

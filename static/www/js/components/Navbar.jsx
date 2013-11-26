@@ -63,7 +63,7 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 			var player = $('#player');
 			var navbar = $('#navbar');
 			var isHidden = player.offset().top + player.height() < navbar.offset().top + navbar.height();
-			console.log(isHidden);
+
 			if (isHidden && this.state.showPlayer === false) {
 				this.setState({
 					showPlayer: true

@@ -1,3 +1,4 @@
+'use strict';
 var Session = require('express/node_modules/connect/lib/middleware/session/session');
 
 var io;
@@ -33,15 +34,23 @@ var Server = module.exports = function () {
     io = require('socket.io').listen(WebServer());
 
     /* Sessions */
+    io.configure('production', function () {
+      io.enable('browser client etag');
+      io.set('log level', 1);
+
+      io.set('transports', [
+        'websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling'
+      ]);
+    });
     io.configure(function () {
       io.set('authorization', function (handshakeData, callback) {
-
+        var sessionID;
         if (handshakeData.headers.cookie) {
           // Read cookies from handshake headers
           var cookies = cookie.parse(handshakeData.headers.cookie);
 
           // We're now able to retrieve session ID
-          var sessionID = connect.utils.parseSignedCookie(cookies['connect.sid'], process.env.COOKIE_SCRET || '8168008135');
+          sessionID = connect.utils.parseSignedCookie(cookies['connect.sid'], process.env.COOKIE_SCRET || '8168008135');
         }
 
         // No session? Refuse connection
@@ -61,7 +70,7 @@ var Server = module.exports = function () {
               };
               handshake(callback, new Session(req, session));
             } else {
-              callback("could not retreive session", false);
+              callback('could not retreive session', false);
             }
           });
         }
@@ -83,7 +92,7 @@ var Server = module.exports = function () {
     });
   }
   return io;
-}
+};
 
 Server.addController = function (controller) {
   controllers.push(controller);
@@ -95,6 +104,6 @@ Server.addController = function (controller) {
         if (err) cb(err, false);
         else next(cb, session);
       });
-    }
+    };
   }
-}
+};

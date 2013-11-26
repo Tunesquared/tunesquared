@@ -1,10 +1,16 @@
 /** @jsx React.DOM */
 'use strict';
 
-var QR_DIMENSIONS = {
-	width: 200,
-	height: 200
+
+
+var QR_PROPS = {
+	width: 128,
+	height: 128,
+	margin: 10,
+	colorLight: '#ffffff',
+	colorDark: '#000000'
 };
+
 
 define(['react', 'qrgenerator'], function(React, QR) {
 	var c = 0;
@@ -17,33 +23,46 @@ define(['react', 'qrgenerator'], function(React, QR) {
 		},
 
 		componentDidMount: function() {
-			// Creates the appropriate QRCode and inserts it in the DOM
-			var qrdata = this.props.data;
-			var qrelement = this.refs.qrcode.getDOMNode();
+			this.generate();
+		},
 
-			this.qrcode = new QR(qrelement, {
-				text:  qrdata,
-				width: QR_DIMENSIONS.width,
-				height: QR_DIMENSIONS.height
-			});
-
+		componentWillUnmount: function() {
+			if (this.qrcode)
+				this.qrcode.clear();
 		},
 
 		componentDidUpdate: function() {
-			this.qrcode.clear();
+			this.generate();
+		},
+
+		// Creates the appropriate QRCode and inserts it in the DOM
+		generate: function() {
+		console.log ('regeneration');
+			if (this.qrcode)
+				this.qrcode.clear();
 			var qrelement = this.refs.qrcode.getDOMNode();
 			$(qrelement).empty();
 
 			this.qrcode = new QR(qrelement, {
 				text:  this.props.data,
-				width: QR_DIMENSIONS.width,
-				height: QR_DIMENSIONS.height
+				width: QR_PROPS.width,
+				height: QR_PROPS.height,
+				colorDark: QR_PROPS.colorDark,
+				colorLight: QR_PROPS.colorLight
 			});
+
+			qrelement.style.padding = QR_PROPS.margin + 'px';
+			qrelement.style['background-color'] = QR_PROPS.colorLight;
+			qrelement.style.width = (QR_PROPS.margin*2 + QR_PROPS.width) + 'px';
+			qrelement.style.height = (QR_PROPS.margin*2 + QR_PROPS.height) + 'px';
 		},
 
 		render: function() {
 			return (
-				<div ref="qrcode" class="qr-content"></div>
+				<div class="qr-code">
+					<div ref="qrcode" class="qr-inner">
+					</div>
+				</div>
 			);
 		}
 	});

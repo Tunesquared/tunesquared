@@ -12,7 +12,8 @@ define([
   var MainView = Backbone.View.extend({
 
     events: {
-      'click #close-menu, .side-menu': 'onCloseMenu',
+      'click #close-menu': 'onCloseMenu',
+      'click .side-menu': 'onSideMenuClick',
       'click #open-menu': 'onOpenMenu',
       'click #navbar-refresh': 'onRefresh',
       'submit #navbarSearch': 'onSearch',
@@ -22,11 +23,13 @@ define([
 
     initialize: function() {
       // Binds event callbacks to be sure "this" refers to a HomeView instance
-      _.bindAll(this, 'onCloseMenu', 'onOpenMenu', 'onLiveSearch', 'onSearch');
+      _.bindAll(this, 'onCloseMenu', 'onSideMenuClick', 'onOpenMenu', 'onLiveSearch', 'onSearch');
 
       this.template = _.template($('#mainTemplate').html());
 
       Session.on('change sync', this.update, this);
+
+      this.isMenuOpened = false;
 
       this.render();
     },
@@ -47,16 +50,31 @@ define([
         this.$partyName.text(Session.get('party').get('name'));
     },
 
-    onCloseMenu: function(/*evt*/) {
-      window.history.back();
+    /*
+      In small screen mode, side menu element occupies 100% screen width
+      A click on this element not originating from above is considered an
+      intent to close the menu
+    */
+    onSideMenuClick: function(evt) {
+      if($(evt.target).hasClass('side-menu')) {
+        this.onCloseMenu();
+      }
+    },
+
+    onCloseMenu: function() {
+      if (this.isMenuOpened) {
+        window.history.back();
+      }
     },
 
     hideMenu: function() {
       this.menu.removeClass('active');
+      this.isMenuOpened = false;
     },
 
     showMenu: function() {
       this.menu.addClass('active');
+      this.isMenuOpened = true;
     },
 
     onOpenMenu: function(evt) {
@@ -69,6 +87,7 @@ define([
     onRefresh: function(evt) {
       evt.stopPropagation();
       evt.preventDefault();
+
 
       var p = Session.get('party');
       if(p){

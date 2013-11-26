@@ -10,8 +10,6 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
     <link rel="stylesheet" href="/m/css/style.css" />
 
-    <script data-main="/m/js/main" src="lib/require.js"></script>
-
   </head>
 
   <body>
@@ -22,6 +20,19 @@
         <img src="/m/lib/mobileutils/ajax-loader.gif" alt="loading" title="loading"/>
       </div>
     </div>
+
+    <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
+b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+mixpanel.init("28e2611a0534edac40bc3d7fb3b22bf4");</script><!-- end Mixpanel -->
+
+    <!-- requirejs -->
+    <script type="text/javascript">
+      window.require = {
+          waitSeconds: 90
+      };
+    </script>
+    <script data-main="/m/js/main" src="lib/require.js"></script>
 
     <!-- -->
     <script type="text/template" id="mainTemplate">
@@ -43,7 +54,7 @@
                 <input type="text" id="searchInput"/>
               </form>
             </div>
-            <a href="../" class="navbar-brand brand-offset partyName"></a>
+            <a href="/m/" class="navbar-brand brand-offset partyName"></a>
           </div>
         </nav>
 
@@ -52,7 +63,9 @@
             <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
-              <li><a href="#">Share</a></li>
+              <li><a href="#share">Share</a></li>
+              <hr />
+              <li><a href="#exit"><span class="icon-signout"></span> Exit</a></li>
             </ul>
           </div>
         </div>
@@ -65,7 +78,7 @@
     <!-- -->
 
     <script type="text/template" id="partyTemplate">
-      <% if (currentSong){ %>
+      <% if (typeof currentSong !== 'undefined'){ %>
         <div class="contents-header"><h1>Currently played:</h1></div>
         <div id="currentSong">
           <div class="thumbnail">
@@ -89,14 +102,26 @@
       <div id="searchSongs"></div>
     </script>
 
+    <script type="text/template" id="shareTemplate">
+
+        <div class="contents-header"> <h1>QR-Code:</h1></div>
+        <div class="col-xs-12">
+          <div id="qrtext">Let your friends scan the QR-Code and share the fun!</div> <br>
+          <div id="qrcode"></div> <br>
+          <button type="submit" class="sms btn btn-primary btn-large join-party-btn ">Send link per sms.</button>
+          <br>
+        </div>
+      </div>
+    </script>
+
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
           <img src="<%= thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-primary disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-primary disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
+          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
         <h2><%= title %></h2>
       </div>
@@ -120,7 +145,7 @@
           <button class="navbar-help" type="button" data-toggle="collapse" data-target=".navbar-help-panel">
             <span class="icon-question"></span>
           </button>
-          <a href="../" class="navbar-brand">Tune²</a>
+          <a href="#" class="navbar-brand">Tune²</a>
         </div>
 
         <div class="collapse navbar-help-panel">
@@ -128,7 +153,7 @@
             <h2>What is this ?</h2>
             <p class="lead">Tunesquared allows you to choose the music that is being played at some place or event.</p>
             <p>If you are attending such event, <strong>ask someone for the party name</strong>, then <strong>type it in the text field</strong> below and start picking your favourite songs!</p>
-            <p>If you want to create such an event, please visit our <a href="/">main page</a>.<br />&nbsp;</p>
+            <p>If you want to create such an event, please visit our <a href="/desktop">main page</a>.<br />&nbsp;</p>
           </div>
         </div>
       </nav>
@@ -150,10 +175,8 @@
 
       <div class="footer">
         <div class="container">
-          <span class="pull-right copyright">
-            &copy; TuneSquared, 2013
-          </span>
           <a href="/desktop">Desktop version</a>
+          <a href="/tos">Terms of use</a>
         </div>
       </div>
 

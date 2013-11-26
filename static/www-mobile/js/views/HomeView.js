@@ -54,7 +54,7 @@ define(['backbone', 'underscore', '$', 'models/Session'], function(Backbone, _, 
           $.mobile.alert('Cannot join party "' + partyName + '"<br />Did you type it right ?', $.mobile.tooltip.ERROR);
         }
         else {
-          window.location.hash = '#party/partyName';
+          window.location.hash = '#party/' + Session.get('party').get('name');
         }
       });
     }

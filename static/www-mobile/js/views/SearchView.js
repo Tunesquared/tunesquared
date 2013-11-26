@@ -61,9 +61,16 @@ define([
     // Adds a new song to the playlist
     addSong: function(song) {
       $.mobile.loading('show');
-      console.log(song);
-      this.party.get('playlist').add(song, {
+
+      var party = this.party;
+
+      party.get('playlist').add(song, {
         success: function() {
+          mixpanel.track('pick search', {
+            party_id: party.id,
+            song_title: song.get('title'),
+            platform: 'mobile'
+          });
           $.mobile.loading('hide');
           window.location.hash = '#';
         },

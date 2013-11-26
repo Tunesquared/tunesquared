@@ -10,14 +10,13 @@ define([
 	'models/Session',
 	'models/Party',
 	'components/Player',
-	'components/Playlist',
 	'components/PartyInfo',
 	'components/Home',
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
 	'components/QRCode',
-	'bootstrap/affix'
+	'components/Playlist',
 ], function(
 	React,
 	$,
@@ -27,13 +26,13 @@ define([
 	Session,
 	Party,
 	Player,
-	Playlist,
 	PartyInfo,
 	HomeView,
 	SearchView,
 	Navbar,
 	ErrorDialog,
-	QRCode
+	QRCode,
+	Playlist
 ){
 
 	var App = React.createClass({
@@ -50,6 +49,11 @@ define([
 
 		routes: {
 			'search/:q': function (q) {
+				mixpanel.track('search', {
+					party_id: this.props.session.get('party').id,
+					q: q,
+					platform: 'desktop'
+				});
 				this.setState({
 					dialog: null,
 					main: 'search',
@@ -65,8 +69,35 @@ define([
 			}
 		},
 
+		componentWillReceiveProps: function(props) {
+      this.updateQRCodeURL(props.party);
+    },
+
+    updateQRCodeURL: function(party) {
+      party = party || this.props.session.get('party');
+      this.setState({
+        QRCodeURL: 'http://' +
+          window.location.host +
+          '/party/' +
+          encodeURIComponent(party.get('name'))
+      });
+    },
+
 		getBackboneModels: function () {
 			return [this.props.session];
+		},
+
+		updateSessionRefs: function() {
+			var session = this.props.session;
+
+			if (this.party) {
+				this.party.off(null, null, this);
+			}
+
+			this.party = session.get('party');
+			this.party.on('change sync', this.updateQRCodeURL, this);
+
+			this.updateQRCodeURL();
 		},
 
 		componentDidMount: function(){
@@ -83,6 +114,7 @@ define([
 					partyExpired();
         }
       });
+			this.props.session.on('sync', this.updateSessionRefs, this);
 
       function partyExpired() {
 				self.setState({
@@ -93,20 +125,13 @@ define([
       window.app = this;
 		},
 
-		componentDidUpdate: function () {
-			var affix = $(this.refs.affix.getDOMNode());
-			/*affix.affix({
-		    offset: {
-		      top: affix.offset().top
-		    , bottom: function () {
-						// Footer height to stop the affix at page bottom
-		        return 0;//(this.bottom = $('.bs-footer').outerHeight(true))
-		      }
-		    }
-		  });*/
-		},
-
-		onNewCurrentPlayer: function (player) {
+		onUpdateCurrentPlayer: function (player) {
+			if (player != null && this.props.session.get('party') != null) {
+				mixpanel.track('song played', {
+					party_id: this.props.session.get('party').id,
+					song_title: player.song.get('title')
+				});
+			}
 			this.setState({
 				currentPlayer: player
 			});
@@ -125,32 +150,12 @@ define([
 			});
 		},
 
-		toggleQRCodeShow: function() {
-			var qrelement = $(this.refs['qrcode-container'].getDOMNode());
-			var qrActionElement = $(this.refs.qraction.getDOMNode());
-
-			if(qrelement.is(':hidden')) {
-				qrelement.show(500);
-				qrActionElement.text(' Hide');
-			}
-			else {
-				qrelement.hide(500);
-				qrActionElement.text(' Show');
-			}
-		},
-
 		render: function () {
 
 			var session = this.props.session;
 			var currentParty = session.get('party') || new Party();
 
 			var dialog = [];
-
-			var QRCodeURL =
-				'http://'
-				+ window.location.host
-				+ '/party/'
-				+ encodeURIComponent(currentParty.get('name'));
 
 			var main;
 			if (this.state.main === 'home')
@@ -170,40 +175,26 @@ define([
 						<div class="container">
 							<Player
 								party={ currentParty }
-								onNewCurrentPlayer={this.onNewCurrentPlayer}
+								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
 								onError={this.onPlayerError}/>
 						</div>
 					</div>
 					<div class="contents">
-
-
-						<div class="container">
-							<div class="col-4" ><br />
-								<div ref="qrcode-container" class="panel">
-									<div>
-										<button onClick={this.toggleQRCodeShow} class="qr-toogleshow btn icon-qrcode">
-											<span ref="qraction"> Show</span> QR code
-										</button>
-							 			<br />
-									</div>
-									<div class="qrcode-container" ref="qrcode-container">
-										<QRCode data={ QRCodeURL} />
-									</div>
-								</div>
-								<div ref="affix">
-									<Playlist party={currentParty}/>
-								</div>
-							</div>
-							<div class="col-8 main-contents">
+						<div class="container main-contents">
+							<div class="row">
+								<div class="col-4 side-column">
+									<h3 class="side-title">Scan to vote!</h3>
+			            <QRCode data={this.state.QRCodeURL} />
+			            <div class="col-12">
+				            <Playlist playlist={currentParty.get('playlist')} />
+				          </div>
+			          </div>
+			          <div class="col-8">
 								{main}
+								</div>
 							</div>
 						</div>
 					</div>
-					<footer>
-						<div class="container">
-							Blabla
-						</div>
-					</footer>
 					{dialog}
 				</div>
 			);

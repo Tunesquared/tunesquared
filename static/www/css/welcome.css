@@ -18,10 +18,7 @@ body {
 	/* Allows footer to stick to the bottom of the page */
 	position: relative;
 	/*Makes some room for the footer */
-	/*padding-bottom: 80px;
-	min-height: 100%;*/
-	padding-bottom: 15px;
-	background-color: #333;
+	min-height: 100%;
 	overflow-x: hidden;
 }
 
@@ -50,23 +47,24 @@ body {
 }
 
 .splash {
-	padding-bottom: 80px;
-	/*background-color: #202349;*/
-	background: #202349; /* Old browsers */
-	background: -moz-linear-gradient(top, #202349 1%, #283b64 86%, #3c7aaa 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#202349), color-stop(86%,#283b64), color-stop(100%,#3c7aaa)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #202349 1%,#283b64 86%,#3c7aaa 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #202349 1%,#283b64 86%,#3c7aaa 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #202349 1%,#283b64 86%,#3c7aaa 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #202349 1%,#283b64 86%,#3c7aaa 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#202349', endColorstr='#3c7aaa',GradientType=0 ); /* IE6-9 */
+	background-color: #003A4D;
+	/*background: url(/img/Party%20Santo%20Domingo%2075_touched.jpg) center fixed no-repeat #6BBDBC; */
+	/*background: url(/img/bokeh2.jpg) center fixed no-repeat #000;*/
+	background: url(/img/bokehblue.jpg) center fixed no-repeat #000;
+	background-size: cover;
 }
 .splash > .contents {
-	margin-top: 100px;
+	padding-top: 100px;
+
+}
+
+.splash > .contents h1 {
+	color: #fff;
 }
 
 .splash > .contents .lead {
 	margin-bottom: 50px;
+	color: #fff;
 }
 
 .splash > .contents {
@@ -77,29 +75,8 @@ body {
 	margin: 0px 12px;
 }
 
-.splash > .header {
-	padding-top: 8px;
-}
-
-.demoline1 {
-	background-color: #3C7aaa;
-	margin-right: 0px;
-	margin-left: 0px;
-	width: 100%;
-	padding: 20px;
-}
-
-.demoline2 {
-	/*background-color: #3BA8A2;*/
-	background-color: #4e6caa;
-	width: 100%;
-	padding: 20px;
-}
-
-.demoline3 {
-	background-color: #647596;
-	width: 100%;
-	padding: 20px;
+.header {
+	background-color: black;
 }
 
 #betalogo {
@@ -122,30 +99,10 @@ body {
 }
 
 footer {
-	background-color: #325b87;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	padding: 5px;
-	color: black;
-
+	background-color: #111;
 }
 
-.demoline-content {
-	font-size: 24px;
-	color: black;
-}
-
-.mainhome > .btn-primary {
-	background-color: #995200;
-	border: none;
-
-	-moz-box-shadow:    3px 3px 5px 1px black;
-	  -webkit-box-shadow: 3px 3px 5px 1px black;
-	  box-shadow:         3px 3px 5px 1px black;
-}
-
-.mainhome > .btn-primary:hover {
-	background-color: #c16a05;
-	color: #dcdcdc;
+.demoline {
+	padding-top: 40px;
+	padding-bottom: 80px;
 }

@@ -9,7 +9,7 @@ var Framework = require('../framework');
 
 var Party = require('../models/Party');
 
-var mUtils = require('../utils/mobileUtils');
+var mUtils = require('../utils/mobileutils');
 
 
 module.exports = new Framework.Router({
@@ -52,5 +52,13 @@ module.exports = new Framework.Router({
 	'/m': function(req, res, next) {
 		mUtils.clearForce(req, res);
 		next();
+	},
+
+	/* Terms of service */
+	'/tos': function(req, res) {
+		res.render('tos');
 	}
+
+	/* For /contact, see contact.js */
+
 });

@@ -12,8 +12,20 @@
   add it to the playlist. One cannot force a song to go in the player, it has
   to be first in the playlist at the moment songs are switched.
 */
-define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap-slider'],
-  function (React, jquery, PlayerFactory, persist) {
+define([
+  'react',
+  'jquery',
+  'players/PlayerFactory',
+  'mixins/persist',
+  'players/LayoutProxy',
+  'bootstrap-slider'],
+  function (
+    React,
+    jquery,
+    PlayerFactory,
+    persist,
+    LayoutProxy
+) {
 
   var PROGRESS_STEP = 1000;
 
@@ -24,6 +36,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
     persistId: 'player',
 
     getInitialState: function () {
+      var stored = this.load();
       /* States for the player are : 'empty', it waits for a new song to come in and start */
       return {
         /* When true, music is playing or will be as soon as the player will be fed with a song.
@@ -32,7 +45,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
 
         /* Volume is stored in player state so that it actually acts as a master
          and can keep it consistent across different player implementations */
-        volume: 50,
+        volume: stored.volume || 50,
 
         /* Player in foreground it's state is linked to the UI (loading, progress, etc...) */
         currentPlayer: null,
@@ -50,7 +63,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
 
         loading: false,
 
-        progress: 0
+        progress: stored.seek
       };
     },
 
@@ -79,9 +92,6 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         this.props.party.get('playlist').off(null, null, this);
 
         var stored = this.load();
-        this.setState({
-          volume: stored.volume || 50
-        });
 
         var playlist = newProps.party.get('playlist');
 
@@ -150,6 +160,10 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         playlist = this.props.party.get('playlist');
 
       if (playlist.length === 0){
+        // If we cannot get a new player right now, we discard current visualisation
+        // Otherwise, we let onNextSong handle it
+        LayoutProxy.setLayout(null);
+
         console.log('try again');
         playlist.once('add', function() {
           this.fetchPlaylistForNextSong(playlist);
@@ -186,7 +200,9 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
         else player.pause();
 
         if (this.state.currentPlayer == null){
-          this.props.onNewCurrentPlayer(player);
+          // Tells upper level that player changed
+          this.props.onUpdateCurrentPlayer(player);
+
           player.on('end', this.onPlayerEnd);
           player.on('play', this.onPlayerPlay);
           player.on('pause', this.onPlayerPause);
@@ -194,9 +210,10 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
           console.log('setting song : '+song);
           this.props.party.set('currentSong', song);
 
+          /* sets new visualisation layout manager */
+          LayoutProxy.setLayout(player.getLayoutManager());
+
           if (options) {
-            console.log(options);
-            console.log(player.getDuration());
             if (options.seek)
               player.seekTo(options.seek);
           }
@@ -231,6 +248,7 @@ define(['react', 'jquery', 'players/PlayerFactory', 'mixins/persist', 'bootstrap
       this.setState({
         currentPlayer: null
       });
+      this.props.onUpdateCurrentPlayer(null);
 
       // Then try to get a new one AFTER new state has been applied
       _.defer(this.fetchPlaylistForNextSong);

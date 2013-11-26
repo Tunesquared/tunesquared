@@ -18,10 +18,11 @@ define([
     '../views/HomeView',
     '../views/PartyView',
     '../views/MainView',
-    '../views/SearchView'
+    '../views/SearchView',
+    '../views/ShareView'
   ],
 
-  function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView, MainView, SearchView) {
+  function ($, Backbone, Session, PartyModel, SongModel, HomeView, PartyView, MainView, SearchView, ShareView) {
 
     // Extends Backbone.Router
     var MainRouter = Backbone.Router.extend({
@@ -58,6 +59,7 @@ define([
 
         this.partyView = new PartyView();
         this.searchView = new SearchView();
+        this.shareView = new ShareView();
 
         /* Ok this may look shitty, but in order to allow pysical "back" button to close the menu,
           it must be linked to a route. Therefore, there's this "#menu" route which opens the menu.
@@ -77,6 +79,7 @@ define([
         'party/:name': 'party',
         'share': 'share',
         'search/:query': 'search',
+        'exit': 'exit',
         'menu': 'menu', // Weired route to show menu
         '*path': 'home'
       },
@@ -85,12 +88,21 @@ define([
       home: function () {
         if (Session.get('party') != null) {
           window.location.hash = '#party/' + Session.get('party').get('name');
+        } else {
+          this.changePage('home');
         }
-        this.changePage('home');
       },
 
       // Does nothing, see "this.on('all')" comment in initialize method
       menu: function () {},
+
+      exit: function() {
+        $.mobile.loading('show');
+        Session.leave(function(){
+          $.mobile.loading('hide');
+          window.location.hash = '#';
+        });
+      },
 
       party: function (name) {
         var self = this;
@@ -128,11 +140,19 @@ define([
       },
 
       search: function (query) {
+        var clean_query = decodeURIComponent(query);
+
         if (Session.get('party') == null) {
           window.location.href = '#';
         } else {
+          mixpanel.track('search', {
+            party_id: Session.get('party').id,
+            q: clean_query,
+            platform: 'mobile'
+          });
+
           this.searchView.setParty(Session.get('party'));
-          this.searchView.search(decodeURIComponent(query));
+          this.searchView.search(clean_query);
 
           this.changePage('main');
           this.pages.main.setContents(this.searchView.$el, 'search');
@@ -140,13 +160,17 @@ define([
       },
 
       share: function () {
-        console.log('#share');
-        this.shareView.setParty(Session.get('party'));
-        $.mobile.changePage('#share', {
-          reverse: false,
-          changeHash: false
-        });
-        this.shareView.render();
+        if (Session.get('party') == null) {
+          window.location.href = '#';
+        } else {
+          console.log('#share');
+          this.shareView.setParty(Session.get('party'));
+
+          this.changePage('main');
+          this.pages.main.setContents(this.shareView.$el);
+          this.shareView.qr_load();
+        }
+
       },
 
       changePage: function (pageName) {
