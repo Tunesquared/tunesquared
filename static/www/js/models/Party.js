@@ -3,7 +3,7 @@
 // ==============
 
 // Includes file dependencies
-define(['jquery', 'backbone', 'models/Playlist'], function($, Backbone, Playlist) {
+define(['jquery', 'underscore', 'backbone', 'models/Playlist', 'models/Song'], function($, _, Backbone, Playlist, Song) {
 
   // The Model constructor
   var Model = Backbone.Model.extend({
@@ -14,9 +14,20 @@ define(['jquery', 'backbone', 'models/Playlist'], function($, Backbone, Playlist
     },
 
     initialize: function() {
+      _.bindAll(this, 'isCurrent');
+
       if (!(this.get('playlist') instanceof Playlist)) {
         this.set('playlist', new Playlist(this.get('playlist')));
       }
+
+      if (!(this.get('currentSong') instanceof Song)) {
+        this.set('currentSong', this.get('playlist').get(this.get('currentSong')));
+      }
+    },
+
+    isCurrent: function (song) {
+      var currentSong = this.get('currentSong');
+      return (currentSong && song.id === this.get('currentSong').id) || false;
     },
 
     parse: function(attr) {
@@ -24,6 +35,10 @@ define(['jquery', 'backbone', 'models/Playlist'], function($, Backbone, Playlist
         var playlist = this.get('playlist') || new Playlist([]);
         playlist.reset(attr.playlist);
         attr.playlist = playlist;
+      }
+
+      if (attr.currentSong) {
+        attr.currentSong = (attr.playlist || this.get('playlist')).get(attr.currentSong);
       }
       return attr;
     }

@@ -186,7 +186,7 @@ define([
 									<h3 class="side-title">Scan to vote!</h3>
 			            <QRCode data={this.state.QRCodeURL} />
 			            <div class="col-12">
-				            <Playlist playlist={currentParty.get('playlist')} />
+				            <Playlist party={currentParty} />
 				          </div>
 			          </div>
 			          <div class="col-8">

@@ -86,4 +86,6 @@ PartySchema.statics.mapVotes = function(data, votes) {
   return data;
 };
 
+
+
 module.exports = mongoose.model('party', PartySchema);

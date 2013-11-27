@@ -14,6 +14,14 @@ define(['underscore', 'backbone', 'models/Song'], function (_, Backbone, Song) {
 
 			// Plus a little bonus to solve ties (more yes is absolutely better)
 			(1/(song.get('votes_yes')+1));
+		},
+
+		filterCurrentSong: function(song) {
+			this.models = _.filter(this.models, function(m) {
+				return m.id !== song.id;
+			});
+
+			this.trigger('change');
 		}
 	});
 

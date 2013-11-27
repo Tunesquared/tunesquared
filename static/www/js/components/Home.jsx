@@ -121,7 +121,10 @@ define([
       var currentSong = this.props.party.get('currentSong');
 
       var visu_real = <div>
-        <h2>{(currentSong && currentSong.get('title') || '') + ' '}<small>{(currentSong && currentSong.get('artist')) || ''}</small></h2>
+        <h2>{(currentSong && currentSong.get('title') || '') + ' '
+          /*<small>{(currentSong && currentSong.get('artist')) || ''}</small>*/
+        }
+        </h2>
         <div id="visu-anchor" ref="visu" />
       </div>;
 
