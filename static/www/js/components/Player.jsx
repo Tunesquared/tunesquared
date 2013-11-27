@@ -97,7 +97,6 @@ define([
 
         var song = playlist.get(stored.currentSong);
         if (song != null) {
-          newProps.party.set('currentSong', song);
           this.onNextSong(song, {seek: stored.seek});
         } else {
           song = playlist.get(newProps.party.get('currentSong'));
@@ -339,7 +338,6 @@ define([
             <div class="media-body">
               <div class="player-song-title">
                 <h4 class="media-heading">{this.state.currentPlayer.song.get('title')}</h4>
-                by {this.state.currentPlayer.song.get('artist')}
               </div>
               <div data-ref="progress-slider" ref="progress-slider"></div>
             </div>

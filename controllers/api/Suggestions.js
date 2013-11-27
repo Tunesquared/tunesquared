@@ -25,7 +25,7 @@ var suggestions = [
     title: 'Sorry For Party Rocking'
   }, {
     artist: 'Scott & Brendo',
-    data: 'JW6N18cEZuc',
+    data: 'KULSBE3QvBY',
     source: 'youtube',
     thumb:  '//i.ytimg.com/vi/JW6N18cEZuc/1.jpg',
     title: 'Higher (feat. Peter Hollens)'

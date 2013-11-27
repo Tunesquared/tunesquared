@@ -20,7 +20,7 @@ module.exports = function(data, cb) {
 	});
 
 	req.on('error', function(err){
-		console.log(err);
+		console.error(err);
 	});
 
 	req.end();

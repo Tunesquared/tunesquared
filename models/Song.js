@@ -46,7 +46,7 @@ Song.path('data').validate(function(data, cb){
 	}
 
 	// Allows validator to perform immediate validation.
-	// If validation succeeds synchronously, it must return null
+	// If validation succeeds synchronously, it must return not null
 	// If validation is asynchronous, it must return null or undefined
 	result = validator(data, cb);
 	if(result != null) {
