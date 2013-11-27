@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistItem, utils){
+define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], function(React, PlaylistItem, utils){
 
 	var ITEMS_N = 5; // Number of playlist item shown
 
@@ -9,24 +9,36 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 		componentDidUpdate: function () {
 		},
 
-		componentDidMount: function () {
-			this.props.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
+		componentWillMount: function () {
+			this.setModels(this.props.party);
+		},
+
+		setModels: function(party) {
+			if(this.playlist) {
+				this.playlist.off(null, null, this);
+				this.props.party.off(null, null, this);
+			}
+
+			if (party) {
+				this.playlist = party.get('playlist') || new Playlist();
+				party.on('change', utils.forceUpdateFix(this));
+				this.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
+			}
 		},
 
 		componentWillUnmount: function() {
-			if(this.props.playlist)
-				this.props.playlist.off(null, null, this);
+			this.setModels(); // Will unregister all callbacks
 		},
 
 		componentWillReceiveProps: function (newProps) {
-			if(this.props.playlist)
-				this.props.playlist.off(null, null, this);
-			newProps.playlist.on('add remove change sort', utils.forceUpdateFix(this), this);
+			this.setModels(newProps.party);
 		},
 
 		render: function () {
 			var i = 0;
-			var list = this.props.playlist.map(function(song){
+
+			var list = this.playlist.reject(this.props.party.isCurrent)
+			.map(function(song){
 				return <PlaylistItem
 						pos={++i}
 						song={song}
@@ -35,10 +47,10 @@ define(['react', 'components/PlaylistItem', 'utils'], function(React, PlaylistIt
 						key={song.cid + song.get('votes_yes') + song.get('votes_no')} />
 			});
 
-			var isEmpty = this.props.playlist.isEmpty();
+			var isEmpty = this.playlist.isEmpty();
 
 			var emptyMessage = <span class="mute">No songs in queue</span>
-			var title = <h2>Next up:</h2>
+			var title = <h2>Playlist:</h2>
 
 			return (
 				<div id="playlist" >

@@ -132,6 +132,8 @@ body {
 .playlist-inner {
 	background-color: #060606;
 	padding: 20px;
+	max-height: 700px;
+	overflow: auto;
 }
 
 .playlist-item {
@@ -185,6 +187,8 @@ body {
 
 .side-column {
 	border-right: 1px #333 solid;
+	min-height: 800px;
+	margin-bottom: 10px;
 }
 
 .qr-inner {
