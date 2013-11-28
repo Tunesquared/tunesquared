@@ -28,11 +28,9 @@ function buildServer(config) {
   app.set('views', dirname + '/views');
   app.set('view engine', 'ejs');
 
-  // Favicon
-  app.use(express.favicon());
-
   // Logs stuff in development
   if (app.get('env') == 'developement') app.use(express.logger('dev'));
+
 
   app.use(express.bodyParser());
   app.use(express.methodOverride());
