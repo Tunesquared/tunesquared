@@ -144,6 +144,7 @@ module.exports = function(grunt) {
           {src: '../../tmp/desktop.built.js', dst: 'js/main.js'},
           {src: '../../tmp/welcome.built.js', dst: 'js/welcome.js'},
           {src: 'lib/require.min.js', dst: 'lib/require.js'},
+          'favicon.png',
           'css',
           'img',
           'lib/slider/css',
