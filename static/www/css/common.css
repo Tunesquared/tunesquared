@@ -24,3 +24,12 @@ footer .links > a:hover {
   background-color: #222;
   padding: 20px 0px;
 }
+
+.social {
+  float: left;
+}
+
+.copy {
+  float: right;
+  margin-left: 20px;
+}
