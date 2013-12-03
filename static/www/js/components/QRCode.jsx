@@ -52,7 +52,7 @@ define(['react', 'qrgenerator'], function(React, QR) {
 			});
 
 			qrelement.style.padding = QR_PROPS.margin + 'px';
-			qrelement.style['background-color'] = QR_PROPS.colorLight;
+			qrelement.style.backgroundColor = QR_PROPS.colorLight;
 			qrelement.style.width = (QR_PROPS.margin*2 + QR_PROPS.width) + 'px';
 			qrelement.style.height = (QR_PROPS.margin*2 + QR_PROPS.height) + 'px';
 		},
