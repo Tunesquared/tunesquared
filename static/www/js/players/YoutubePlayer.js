@@ -5,6 +5,8 @@
 	Youtube player wrapper.
 */
 
+
+
 define(['underscore', 'players/LayoutManager', 'players/Player'],
 	function (_, LayoutManager, Player) {
 
@@ -23,6 +25,15 @@ define(['underscore', 'players/LayoutManager', 'players/Player'],
 
 	// hash of player instances waiting for their beloved YT player.
 	var loadingPlayers = {};
+
+	//This code loads the IFrame Player API code asynchronously.
+
+	var tag = document.createElement('script');
+
+	tag.src = "https://www.youtube.com/iframe_api";
+	var firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
 
 	/**
 		--- Constructor ---
@@ -66,7 +77,7 @@ define(['underscore', 'players/LayoutManager', 'players/Player'],
 		// 3. This function creates an <iframe> (and YouTube player)
 		//		after the API code downloads.
 
-		function onYouTubeIframeAPIReady() {
+		window.onYouTubeIframeAPIReady = function () {
 			var player;
 			player = new YT.Player(target.id, {
 				height: '200',
@@ -74,9 +85,16 @@ define(['underscore', 'players/LayoutManager', 'players/Player'],
 				videoId: this._id,
 				playerVars: { 'autoplay': 1, 'controls': 0 },
 				events: {
+					'onReady': onPlayerReady,
 				}
 			});
 		}
+
+		window.onPlayerReady = function (event) {
+				event.target.playVideo();
+			}
+
+		window.onYouTubeIframeAPIReady();
 		/*
 		// Creates a target for flash loading
 		var target = document.createElement('div');
