@@ -5,10 +5,8 @@
 	Youtube player wrapper.
 */
 
-define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
-	function (_, swfobject, LayoutManager, Player) {
-
-	var MIN_FLASH_VERSION = '10.1';
+define(['underscore', 'players/LayoutManager', 'players/Player'],
+	function (_, LayoutManager, Player) {
 
 	var PlayerState = {
 		UNSTARTED: -1,
@@ -17,10 +15,6 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 		PAUSED: 2,
 		BUFFERING: 3,
 		CUED: 4
-	};
-
-	var FLASH_PARAMS = {
-		allowScriptAccess: 'always'
 	};
 
 	// Internal counter used to generate ids, since we are going to pollute global namespace
@@ -67,6 +61,31 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 		// Registers this in the array of players waiting for flash load.
 		loadingPlayers[this._id] = this;
 
+		// -------------------------------------------------------------------
+
+		// 3. This function creates an <iframe> (and YouTube player)
+		//		after the API code downloads.
+
+		function onYouTubeIframeAPIReady() {
+			var player;
+			player = new YT.Player(target.id, {
+				height: '200',
+				width: '200',
+				videoId: this._id,
+				playerVars: { 'autoplay': 1, 'controls': 0 },
+				events: {
+				}
+			});
+		}
+		/*
+		// Creates a target for flash loading
+		var target = document.createElement('div');
+		target.id = 'youtube_host' + counter;
+		element.appendChild(target);
+
+		// Registers this in the array of players waiting for flash load.
+		loadingPlayers[this._id] = this;
+
 		// Embeds flash object. See 'onYoutubePlayerReady' for more action!
 		swfobject.embedSWF(
 			'//www.youtube.com/apiplayer?enablejsapi=1&version=3&playerapiid=' + this._id,
@@ -77,7 +96,7 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 			null, //express install
 			null, //flashvars
 			FLASH_PARAMS, {
-				id: 'ytplayer_' + this._id
+							id: 'ytplayer_' + this._id
 			},
 			function (e) {
 				if (!e.success) {
@@ -85,6 +104,7 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 					ready('Problem embedding youtube player');
 				}
 			}.bind(this));
+		*/
 	}
 
 	_.extend(YoutubePlayer.prototype, Player.prototype);
@@ -96,9 +116,6 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 
 	/* Returns a string with error explanation if there is a compatibility issue. */
 	YoutubePlayer.checkCompatibility = function () {
-		if (!swfobject.hasFlashPlayerVersion(MIN_FLASH_VERSION)) {
-			return 'flash player >= ' + MIN_FLASH_VERSION + ' is required';
-		}
 	};
 
 	// Controls :
