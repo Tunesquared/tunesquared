@@ -31,40 +31,20 @@ define([
 
 	var Player = React.createClass({
 
-    mixins: [persist],
-
-    persistId: 'player',
-
     getInitialState: function () {
-      var stored = this.load();
-      /* States for the player are : 'empty', it waits for a new song to come in and start */
       return {
-        /* When true, music is playing or will be as soon as the player will be fed with a song.
-          Therefore, there exists a state where playing is true but no song is loaded. */
         playing: false,
-
-        /* Volume is stored in player state so that it actually acts as a master
-         and can keep it consistent across different player implementations */
-        volume: stored.volume || 50,
-
-        /* Player in foreground it's state is linked to the UI (loading, progress, etc...) */
+        volume: 50,
         currentPlayer: null,
-
-        /*
-          Player in background, this one preloads the next track and, if there is time,
-          contributes to the "smooth transition". It's state is never shown, it replaces currentPlayer
-          when current song is skipped or ends.
-          Assert : There can not be a nextPlayer if currentPlayer == null
-        */
+        progress: 0,
         nextPlayer: null,
-
         currentSong: null,
-
-
-        loading: false,
-
-        progress: stored.seek
+        loading: true
       };
+    },
+
+    componentWillMount: function() {
+      this._progressDrag = false;
     },
 
     componentDidMount: function () {
@@ -79,8 +59,6 @@ define([
       $(this.getDOMNode()).delegate('[data-ref="volume-slider"]', 'slide', this.onVolumeChange);
       $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slideStart', this.onProgressStart);
       $(this.getDOMNode()).delegate('[data-ref="progress-slider"]', 'slideStop', this.onProgressStop);
-
-      this._timeout = setInterval(this.watchProgress, 1000);
     },
 
     componentWillUnmount: function () {
@@ -88,25 +66,19 @@ define([
     },
 
     componentWillReceiveProps: function (newProps) {
-      if (this.props.party.get('playlist') && newProps.party.get('playlist') && this.props.party.get('playlist') !== newProps.party.get('playlist')) {
-        this.props.party.get('playlist').off(null, null, this);
-
-        var stored = this.load();
-
-        var playlist = newProps.party.get('playlist');
-
-        var song = playlist.get(stored.currentSong);
-        if (song != null) {
-          this.onNextSong(song, {seek: stored.seek});
-        } else {
-          song = playlist.get(newProps.party.get('currentSong'));
-          if (song != null) {
-            this.onNextSong(song);
-          } else {
-            this.fetchPlaylistForNextSong(newProps.party.get('playlist'));
-          }
-        }
+      if (this.props.playbackController) {
+        this.props.playbackController.off(null, null, this);
       }
+
+      if (newProps.playbackController) {
+        this.setState(newProps.playbackController.state);
+        newProps.playbackController.on('stateChange', this.onCtrlStateChange, this);
+      }
+
+    },
+
+    onCtrlStateChange: function(state) {
+      this.setState(state);
     },
 
 		componentDidUpdate: function(){
@@ -126,7 +98,8 @@ define([
           min: 0,
           formater: this.progressFormatter
         });
-        if(progress.slider('getValue') !== this.state.progress)
+
+        if(progress.slider('getValue') !== this.state.progress && this._progressDrag === false)
           progress.slider('setValue', this.state.progress * PROGRESS_STEP);
 
         this.state.currentPlayer.setVolume(this.state.volume);
@@ -135,10 +108,7 @@ define([
           this.state.nextPlayer.setVolume(this.state.volume);
         }
 
-        this.save({
-          volume: this.state.volume,
-          seek: this.state.progress * 1000 * this.state.currentPlayer.getDuration() / PROGRESS_STEP
-        });
+
       }
 		},
 
@@ -148,141 +118,22 @@ define([
       return ('00' + Math.round((secs/60))).substr(-2) + ':' + ('00' + (secs % 60)).substr(-2);
     },
 
-    /*
-      Tries to extract next song from the playlist.
-      If it fails, listen to playlist's 'add' event to retry
-    */
-    fetchPlaylistForNextSong: function (playlist) {
-      console.log('fetching playlist');
-
-      if (playlist == null)
-        playlist = this.props.party.get('playlist');
-
-      if (playlist.length === 0){
-        // If we cannot get a new player right now, we discard current visualisation
-        // Otherwise, we let onNextSong handle it
-        LayoutProxy.setLayout(null);
-
-        console.log('try again');
-        playlist.once('add', function() {
-          this.fetchPlaylistForNextSong(playlist);
-        }.bind(this));
-      } else {
-        var song = playlist.first();
-        this.onNextSong(song);
-      }
-    },
-
-    /* Called by fetchPlaylistForNextSong when it actually fetched a song from the playlist */
-    onNextSong: function (song, options) {
-      console.log('houra, song available : ');
-      console.log(song);
-
-      var anchor = document.createElement('div');
-      anchor.style.position = 'absolute';
-      anchor.style.top = '-1000px';
-      document.body.appendChild(anchor);
-
-      if(this.state.currentPlayer == null)
-        this.setState({loading: true});
-
-      PlayerFactory.create(song, anchor, function (err, player) {
-        if(err) throw err; // TODO : handle error
-
-
-        /* Exposes the player to make tests, very handy ;) */
-        window.player = player;
-
-        // Initialize slave player with master state
-        player.setVolume(this.state.volume);
-        if(this.state.playing) player.play();
-        else player.pause();
-
-        if (this.state.currentPlayer == null){
-          // Tells upper level that player changed
-          this.props.onUpdateCurrentPlayer(player);
-
-          player.on('end', this.onPlayerEnd, this);
-          player.on('play', this.onPlayerPlay, this);
-          player.on('pause', this.onPlayerPause, this);
-
-          console.log('setting song : '+song);
-          this.props.party.set('currentSong', song);
-
-          /* sets new visualisation layout manager */
-          LayoutProxy.setLayout(player.getLayoutManager());
-
-          if (options) {
-            if (options.seek)
-              player.seekTo(options.seek);
-          }
-
-          this.save({
-            currentSong: song.id
-          });
-
-          this.setState({
-            currentPlayer: player,
-            loading: false
-          });
-        } else if (this.state.nextPlayer == null) {
-          console.log('got next player');
-          this.setState({
-            nextPlayer: player
-          });
-          player.pause();
-        } else {
-          throw new Error('Woops, I fetched a song from playlist but I already have two players :-o');
-        }
-      }.bind(this));
-    },
-
-    onPlayerEnd: function() {
-      var player = this.state.currentPlayer;
-      player.song.destroy(); // removes song from playlist
-      this.props.party.set('currentSong', null); // removes song from currentSong property
-
-      // Players internals are sometimes a bit shitty so we give'em some help for memory management
-      player.release();
-      player.off(null, null, this);
-      player.el.parentNode.removeChild(player.el);
-
-      this.setState({
-        currentPlayer: null
-      });
-      this.props.onUpdateCurrentPlayer(null);
-
-      // Then try to get a new one AFTER new state has been applied
-      _.defer(this.fetchPlaylistForNextSong);
-    },
-
-    onPlayerPlay: function () {
-      this.setState({
-        playing: true
-      });
-    },
-
-    onPlayerPause: function () {
-      this.setState({
-        playing: false
-      });
-    },
-
     onPlay: function (evt) {
       evt.preventDefault();
-      if(this.state.currentPlayer);
+      if(this.state.currentPlayer)
         this.state.currentPlayer.play();
     },
 
     onPause: function (evt) {
       evt.preventDefault();
-      if(this.state.currentPlayer);
+      if(this.state.currentPlayer)
         this.state.currentPlayer.pause();
     },
 
     onSkip: function(evt){
       evt.preventDefault();
-      this.onPlayerEnd();
+      if(this.state.currentPlayer)
+        this.state.currentPlayer.trigger('end');
     },
 
     onVolumeChange: function(e) {
@@ -301,16 +152,6 @@ define([
       var player = this.state.currentPlayer;
       if(player){
         player.seekTo(player.getDuration() * e.value/PROGRESS_STEP);
-      }
-    },
-
-
-
-    watchProgress: function() {
-      if ( this.state.currentPlayer != null && !this._progressDrag){
-        this.setState({
-          progress: this.state.currentPlayer.getProgress()
-        });
       }
     },
 

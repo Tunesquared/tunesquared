@@ -56,8 +56,8 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 		*/
 		this._seekTime = 0;
 
-		// Remembers wether player has already played once (fixes some seek time issues)
-		this._hasFirstPlay = false;
+		// Remembers if seek time was buffered
+		this._seekBuffered = false;
 
 		// Creates a target for flash loading
 		var target = document.createElement('div');
@@ -122,8 +122,11 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 
 	// Seeks to time in msecs
 	YoutubePlayer.prototype.seekTo = function (time) {
-		if (this._hasFirstPlay === false){
+		console.log('seekTo '+time);
+		if (this._player.getPlayerState() === PlayerState.UNSTARTED){
+			console.log('buffered');
 			this._seekTime = time;
+			this._seekBuffered = true;
 		}
 		this._player.seekTo(Math.floor(time / 1000), true);
 	};
@@ -134,7 +137,7 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 	YoutubePlayer.prototype.getSeekTime = function () {
 		/* We must check that player has already started or we will ruin the reason
 			why we use our stateful variable _seekTime */
-		if (this._player.getPlayerState() !== PlayerState.UNSTARTED)
+		if (this._seekBuffered === false)
 			this._seekTime = this._player.getCurrentTime() * 1000;
 
 		return this._seekTime;
@@ -184,8 +187,9 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 			this.trigger('play');
 
 			// Fixes the seekTo issue
-			if (this._hasFirstPlay === false) {
-				this._hasFirstPlay = true;
+			if (this._seekBuffered === true) {
+				console.log('seeking to ' + this._seekTime);
+				this._seekBuffered = false;
 				this.seekTo(this._seekTime);
 			}
 
