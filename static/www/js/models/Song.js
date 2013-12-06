@@ -13,8 +13,13 @@ define(['jquery', 'backbone'], function ($, Backbone) {
         urlRoot: 'api/song',
         idAttribute: '_id',
         defaults: {
-          name: '',
-          votes: 0
+          source: '',
+          artist: '',
+          title: '',
+          votes_yes: 0,
+          votes_no: 0,
+          thumb: '',
+          data: null
         },
 
         voteYes: function (callbacks) {

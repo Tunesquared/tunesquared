@@ -202,9 +202,9 @@ define([
           // Tells upper level that player changed
           this.props.onUpdateCurrentPlayer(player);
 
-          player.on('end', this.onPlayerEnd);
-          player.on('play', this.onPlayerPlay);
-          player.on('pause', this.onPlayerPause);
+          player.on('end', this.onPlayerEnd, this);
+          player.on('play', this.onPlayerPlay, this);
+          player.on('pause', this.onPlayerPause, this);
 
           console.log('setting song : '+song);
           this.props.party.set('currentSong', song);
@@ -238,11 +238,14 @@ define([
     },
 
     onPlayerEnd: function() {
-      this.state.currentPlayer.song.destroy(); // removes song from playlist
+      var player = this.state.currentPlayer;
+      player.song.destroy(); // removes song from playlist
       this.props.party.set('currentSong', null); // removes song from currentSong property
 
       // Players internals are sometimes a bit shitty so we give'em some help for memory management
-      this.state.currentPlayer.release();
+      player.release();
+      player.off(null, null, this);
+      player.el.parentNode.removeChild(player.el);
 
       this.setState({
         currentPlayer: null
