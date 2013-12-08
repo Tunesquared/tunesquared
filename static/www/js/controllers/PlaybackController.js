@@ -23,7 +23,7 @@ define(
       this.state = {
         /* When true, music is playing or will be as soon as the player will be fed with a song.
           Therefore, there exists a state where playing is true but no song is loaded. */
-        playing: stored.playing || false,
+        playing: (stored.playing != null) ? stored.playing : true,
 
         /* Volume is stored in player state so that it actually acts as a master
          and can keep it consistent across different player implementations */
