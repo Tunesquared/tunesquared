@@ -6,12 +6,27 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 	var ITEMS_N = 5; // Number of playlist item shown
 
 	var Playlist = React.createClass({
+
+		getInitialState: function() {
+			return {
+				searchVal: ''
+			};
+		},
+
 		componentDidUpdate: function () {
 		},
 
 		componentWillMount: function () {
 			this.setModels(this.props.party);
 		},
+		componentWillUnmount: function() {
+			this.setModels(); // Will unregister all callbacks
+		},
+
+		componentWillReceiveProps: function (newProps) {
+			this.setModels(newProps.party);
+		},
+
 
 		setModels: function(party) {
 			if(this.playlist) {
@@ -26,18 +41,21 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 			}
 		},
 
-		componentWillUnmount: function() {
-			this.setModels(); // Will unregister all callbacks
-		},
-
-		componentWillReceiveProps: function (newProps) {
-			this.setModels(newProps.party);
+		onSearchChange: function(event) {
+			var q = event.target.value;
+			this.setState({
+				searchVal: q
+			});
 		},
 
 		render: function () {
-			var i = 0;
+			var i = 0, searchVal = this.state.searchVal;
+			var lowerSearchVal = searchVal.toLowerCase();
 
 			var list = this.playlist.reject(this.props.party.isCurrent)
+			.filter(function(el) {
+				return el.get('title').toLowerCase().indexOf(lowerSearchVal) != '-1';
+			})
 			.map(function(song){
 				return <PlaylistItem
 						pos={++i}
@@ -55,7 +73,9 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 				<div id="playlist" >
 					<h2>Playlist:</h2>
 					<div class="playlist-search">
-						<input type="text" ref="search" class="form-control" placeholder="Search a song..."/>
+						<input type="text" ref="search" class="form-control"
+							value={searchVal} onChange={this.onSearchChange}
+							placeholder="Search a song..."/>
 					</div>
 					<div class="playlist-inner">
         		{(isEmpty) ? emptyMessage : list}

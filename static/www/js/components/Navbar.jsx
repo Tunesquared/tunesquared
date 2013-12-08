@@ -1,9 +1,12 @@
 /** @jsx React.DOM */
 'use strict';
 
-define(['react', 'jquery', 'utils'], function(React, $, utils){
+define(['react', 'jquery', 'utils', 'mixins/RouteState'],
+  function(React, $, utils, RouteState){
 
 	var Navbar = React.createClass({
+
+    mixins: [RouteState],
 
 		getInitialState: function() {
 			return {
@@ -23,11 +26,6 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 				props.player.on('play pause stop', utils.forceUpdateFix(this), this);
 		},
 
-		onSearch: function (evt) {
-			evt.preventDefault();
-			window.location.href = '#search/'+encodeURIComponent(this.refs.search.getValue());
-		},
-
 		leave: function (evt) {
 			evt.preventDefault();
 
@@ -40,61 +38,20 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 			});
 		},
 
-		onPlay: function (evt) {
-      evt.preventDefault();
-      if(this.props.player);
-        this.props.player.play();
-    },
-
-    onPause: function (evt) {
-      evt.preventDefault();
-      if(this.props.player);
-        this.props.player.pause();
-    },
-
-    onSkip: function(evt){
-      evt.preventDefault();
-      // We cheat a little on this one but anyways, if it works...
-      if(this.props.player)
-        this.props.player.trigger('end');
-    },
-
-    onScroll: function() {
-			var player = $('#player');
-			var navbar = $('#navbar');
-			var isHidden = player.offset().top + player.height() < navbar.offset().top + navbar.height();
-
-			if (isHidden && this.state.showPlayer === false) {
-				this.setState({
-					showPlayer: true
-				});
-			} else if (!isHidden && this.state.showPlayer === true) {
-				this.setState({
-					showPlayer: false
-				});
-			}
-		},
-
 		render: function(){
 
-			var playerControls = '';
-
-			if (this.props.player != null && this.state.showPlayer === true){
-				playerControls = [
-					(this.props.player.getState() === 'playing') ?
-						<a class="btn btn-primary" onClick={this.onPause} key={'play'}><i class="icon-pause"></i></a>
-					: <a class="btn btn-primary" onClick={this.onPlay} key={'play'}><i class="icon-play"></i></a>,
-					<a class="btn btn-default" onClick={this.onSkip} key={'pause'}><i class="icon-fast-forward"></i></a>
-				];
-			}
+      var route = this.state.route;
+      function activeOn(targetRoute) {
+        return (route === targetRoute) ? 'active' : '';
+      }
 
 			return (
 				<div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
 				  <a class="navbar-brand" href="#">Tune²</a>
           <ul class="nav navbar-nav nav-main">
-            <li><a href="#">Party</a></li>
-            <li><a href="#playlist">Playlist</a></li>
-            <li><a href="#music">Explore</a></li>
+            <li className={activeOn('')} ><a href="#">Party</a></li>
+            <li className={activeOn('playlist')}><a href="#playlist">Playlist</a></li>
+            <li className={activeOn('music')}><a href="#music">Explore</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
           	<li><a href="#" onClick={this.leave}>

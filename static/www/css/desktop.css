@@ -28,3 +28,7 @@ body {
 .nav-main {
 	margin-left: 220px;
 }
+
+.page-header {
+	margin-top: 0;
+}
