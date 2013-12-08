@@ -16,7 +16,7 @@ requirejs.config({
     'jquery': '../lib/jquery',
     'bootstrap-slider': '../lib/slider/js/bootstrap-slider',
     'wizard': '../lib/wizard',
-    'react': '../lib/react',
+    'react': ['//fb.me/react-0.5.1.min', '../lib/react'],
     'components': 'components-build',
     'search': '../lib/search',
     'swfobject': '../lib/swfobject',

@@ -189,7 +189,7 @@ define([
       } else if (this.state.loading){
         contents = <img src="img/ajax-loader.gif" />;
       } else {
-        contents = 'Nothing to play. Add some songs to get started.';
+        contents = '';
       }
 
 			return <div id="player">

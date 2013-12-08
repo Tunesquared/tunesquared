@@ -90,29 +90,17 @@ define(['react', 'jquery', 'utils'], function(React, $, utils){
 
 			return (
 				<div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
-					<div class="container">
-						<div class="row">
-						<div class="col-1">
-					  <a class="navbar-brand" href="#">Tune²</a>
-					  </div>
-
-            <div class="col-4">
-            <form class="form-inline" action="" onSubmit={this.onSearch}>
-              <input type="text" id="search-field" class="form-control navbar-search" placeholder="Search" ref="search"/>
-            </form>
-            </div>
-            <div class="col-5 navbar-player">
-            	{playerControls}
-            </div>
-            <div class="col-2">
-            <ul class="nav navbar-nav pull-right">
-            	<li><a href="#" onClick={this.leave}>
-            		<i class="icon-off"></i> exit</a>
-            	</li>
-            </ul>
-            </div>
-            </div>
-				  </div>
+				  <a class="navbar-brand" href="#">Tune²</a>
+          <ul class="nav navbar-nav nav-main">
+            <li><a href="#">Party</a></li>
+            <li><a href="#playlist">Playlist</a></li>
+            <li><a href="#music">Explore</a></li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+          	<li><a href="#" onClick={this.leave}>
+          		<i class="icon-off"></i> exit</a>
+          	</li>
+          </ul>
         </div>
        );
 		}

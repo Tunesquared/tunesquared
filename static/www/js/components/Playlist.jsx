@@ -50,11 +50,13 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 			var isEmpty = this.playlist.isEmpty();
 
 			var emptyMessage = <span class="mute">No songs in queue</span>
-			var title = <h2>Playlist:</h2>
 
 			return (
 				<div id="playlist" >
-					{(isEmpty) ? '' : title }
+					<h2>Playlist:</h2>
+					<div class="playlist-search">
+						<input type="text" ref="search" class="form-control" placeholder="Search a song..."/>
+					</div>
 					<div class="playlist-inner">
         		{(isEmpty) ? emptyMessage : list}
         	</div>

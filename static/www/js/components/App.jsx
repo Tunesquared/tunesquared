@@ -17,6 +17,7 @@ define([
 	'components/ErrorDialog',
 	'components/QRCode',
 	'components/Playlist',
+	'components/Party',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -34,6 +35,7 @@ define([
 	ErrorDialog,
 	QRCode,
 	Playlist,
+	PartyView,
 	PlaybackController
 ){
 
@@ -61,6 +63,24 @@ define([
 					dialog: null,
 					main: 'search',
 					query: decodeURIComponent(q)
+				});
+			},
+
+			'party': function() {
+				this.setState({
+					main: 'party'
+				});
+			},
+
+			'playlist': function() {
+				this.setState({
+					main: 'playlist'
+				});
+			},
+
+			'music': function() {
+				this.setState({
+					main: 'music'
 				});
 			},
 
@@ -165,7 +185,7 @@ define([
 
 			var main;
 			if (this.state.main === 'home')
-				main = <HomeView party={currentParty} />;
+				main = <PartyView party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
 
@@ -177,29 +197,12 @@ define([
 			return (
 				<div>
 					<Navbar session={ session } player={this.state.currentPlayer} />
-					<div class="top">
-						<div class="container">
-							<Player
-								playbackController={ this.state.playbackController }
-								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
-								onError={this.onPlayerError}/>
-						</div>
+					<div class="side">
+						<Player playbackController={this.state.playbackController} />
+						<Playlist party={currentParty} />
 					</div>
-					<div class="contents">
-						<div class="container main-contents">
-							<div class="row">
-								<div class="col-4 side-column">
-									<h3 class="side-title">Scan to vote!</h3>
-			            <QRCode data={this.state.QRCodeURL} />
-			            <div class="col-12">
-				            <Playlist party={currentParty} />
-				          </div>
-			          </div>
-			          <div class="col-8">
-								{main}
-								</div>
-							</div>
-						</div>
+					<div class="main row">
+						{main}
 					</div>
 					{dialog}
 				</div>
