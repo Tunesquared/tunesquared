@@ -49,6 +49,9 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
       // Remembers if seek time was buffered
       this._seekBuffered = false;
 
+      // Fixes "pause" event leaks.
+      this._pausePending = false;
+
       // Creates a target
       var target = document.createElement('div');
       target.id = 'youtube_host' + counter;
@@ -97,6 +100,7 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
     };
 
     YoutubePlayer.prototype.pause = function () {
+      this._pausePending = true;
       this._player.pauseVideo();
     };
 
@@ -165,7 +169,12 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
         }
 
       } else if (state === PlayerState.PAUSED) {
-        this.trigger('pause');
+        if (this._pausePending) {
+          this.trigger('pause');
+          this._pausePending = false;
+        } else {
+          this.trigger('buffering');
+        }
 
         // Fixes the seekTo issue
         if (this._seekBuffered === true) {
