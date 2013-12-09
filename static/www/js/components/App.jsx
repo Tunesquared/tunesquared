@@ -18,6 +18,7 @@ define([
 	'components/QRCode',
 	'components/Playlist',
 	'components/Party',
+	'components/Settings',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -36,6 +37,7 @@ define([
 	QRCode,
 	Playlist,
 	PartyView,
+	SettingsView,
 	PlaybackController
 ){
 
@@ -72,6 +74,12 @@ define([
 				});
 			},
 
+			'party/settings': function() {
+				this.setState({
+					main: 'partySettings'
+				});
+			},
+
 			'playlist': function() {
 				this.setState({
 					main: 'playlist'
@@ -85,10 +93,7 @@ define([
 			},
 
 			'': function () {
-				this.setState({
-					dialog: null,
-					main: 'home'
-				});
+				this.router.navigate('party', {trigger: true, replace: true});
 			}
 		},
 
@@ -184,10 +189,12 @@ define([
 			var dialog = [];
 
 			var main;
-			if (this.state.main === 'home')
+			if (this.state.main === 'party')
 				main = <PartyView party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
+			else if (this.state.main === 'partySettings')
+				main = <SettingsView party={currentParty} />
 
 			if (this.state.error)
 				this.state.error.forEach(function(error){

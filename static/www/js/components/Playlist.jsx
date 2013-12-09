@@ -27,7 +27,6 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 			this.setModels(newProps.party);
 		},
 
-
 		setModels: function(party) {
 			if(this.playlist) {
 				this.playlist.off(null, null, this);
@@ -70,7 +69,7 @@ define(['react', 'components/PlaylistItem', 'utils', 'models/Playlist'], functio
 			var emptyMessage = <span class="mute">No songs in queue</span>
 
 			return (
-				<div id="playlist" >
+				<div className="playlist" >
 					<h2>Playlist:</h2>
 					<div class="playlist-search">
 						<input type="text" ref="search" class="form-control"

@@ -13,7 +13,12 @@ define(['react', 'components/QRCode'], function(React, QRCode){
         <div class="col-lg-12">
           <div class="col-lg-12">
             <div class="page-header">
-              <h1>Your party</h1>
+              <h1>Your party
+                <a href="#party/settings" className="btn btn-default title-button-right">
+                  Settings
+                  <i className="icon-wrench"></i>
+                </a>
+              </h1>
             </div>
           </div>
           <div class="col-lg-6">
