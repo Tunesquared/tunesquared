@@ -17,6 +17,7 @@ define([
 	'components/ErrorDialog',
 	'components/QRCode',
 	'components/Playlist',
+	'controllers/PlaybackController'
 ], function(
 	React,
 	$,
@@ -32,7 +33,8 @@ define([
 	Navbar,
 	ErrorDialog,
 	QRCode,
-	Playlist
+	Playlist,
+	PlaybackController
 ){
 
 	var App = React.createClass({
@@ -42,6 +44,7 @@ define([
 		getInitialState: function(){
 			return {
 				dialog: null,
+				playbackController: null,
 				main: 'home'/*,
 				currentPlayer: null*/
 			};
@@ -108,6 +111,9 @@ define([
 						partyExpired();
 					} else {
 						Backbone.history.start();
+						self.setState({
+							playbackController:  new PlaybackController(self.props.session.get('party'))
+						});
           }
         },
         error: function() {
@@ -174,7 +180,7 @@ define([
 					<div class="top">
 						<div class="container">
 							<Player
-								party={ currentParty }
+								playbackController={ this.state.playbackController }
 								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
 								onError={this.onPlayerError}/>
 						</div>

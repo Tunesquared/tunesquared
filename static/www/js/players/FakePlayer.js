@@ -1,148 +1,142 @@
 'use strict';
 
-define(['underscore', 'backbone', 'players/LayoutManager', 'jquery'],
-	function (_, Backbone, LayoutManager, $) {
+define(
+	['underscore', 'players/LayoutManager', 'jquery', 'players/Player'],
+	function (_, LayoutManager, $, Player) {
 
-	/**
-		Creates a player for the given song attached to the givent html element
+		/**
+			Creates a player for the given song attached to the givent html element
 		*/
+		function FakePlayer(song, element, ready) {
+			Player.apply(this, arguments);
 
-	function FakePlayer(song, element, ready) {
+			setTimeout(function () {
+				// Adds a dummy visualisation
+				$(element).append($('<div />').css({
+					'background-color': 'blue',
+					'width': '100%',
+					'height': '100%'
+				}));
 
-		setTimeout(function () {
-			// Mandatory : must save the song as this.song !
-			this.song = song;
-			this.el = $(element)
-			// Adds a dummy visualisation
-			.append($('<div />').css({
-				'background-color': 'blue',
-				'width': '100%',
-				'height': '100%'
-			}));
+				this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
+				this._interval = null;
+				this._currentTime = 0;
+				this._state = 'paused';
 
-			this._duration = pseudoRandom(song.get('data'), 30, 360) * 1000;
-			this._interval = null;
-			this._currentTime = 0;
-			this._state = 'paused';
+				this.layoutManager = new LayoutManager(this.el, {
+					inner: true
+				});
 
-			this.layoutManager = new LayoutManager(this.el, {
-				inner: true
-			});
+				ready(null, this);
+			}.bind(this), 1);
+		}
 
-			ready(null, this);
-		}.bind(this), 1);
-	}
+		_.extend(FakePlayer, Player);
+		_.extend(FakePlayer.prototype, Player.prototype);
 
-	/* Events :
-		'play'
-		'pause'
-		'stop'
-	*/
-	_.extend(FakePlayer.prototype, Backbone.Events);
-
-	/* This name must match the source name (in search) so that the factory
+		/* This name must match the source name (in search) so that the factory
 		knows which player to use for each song */
-	FakePlayer.sourceName = 'fake';
+		FakePlayer.sourceName = 'fake';
 
-	/* Returns a string with error explanation if there is a compatibility issue. */
-	FakePlayer.checkCompatibility = function () {};
+		/* Returns a string with error explanation if there is a compatibility issue. */
+		FakePlayer.checkCompatibility = function () {};
 
-	// Controls :
+		// Controls :
 
-	FakePlayer.prototype.play = function () {
-		this._state = 'playing';
-		if (this._interval == null) {
-			this._interval = setInterval(this.updateTime.bind(this), 1000);
-			this.trigger('play');
-		}
-	};
+		FakePlayer.prototype.play = function () {
+			this._state = 'playing';
+			if (this._interval == null) {
+				this._interval = setInterval(this.updateTime.bind(this), 1000);
+				this.trigger('play');
+			}
+		};
 
-	FakePlayer.prototype.pause = function () {
-		this._state = 'paused';
-		if (this._interval) {
-			clearInterval(this._interval);
-			this._interval = null;
-			this.trigger('pause');
-		}
-	};
+		FakePlayer.prototype.pause = function () {
+			this._state = 'paused';
+			if (this._interval) {
+				clearInterval(this._interval);
+				this._interval = null;
+				this.trigger('pause');
+			}
+		};
 
-	FakePlayer.prototype.stop = function () {
-		this._state = 'paused';
-		if (this._interval) {
-			clearInterval(this._interval);
-			this._interval = null;
-			this.trigger('stop');
-		}
-		this._currentTime = 0;
-	};
+		FakePlayer.prototype.stop = function () {
+			this._state = 'paused';
+			if (this._interval) {
+				clearInterval(this._interval);
+				this._interval = null;
+				this.trigger('stop');
+			}
+			this._currentTime = 0;
+		};
 
-	// Volume 0 - 100
-	FakePlayer.prototype.setVolume = function () {};
+		// Volume 0 - 100
+		FakePlayer.prototype.setVolume = function () {};
 
-	// Seeks to time in msecs
-	FakePlayer.prototype.seekTo = function (time) {
-		this._currentTime = time;
-	};
-
-
-	// Visual :
-
-	// Returns a DOM node
-	FakePlayer.prototype.getLayoutManager = function() {
-		return this.layoutManager;
-	};
-
-	// Getters :
-
-	// Returns current time in msec
-	FakePlayer.prototype.getSeekTime = function () {
-		return this._currentTime;
-	};
-
-	FakePlayer.prototype.getDuration = function () {
-		return this._duration;
-	};
-
-	FakePlayer.prototype.getProgress = function () {
-		return this._currentTime / this._duration;
-	};
-
-	FakePlayer.prototype.getState = function () {
-		return this._state;
-	};
-
-	FakePlayer.prototype.release = function () {
-		this.off();
-		this.pause(); // This will release the interval
-	};
+		// Seeks to time in msecs
+		FakePlayer.prototype.seekTo = function (time) {
+			this._currentTime = time;
+		};
 
 
+		// Visual :
 
-	// Implementation specific methods
+		// Returns a DOM node
+		FakePlayer.prototype.getLayoutManager = function () {
+			return this.layoutManager;
+		};
 
-	FakePlayer.prototype.updateTime = function () {
-		this._currentTime += 1000;
-		if (this._currentTime >= this._duration) {
-			this._currentTime = this._duration;
-			clearInterval(this._interval);
-			this._interval = null;
-			this.trigger('end');
-		}
-	};
+		// Getters :
 
-	return FakePlayer;
+		// Returns current time in msec
+		FakePlayer.prototype.getSeekTime = function () {
+			return this._currentTime;
+		};
 
-	/* function to make it like it's random but have the same
+		FakePlayer.prototype.getDuration = function () {
+			return this._duration;
+		};
+
+		FakePlayer.prototype.getProgress = function () {
+			return this._currentTime / this._duration;
+		};
+
+		FakePlayer.prototype.getState = function () {
+			return this._state;
+		};
+
+		FakePlayer.prototype.release = function () {
+			this.off();
+			this.pause(); // This will release the interval
+		};
+
+
+
+		// Implementation specific methods
+
+		FakePlayer.prototype.updateTime = function () {
+			this._currentTime += 1000;
+			if (this._currentTime >= this._duration) {
+				this._currentTime = this._duration;
+				clearInterval(this._interval);
+				this._interval = null;
+				this.trigger('end');
+			}
+		};
+
+		return FakePlayer;
+
+		/* function to make it like it's random but have the same
 	results accross multiple executions */
 
-	function pseudoRandom(str, min, max) {
-		min = min || 0;
-		max = max || 10;
-		var mod = max - min;
-		var res = 0;
-		for (var i = 0; i < str.length; i++) {
-			res = (res + str.charCodeAt(i)) % mod;
+		function pseudoRandom(str, min, max) {
+			min = min || 0;
+			max = max || 10;
+			var mod = max - min;
+			var res = 0;
+			for (var i = 0; i < str.length; i++) {
+				res = (res + str.charCodeAt(i)) % mod;
+			}
+			return res + min;
 		}
-		return res + min;
-	}
-});
+	});
