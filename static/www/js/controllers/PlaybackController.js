@@ -3,11 +3,12 @@
 
 define(
   ['underscore',
-   'backbone',
-   'mixins/persist',
-   'players/PlayerFactory',
-   'players/LayoutProxy'],
-  function( _, Backbone, persist, PlayerFactory, LayoutProxy) {
+    'backbone',
+    'mixins/persist',
+    'players/PlayerFactory',
+    'players/LayoutProxy'
+  ],
+  function (_, Backbone, persist, PlayerFactory, LayoutProxy) {
 
     'use strict';
 
@@ -15,14 +16,14 @@ define(
       var stored = this.load();
       var playlist = party.get('playlist');
 
-      _.bindAll(this, 'watchProgress', 'fetchPlaylistForNextSong');
+      _.bindAll(this, 'watchProgress', 'fetchPlaylistForNextSong', 'onCreatePlayer');
 
       this._party = party;
 
       this.state = {
         /* When true, music is playing or will be as soon as the player will be fed with a song.
           Therefore, there exists a state where playing is true but no song is loaded. */
-        playing: false,
+        playing: (stored.playing != null) ? stored.playing : true,
 
         /* Volume is stored in player state so that it actually acts as a master
          and can keep it consistent across different player implementations */
@@ -49,7 +50,9 @@ define(
       // We try to get stored current song
       var song = playlist.get(stored.currentSong);
       if (song != null) {
-        this.onNextSong(song, {seek: stored.seek});
+        this.onNextSong(song, {
+          seek: stored.seek
+        });
       }
       // if we cannot
       else {
@@ -66,19 +69,19 @@ define(
       this._timeout = setInterval(this.watchProgress, 1000);
     }
 
-    PlaybackController.prototype.fetchPlaylistForNextSong = function(playlist) {
+    PlaybackController.prototype.fetchPlaylistForNextSong = function (playlist) {
       console.log('fetching playlist');
 
       if (playlist == null)
         playlist = this._party.get('playlist');
 
-      if (playlist.length === 0){
+      if (playlist.length === 0) {
         // If we cannot get a new player right now, we discard current visualisation
         // Otherwise, we let onNextSong handle it
         LayoutProxy.setLayout(null);
 
         console.log('try again');
-        playlist.once('add', function() {
+        playlist.once('add', function () {
           this.fetchPlaylistForNextSong(playlist);
         }, this);
       } else {
@@ -96,68 +99,74 @@ define(
       anchor.style.top = '-1000px';
       document.body.appendChild(anchor);
 
-      if(this.state.currentPlayer == null)
-        this.setState({loading: true});
+      if (this.state.currentPlayer == null)
+        this.setState({
+          loading: true
+        });
 
-      PlayerFactory.create(song, anchor, function (err, player) {
-        if(err) throw err; // TODO : handle error
-
-
-        /* Exposes the player to make tests, very handy ;) */
-        window.player = player;
-
-        // Initialize slave player with master state
-        player.setVolume(this.state.volume);
-        if(this.state.playing) player.play();
-        else player.pause();
-
-        if (this.state.currentPlayer == null){
-
-          player.on('end', this.onPlayerEnd, this);
-          player.on('play', this.onPlayerPlay, this);
-          player.on('pause', this.onPlayerPause, this);
-          player.on('volumeChange', this.onVolumeChange, this);
-
-          console.log('setting song : '+song);
-          this._party.set('currentSong', song);
-
-          /* sets new visualisation layout manager */
-          LayoutProxy.setLayout(player.getLayoutManager());
-
-          if (options) {
-            if (options.seek){
-              player.seekTo(options.seek);
-            }
-          }
-
-          this.save({
-            currentSong: song.id
-          });
-
-          this.setState({
-            currentPlayer: player,
-            loading: false
-          });
-        } else if (this.state.nextPlayer == null) {
-          console.log('got next player');
-          this.setState({
-            nextPlayer: player
-          });
-          player.pause();
-        } else {
-          throw new Error('Woops, I fetched a song from playlist but I already have two players :-o');
-        }
-      }.bind(this));
+      PlayerFactory.create(song, anchor, this.onCreatePlayer, options);
     };
 
-    PlaybackController.prototype.setState = function(newState) {
+    PlaybackController.prototype.onCreatePlayer = function (err, player, options) {
+      if (err) throw err; // TODO : handle error
+
+      var song = player.song;
+
+      /* Exposes the player to make tests, very handy ;) */
+      window.player = player;
+
+      // Initialize slave player with master state
+      player.setVolume(this.state.volume);
+      if (this.state.playing) player.play();
+      else player.pause();
+
+      if (this.state.currentPlayer == null) {
+        player.on('end', this.onPlayerEnd, this);
+        player.on('play', this.onPlayerPlay, this);
+        player.on('pause', this.onPlayerPause, this);
+        player.on('volumeChange', this.onVolumeChange, this);
+
+        //player.play(); // autoplay
+
+        console.log('setting song : ' + song);
+        this._party.set('currentSong', song);
+
+        /* sets new visualisation layout manager */
+        LayoutProxy.setLayout(player.getLayoutManager());
+
+        if (options) {
+          if (options.seek) {
+            player.seekTo(options.seek);
+          }
+        }
+
+        this.save({
+          currentSong: song.id
+        });
+
+        this.setState({
+          currentPlayer: player,
+          loading: false
+        });
+      } else if (this.state.nextPlayer == null) {
+        console.log('got next player');
+        this.setState({
+          nextPlayer: player
+        });
+        player.pause();
+      } else {
+        throw new Error('Woops, I fetched a song from playlist but I already have two players :-o');
+      }
+    };
+
+    PlaybackController.prototype.setState = function (newState) {
       var oldState = this.state;
       this.state = _.defaults(newState, oldState);
 
       this.trigger('stateChange', this.state, oldState);
     };
 
-    PlaybackController.prototype.onPlayerEnd = function() {
+    PlaybackController.prototype.onPlayerEnd = function () {
       var player = this.state.currentPlayer;
       player.song.destroy(); // removes song from playlist
       this._party.set('currentSong', null); // removes song from currentSong property
@@ -179,10 +188,18 @@ define(
       this.setState({
         playing: true
       });
+
+      this.save({
+        playing: true
+      });
     };
 
     PlaybackController.prototype.onPlayerPause = function () {
       this.setState({
+        playing: false
+      });
+
+      this.save({
         playing: false
       });
     };
@@ -216,4 +233,4 @@ define(
     _.extend(PlaybackController.prototype, Backbone.Events);
 
     return PlaybackController;
-});
+  });
