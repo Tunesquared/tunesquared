@@ -2,278 +2,206 @@
 
 
 /*
-	Youtube player wrapper.
+    Youtube player wrapper.
 */
 
-define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
-	function (_, swfobject, LayoutManager, Player) {
+define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.youtube.com/iframe_api'],
+  function (_, LayoutManager, Player) {
+    var YT = window.YT;
 
-	var MIN_FLASH_VERSION = '10.1';
+    var PlayerState = {
+      UNSTARTED: -1,
+      ENDED: 0,
+      PLAYING: 1,
+      PAUSED: 2,
+      BUFFERING: 3,
+      CUED: 4
+    };
 
-	var PlayerState = {
-		UNSTARTED: -1,
-		ENDED: 0,
-		PLAYING: 1,
-		PAUSED: 2,
-		BUFFERING: 3,
-		CUED: 4
-	};
+    // Internal counter used to generate ids, since we are going to pollute global namespace
+    var counter = 0;
 
-	var FLASH_PARAMS = {
-		allowScriptAccess: 'always'
-	};
+    /*
+        --- Constructor ---
+    */
+    function YoutubePlayer(song, element, ready) {
+      Player.apply(this, arguments);
 
-	// Internal counter used to generate ids, since we are going to pollute global namespace
-	var counter = 0;
+      _.bindAll(this, 'onReady', 'onStateChange', 'fixSeek');
+      /*
+            We want the attributes to be modified when resizing, not the css. This is
+            because we create an "object" DOM node which takes "width" and "height"
+            attributes. For normal DOM nodes, we would use css's "height" and "width".
+        */
+      this.layout = {
+        resizeMethod: 'attr'
+      };
 
+      // Saves the ready callback for later use
+      this._loadCb = ready;
 
-	// hash of player instances waiting for their beloved YT player.
-	var loadingPlayers = {};
+      /* We keep our own seekTime because youtube player resets it's own seek time
+            on start. This variable allows us to keep state consistent during this phase
+            (see Player.seekTo)
+        */
+      this._seekTime = 0;
 
-	/**
-		--- Constructor ---
-	*/
-	function YoutubePlayer(song, element, ready) {
-		Player.apply(this, arguments);
-		/*
-			We want the attributes to be modified when resizing, not the css. This is
-			because we create an "object" DOM node which takes "width" and "height"
-			attributes. For normal DOM nodes, we would use css's "height" and "width".
-		*/
-		this.layout = {
-			resizeMethod: 'attr'
-		};
+      // Remembers if seek time was buffered
+      this._seekBuffered = false;
 
+      // Fixes "pause" event leaks.
+      this._pausePending = false;
 
-		// Saves a local copy of unique count and increments
-		this._id = counter++;
-		// Saves the ready callback for later use
-		this._loadCb = ready;
-
-		/* We keep our own seekTime because youtube player resets it's own seek time
-			on start. This variable allows us to keep state consistent during this phase
-			(see Player.seekTo)
-		*/
-		this._seekTime = 0;
-
-		// Remembers if seek time was buffered
-		this._seekBuffered = false;
-
-		// Creates a target for flash loading
-		var target = document.createElement('div');
-		target.id = 'youtube_host' + counter;
-		element.appendChild(target);
-
-		// Registers this in the array of players waiting for flash load.
-		loadingPlayers[this._id] = this;
-
-		// Embeds flash object. See 'onYoutubePlayerReady' for more action!
-		swfobject.embedSWF(
-			'//www.youtube.com/apiplayer?enablejsapi=1&version=3&playerapiid=' + this._id,
-			target.id,
-			200,
-			200,
-			MIN_FLASH_VERSION,
-			null, //express install
-			null, //flashvars
-			FLASH_PARAMS, {
-				id: 'ytplayer_' + this._id
-			},
-			function (e) {
-				if (!e.success) {
-					delete loadingPlayers[this._id];
-					ready('Problem embedding youtube player');
-				}
-			}.bind(this));
-	}
-
-	_.extend(YoutubePlayer.prototype, Player.prototype);
-	_.extend(YoutubePlayer, Player);
-
-	/* This name must match the source name (in search) so that the factory
-		knows which player to use for each song */
-	YoutubePlayer.sourceName = 'youtube';
-
-	/* Returns a string with error explanation if there is a compatibility issue. */
-	YoutubePlayer.checkCompatibility = function () {
-		if (!swfobject.hasFlashPlayerVersion(MIN_FLASH_VERSION)) {
-			return 'flash player >= ' + MIN_FLASH_VERSION + ' is required';
-		}
-	};
-
-	// Controls :
-
-	YoutubePlayer.prototype.play = function () {
-		this._player.playVideo();
-	};
-
-	YoutubePlayer.prototype.pause = function () {
-		this._player.pauseVideo();
-	};
-
-	YoutubePlayer.prototype.stop = function () {
-		this._player.stopVideo();
-	};
-
-	// Volume 0 - 100
-	YoutubePlayer.prototype.setVolume = function (vol) {
-		this._player.setVolume(vol);
-	};
-
-	// Seeks to time in msecs
-	YoutubePlayer.prototype.seekTo = function (time) {
-		console.log('seekTo '+time);
-		if (this._player.getPlayerState() === PlayerState.UNSTARTED){
-			console.log('buffered');
-			this._seekTime = time;
-			this._seekBuffered = true;
-		}
-		this._player.seekTo(Math.floor(time / 1000), true);
-	};
-
-	// Getters :
-
-	// Returns current time in msec
-	YoutubePlayer.prototype.getSeekTime = function () {
-		/* We must check that player has already started or we will ruin the reason
-			why we use our stateful variable _seekTime */
-		if (this._seekBuffered === false)
-			this._seekTime = this._player.getCurrentTime() * 1000;
-
-		return this._seekTime;
-	};
-
-	YoutubePlayer.prototype.getDuration = function () {
-		return this._player.getDuration() * 1000;
-	};
-
-	YoutubePlayer.prototype.getState = function () {
-		return (this._player.getPlayerState() === PlayerState.PLAYING ||
-				this._player.getPlayerState() === PlayerState.BUFFERING) ?
-			'playing' : 'stopped';
-	};
-
-	YoutubePlayer.prototype.release = function () {
-		freeYTCallback(this, 'onStateChange');
-		freeYTCallback(this, 'onError');
-	};
+      // Creates a target
+      var target = document.createElement('div');
+      target.id = 'youtube_host' + counter;
+      element.appendChild(target);
 
 
 
-	// Implementation specific methods
+      this._player = new YT.Player(target.id, {
+        height: '200',
+        width: '200',
+        videoId: song.get('data'),
+        playerVars: {
+          'autoplay': 1,
+          'controls': 0
+        },
+        events: {
+          'onReady': this.onReady,
+          'onStateChange': this.onStateChange
+        }
+      });
 
-	/*
-		Callback invoked right after the embedded player has been embedded.
-		Instruments the player, loads the song and tells upper layer that we are ready.
-	*/
-	YoutubePlayer.prototype.onLoad = function (ytPlayer) {
-		this._player = ytPlayer;
+    }
 
-		this._player.addEventListener('onStateChange', makeYTCallback(this, 'onStateChange'));
-		this._player.addEventListener('onError', makeYTCallback(this, 'onError'));
-		this._loadCb(null, this);
+    _.extend(YoutubePlayer.prototype, Player.prototype);
+    _.extend(YoutubePlayer, Player);
 
-		ytPlayer.loadVideoById(this.song.get('data'), 0, 'large');
+    /* This name must match the source name (in search) so that the factory
+        knows which player to use for each song */
+    YoutubePlayer.sourceName = 'youtube';
 
-		// At this point, the whole process of instanciating a player is over.
-	};
-
-	/*
-		Messages from the youtube player to the app.
-	*/
-	YoutubePlayer.prototype.onStateChange = function (state) {
-		console.log('state change : ' + state);
-		if (state === PlayerState.PLAYING) {
-			this.trigger('play');
-
-			// Fixes the seekTo issue
-			if (this._seekBuffered === true) {
-				console.log('seeking to ' + this._seekTime);
-				this._seekBuffered = false;
-				this.seekTo(this._seekTime);
-			}
-
-		} else if (state === PlayerState.PAUSED) {
-			this.trigger('pause');
-		} else if (state === PlayerState.ENDED) {
-			this.trigger('end');
-		}
-	};
-
-	/*
-		Bad messages from the youtube player to the app.
-	*/
-	YoutubePlayer.prototype.onError = function (err) {
-		throw new Error('youtube error : ' + err);
-	};
+    /* Returns a string with error explanation if there is a compatibility issue. */
+    YoutubePlayer.checkCompatibility = function () {};
 
 
-	/*
-		This callback is invoked when youtube finishes embedding a player. We can then
-		get control back and associate the YT player with the right Player.
-	*/
-	makeYTCallback('onYouTubePlayerReady', function (playerId) {
-		var ytplayer = document.getElementById('ytplayer_' + playerId);
-		if (ytplayer == null){
-			throw new Error('Invalid yt player id:' + playerId);
-		}
 
-		// Gets the instance of player waiting for this youtube.
-		var player = loadingPlayers[playerId];
-
-		if (player == null) {
-			ytplayer.parentNode.removeChild(ytplayer);
-		} else {
-			player.onLoad(ytplayer);
-			delete loadingPlayers[playerId];
-		}
-	});
+    YoutubePlayer.prototype.onReady = function ( /* event */ ) {
+      this._loadCb(null, this);
+    };
 
 
-	/*
-		Since addEventListener expects a string, we need to register callbacks in
-		global namespace. Moreover, when stack is started by flash, errors fail silently !
+    // Controls :
 
-		This awesome utility that allows us to register some callbacks in global space
-		while handling silent errors.
+    YoutubePlayer.prototype.play = function () {
+      console.log('play');
+      this._player.playVideo();
+    };
 
-		usage:
-			- makeYTCallback(player, callbackName): returns a string pointing to the mapped
-				player[callbackName] callback. player must be instance of Player
-			- makeYTCallback(name, callback): Mapps the provided callback with "name"
-				directly to window[name] with some error handling.
-	*/
-	function makeYTCallback(ctx, fn) {
-		var cbName, callback, context;
+    YoutubePlayer.prototype.pause = function () {
+      this._pausePending = true;
+      this._player.pauseVideo();
+    };
 
-		if (typeof fn === 'string') {
-			cbName = 'yt_'+ctx._id+fn;
-			callback = ctx[fn];
-			context = ctx;
-		} else {
-			cbName = ctx;
-			callback = fn;
-		}
+    YoutubePlayer.prototype.stop = function () {
+      this._player.stopVideo();
+    };
 
-		window[cbName] = function () {
-			try {
-				callback.apply(ctx, arguments);
-			} catch (e) {
-				console.error({msg: e.message, stk: e.stack.split('\n')});
-			}
-		};
-		return cbName;
-	}
+    // Volume 0 - 100
+    YoutubePlayer.prototype.setVolume = function (vol) {
+      this._player.setVolume(vol);
+    };
+
+    // Seeks to time in msecs
+    YoutubePlayer.prototype.seekTo = function (time) {
+      console.log('seek');
+      if (this._player.getPlayerState() === PlayerState.UNSTARTED) {
+        console.log('buffered');
+        this._seekTime = time;
+        this._seekBuffered = true;
+      }
+      this._player.seekTo(Math.floor(time / 1000), true);
+    };
+
+    // Getters :
+
+    // Returns current time in msec
+    YoutubePlayer.prototype.getSeekTime = function () {
+      /* We must check that player has already started or we will ruin the reason
+            why we use our stateful variable _seekTime */
+      if (this._player.getPlayerState() !== PlayerState.UNSTARTED)
+        this._seekTime = this._player.getCurrentTime() * 1000;
+
+      return this._seekTime;
+    };
+
+    YoutubePlayer.prototype.getDuration = function () {
+      return this._player.getDuration() * 1000;
+    };
+
+    YoutubePlayer.prototype.getState = function () {
+      return (this._player.getPlayerState() === PlayerState.PLAYING ||
+        this._player.getPlayerState() === PlayerState.BUFFERING) ?
+        'playing' : 'stopped';
+    };
+
+    YoutubePlayer.prototype.release = function () {
+
+    };
 
 
-	/*
-		This method needs to be called to clean a youtube callback. Only for callbacks
-		registered with makeYTCallback(player, callbackName)
-	*/
-	function freeYTCallback(ctx, name) {
-		delete window['yt_'+ctx._id+name];
-	}
 
-	return YoutubePlayer;
-});
+    // Implementation specific methods
 
+    /*
+        Messages from the youtube player to the app.
+    */
+    YoutubePlayer.prototype.onStateChange = function (event) {
+      var state = event.data;
+      console.log('state change : ' + state);
+      if (state === PlayerState.PLAYING) {
+        this.trigger('play');
+
+        // Fixes the seekTo issue
+        if (this._seekBuffered === true) {
+          this.fixSeek(this._seekTime);
+        }
+
+      } else if (state === PlayerState.PAUSED) {
+        if (this._pausePending) {
+          this.trigger('pause');
+          this._pausePending = false;
+        } else {
+          this.trigger('buffering');
+        }
+
+        // Fixes the seekTo issue
+        if (this._seekBuffered === true) {
+          setTimeout(this.fixSeek(this._seekTime), 1000);
+        }
+      } else if (state === PlayerState.ENDED) {
+        this.trigger('end');
+      }
+    };
+
+    /*
+        Bad messages from the youtube player to the app.
+    */
+    YoutubePlayer.prototype.onError = function (err) {
+      throw new Error('youtube error : ' + err);
+    };
+
+    YoutubePlayer.prototype.fixSeek = function(time) {
+      console.log('seeking to ' + time);
+      this._seekBuffered = false;
+      this.seekTo(time);
+
+      var self = this;
+      return function(){ self.fixSeek(time) };
+    };
+
+
+
+    return YoutubePlayer;
+  });

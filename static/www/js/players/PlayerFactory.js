@@ -59,9 +59,10 @@ define([
 			Arguments:
 			- song [Song]: target for which to create a player
 			- el [DOM element]: element to attach visualisation
-			- cb: callback that get passed (error, player) when the player is ready.
+			- cb: callback that get passed (error, player[, data]) when the player is ready.
+			- data: additionnal data passed to the callback
 		*/
-		create: function (song, el, cb) {
+		create: function (song, el, cb, data) {
 			var source = song.get('source');
 			console.log('factory creating a song of type ' + source);
 
@@ -72,7 +73,7 @@ define([
 			}
 
 			var player = new Player(song, el, function(err) {
-				cb(err, player);
+				cb(err, player, data);
 			});
 
 		}
