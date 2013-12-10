@@ -29,6 +29,8 @@ define(
 
 				ready(null, this);
 			}.bind(this), 1);
+
+			this._volume = 50;
 		}
 
 		_.extend(FakePlayer, Player);
@@ -70,8 +72,15 @@ define(
 			this._currentTime = 0;
 		};
 
-		// Volume 0 - 100
-		FakePlayer.prototype.setVolume = function () {};
+		// Volume 0 - 100, keep default implementation
+		FakePlayer.prototype.setVolume = function (vol) {
+			this._volume = vol;
+			this.trigger('volumeChange', vol);
+		};
+
+		FakePlayer.prototype.getVolume = function () {
+			return this._volume;
+		};
 
 		// Seeks to time in msecs
 		FakePlayer.prototype.seekTo = function (time) {

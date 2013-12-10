@@ -117,7 +117,12 @@ define(['underscore', 'swfobject', 'players/LayoutManager', 'players/Player'],
 
 	// Volume 0 - 100
 	YoutubePlayer.prototype.setVolume = function (vol) {
+		this.trigger('volumeChange', vol);
 		this._player.setVolume(vol);
+	};
+
+	YoutubePlayer.prototype.getVolume = function() {
+		return this._player.getVolume();
 	};
 
 	// Seeks to time in msecs

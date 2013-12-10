@@ -102,13 +102,13 @@ define([
         if(progress.slider('getValue') !== this.state.progress && this._progressDrag === false)
           progress.slider('setValue', this.state.progress * PROGRESS_STEP);
 
-        this.state.currentPlayer.setVolume(this.state.volume);
+        if (this.state.currentPlayer.getVolume() !== this.state.volume) {
+          this.state.currentPlayer.setVolume(this.state.volume);
 
-        if(this.state.nextPlayer != null){
-          this.state.nextPlayer.setVolume(this.state.volume);
+          if(this.state.nextPlayer != null){
+            this.state.nextPlayer.setVolume(this.state.volume);
+          }
         }
-
-
       }
 		},
 
