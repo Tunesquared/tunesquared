@@ -137,26 +137,24 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 								</form>
 							</div>
 							<div data-role="page">
-								<div className="container-fluid">
-									<div className="row-fluid">
-										<div className="col-12">
-											<p>Your guests can now access this party using one of the following method:</p>
-										</div>
+								<div className="row">
+									<div className="col-md-12">
+										<p>Your guests can now access this party using one of the following method:</p>
 									</div>
-									<div className="row">
-										<div className="col-5">
-											<p>Let them scan this code</p>
-											<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
-										</div>
-										<div className="col-2">
-											<p>OR</p>
-										</div>
-										<div className="col-5">
-											<p></p>
-											<div className="mobile-prez">
-												<p className="mobile-prez-text" data-role="mobile-text"></p>
-												<img className="img-responsive" src="img/mobile.png" />
-											</div>
+								</div>
+								<div className="row">
+									<div className="col-md-5">
+										<p>Let them scan this code</p>
+										<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
+									</div>
+									<div className="col-md-2">
+										<p>OR</p>
+									</div>
+									<div className="col-md-5">
+										<p></p>
+										<div className="mobile-prez">
+											<p className="mobile-prez-text" data-role="mobile-text"></p>
+											<img className="img-responsive" src="img/mobile.png" />
 										</div>
 									</div>
 								</div>

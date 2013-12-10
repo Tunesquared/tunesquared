@@ -1,9 +1,14 @@
 /** @jsx React.DOM */
 
 'use strict';
-define(['react', 'components/QRCode'], function(React, QRCode){
+define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCode){
 
   var Party = React.createClass({
+    componentDidMount: function() {
+      $('body').tooltip({
+          selector: '[data-toggle=tooltip]'
+      });
+    },
 
     render: function() {
 
@@ -35,12 +40,13 @@ define(['react', 'components/QRCode'], function(React, QRCode){
               <h2>Summary</h2>
             </div>
             <dl class="dl-horizontal">
-              <dt>Party name</dt><dd><strong>{party.name}</strong></dd>
+              <dt>Party name</dt><dd data-toggle="tooltip" title="first tooltip"><strong>{party.name}</strong></dd>
               <dt>Duration</dt><dd>2:44:12</dd>
               <dt>Active users</dt><dd>145/234</dd>
               <dt>Total songs played</dt><dd>43</dd>
               <dt>Total votes</dt><dd>1234</dd>
             </dl>
+            <a href="#party/history" class="btn btn-default"><i class="icon-time"></i> Show history</a>
           </div>
           <div class="col-lg-12">
             <div class="page-header">

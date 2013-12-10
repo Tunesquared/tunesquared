@@ -50,7 +50,7 @@ define(['react', 'components/QRCode'], function(React, QRCode){
                 <label class="col-sm-4 control-label">
                   Who can join
                 </label>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6 col-sm-7">
                   <select id="join-select" class="form-control">
                     <option>Anyone</option>
                     <option>Any of my friends</option>
