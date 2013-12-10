@@ -4,7 +4,6 @@
 /*
     Youtube player wrapper.
 */
-
 define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.youtube.com/iframe_api'],
   function (_, LayoutManager, Player) {
     var YT = window.YT;
@@ -110,8 +109,13 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
 
     // Volume 0 - 100
     YoutubePlayer.prototype.setVolume = function (vol) {
-      this._player.setVolume(vol);
-    };
+			this.trigger('volumeChange', vol);
+			this._player.setVolume(vol);
+		};
+
+		YoutubePlayer.prototype.getVolume = function() {
+			return this._player.getVolume();
+		};
 
     // Seeks to time in msecs
     YoutubePlayer.prototype.seekTo = function (time) {
