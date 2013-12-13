@@ -91,11 +91,15 @@ define(
       Possible events are:
       - 'play': when playback just resumed
       - 'pause': when playback just paused
+      - 'buffering': when player is buffering
       - 'stop': when player stopps
       - 'end': when player ends
+      - 'volumeChange': when volume changes
 
-      It is quite unclear wether 'stop' should fire with 'end' or 'pause' with
-      'stop', so for now, we'll stick to "as long as it works";
+      Contract:
+      - pause state should always be user-initiated. That means any pause event
+      initiated by the internal player should not leak outside.
+
     */
     _.extend(Player.prototype, Backbone.Events);
 
@@ -147,7 +151,7 @@ define(
     /*
       Sets the volume on a scale from 0 to 100.
     */
-    Player.prototype.setVolume = function ( /* vol */ ) {
+    Player.prototype.setVolume = function (vol) {
       throw new Error(UNIMPLEMENTED);
     };
 
@@ -204,6 +208,13 @@ define(
     */
     Player.prototype.getProgress = function () {
       return this.getSeekTime() / this.getDuration();
+    };
+
+    /*
+      Returns current volume on a scale from 0 to 100
+    */
+    Player.prototype.getVolume = function() {
+      throw new Error(UNIMPLEMENTED);
     };
 
     /*
