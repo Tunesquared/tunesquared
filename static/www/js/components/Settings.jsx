@@ -12,7 +12,7 @@ define(['react', 'components/QRCode'], function(React, QRCode){
       return (
         <div class="col-lg-8 col-lg-offset-2 col-xs-12 col-md-8 col-md-offset-2">
           <h1>
-            <a href="#" className="btn btn-default title-button-left">
+            <a href="#" className="btn btn-default title-btn-left title-btn">
             <i className="icon-chevron-left"></i> Back</a>
             Settings
           </h1>

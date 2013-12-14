@@ -33,11 +33,11 @@ body {
 	margin-top: 0;
 }
 
-.title-button-right {
+.title-btn-right {
 	margin-left: 20px;
 }
 
-.title-button-left {
+.title-btn-left {
 	margin-right: 20px;
 }
 
@@ -51,4 +51,55 @@ body {
 	bottom: 0;
 	left: 0;
 	right: 0;
+}
+
+.search-form {
+	margin-top: 40px;
+	margin-bottom: 30px;
+}
+
+.top-element {
+	margin-top: 20px;
+}
+
+.song-vignette {
+	height: 60px;
+	background-color: #222;
+	display: block;
+	padding: 5px 20px;
+	margin-bottom: 3px;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+a.song-vignette {
+	text-decoration: none;
+}
+
+a.song-vignette:hover {
+	background-color: #333;
+}
+
+.song-vignette .song-thumb{
+	float: left;
+	width: 50px;
+	margin-right: 20px;
+}
+
+.song-vignette .song-thumb img {
+	max-height: 100%;
+	width: auto;
+}
+
+.song-vignette .song-title {
+	margin:	10px;
+	margin-right: 0;
+	color: #aaa;
+	font-weight: bold;
+	font-size: 18px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
 }

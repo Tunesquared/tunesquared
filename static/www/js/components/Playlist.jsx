@@ -71,6 +71,11 @@ define(['react', 'components/PlaylistItem', 'utils', 'mixins/persist', 'bootstra
 		doSearch: function(evt) {
 			evt.preventDefault();
 
+			this.setState({
+				searchVal: ''
+			});
+
+
 			if (this.tooltipEn) {
 				this.save({
 					tooltipEn: false

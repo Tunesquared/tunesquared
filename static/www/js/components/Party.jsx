@@ -19,7 +19,7 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
           <div class="col-lg-12">
             <div class="page-header">
               <h1>Your party
-                <a href="#party/settings" className="btn btn-default title-button-right">
+                <a href="#party/settings" className="btn btn-default title-btn title-btn-right">
                   Settings
                   <i className="icon-wrench"></i>
                 </a>
