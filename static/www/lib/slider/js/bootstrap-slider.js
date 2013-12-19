@@ -17,6 +17,8 @@
  * limitations under the License.
  * ========================================================= */
 
+/** Pathced by Agent-h */
+
 /* jshint strict: false */
 (function (factory) {
 		if (typeof define === 'function' && define.amd) {
@@ -68,7 +70,7 @@
 			default:
 				this.picker
 					.addClass('slider-horizontal')
-					.css('width', this.element.outerWidth());
+					/*.css('width', this.element.outerWidth())*/;
 				this.orientation = 'horizontal';
 				this.stylePos = 'left';
 				this.mousePos = 'pageX';

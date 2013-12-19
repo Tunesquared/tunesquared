@@ -6,10 +6,14 @@ html {
 
 body {
 	padding-top: 50px;
-	margin-left: 300px;
+	margin-left: 25%;
 	overflow-x: hidden;
 
 /*	height: 100%;*/
+}
+
+#navbar {
+	box-shadow: 1px 0px 2px #000;
 }
 
 .side {
@@ -17,11 +21,22 @@ body {
 	bottom: 0;
 	left: 0;
 	top: 50px;
-
-	width: 300px;
-
-	background-color: #151515;
+	width: 25%;
+	z-index: 1000;
+	background-color: #1a1a1a;
 }
+
+@media (max-width: 992px) {
+	.side {
+		width: 250px;
+	}
+
+	body {
+		margin-left: 250px;
+	}
+}
+
+
 
 .main {}
 
@@ -45,14 +60,92 @@ body {
 	margin: 0 15px;
 }
 
+/* playlist */
 .playlist {
 	position: absolute;
-	top: 120px;
+	top: 130px;
 	bottom: 0;
 	left: 0;
 	right: 0;
 }
 
+.playlist-inner {
+	overflow: auto;
+	position: absolute;
+	top: 38px;
+	bottom: 0;
+	width: 100%;
+}
+
+/* Player */
+#player {
+	height: 130px;
+	overflow: hidden;
+	border-bottom: 1px #111 solid;
+	padding: 14px 10px;
+}
+
+.player-controls {
+	float: left;
+	margin-right: 5px;
+}
+
+.player-song-title {
+	color: #68DAFD;
+	font-weight: bold;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 100%;
+	display: block;
+	overflow: hidden;
+}
+
+.player-controls .btn {
+	border-radius: 0;
+	margin-left: 10px;
+}
+
+.btn-play {
+	font-size: 18px;
+}
+
+.btn-skip {
+	font-size: 14px;
+	padding: 5px 8px;
+}
+
+.player-volume {
+	margin: 10px 20px;
+	margin-left: 110px;
+	padding-left: 20px;
+	max-width: 150px;
+}
+
+.player-volume > i {
+	margin-left: -20px;
+	margin-top: 4px;
+}
+
+.player-track-section {
+	padding: 10px;
+	padding-left: 80px;
+	border-radius: 5px;
+	background-color: #0a0a0a;
+	box-shadow: 2px 2px 1px #000 inset;
+	margin: 15px 5px;
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+.player-track-section .song-thumb {
+	height: 43px;
+	width: auto;
+	margin-left: -75px;
+	position: absolute;
+}
+
+
+/* Search page */
 .search-form {
 	margin-top: 40px;
 	margin-bottom: 30px;
@@ -102,4 +195,22 @@ a.song-vignette:hover {
 
 	text-overflow: ellipsis;
 	overflow: hidden;
+}
+
+.song-remove {
+	float: left;
+	margin-left: -15px;
+	margin-top: 15px;
+	color: #555;
+	text-decoration: none;
+}
+
+.song-remove:hover {
+	color: #aaa;
+	text-decoration: none;
+}
+
+/* Slider lib fix */
+.slider.slider-horizontal {
+	width: 100%; !important
 }

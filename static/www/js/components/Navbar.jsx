@@ -40,18 +40,28 @@ define(['react', 'jquery', 'utils', 'mixins/RouteState'],
 		render: function(){
 
       var route = this.state.route;
-      function activeOn(targetRoute, isDefault) {
-        return (route.indexOf(targetRoute) === 0 || (isDefault && route === '')) ?
-          'active' : '';
+      function activeOn(targetRoutes, isDefault) {
+
+        if (isDefault && route === '') {
+          return 'active';
+        }
+
+        for(var i in targetRoutes) {
+          if (route.indexOf(targetRoutes[i]) === 0) {
+            return 'active';
+          }
+        }
+
+        return '';
       }
 
 			return (
 				<div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
 				  <a class="navbar-brand" href="#">Tune²</a>
           <ul class="nav navbar-nav nav-main">
-            <li className={activeOn('party', true)} ><a href="#party">Party</a></li>
-            <li className={activeOn('playlist')}><a href="#playlist">Playlist</a></li>
-            <li className={activeOn('music')}><a href="#music">Explore</a></li>
+            <li className={activeOn(['party'], true)} ><a href="#party">Party</a></li>
+            <li className={activeOn(['playlist'])}><a href="#playlist">Playlist</a></li>
+            <li className={activeOn(['music', 'search'])}><a href="#music">Explore</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
           	<li><a href="#" onClick={this.leave}>

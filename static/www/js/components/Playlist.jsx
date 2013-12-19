@@ -109,7 +109,6 @@ define(['react', 'components/PlaylistItem', 'utils', 'mixins/persist', 'bootstra
 
 			return (
 				<div className="playlist" >
-					<h2>Playlist:</h2>
 					<div class="playlist-search">
 						<form onSubmit={this.doSearch}>
 							<input type="text" ref="search" class="form-control"

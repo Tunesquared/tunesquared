@@ -15,14 +15,20 @@ define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 		},
 
 		render: function () {
-			var song = this.props.song;
+			var song = this.props.song.toJSON();
 			return (
-				<div class="playlist-item" key={song.cid} >
-					<a class="remove-btn" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
-					<img src={song.get('thumb')} />
-					<h4>{song.get('title')}</h4>
-					<span class="label label-success"><i class="icon-thumbs-up"></i>{' '+song.get('votes_yes')}</span>
-					<span class="label label-danger"><i class="icon-thumbs-down"></i>{' '+song.get('votes_no')}</span>
+				<div onClick={this.onClick} class="song-vignette">
+					<a class="song-remove" onClick={this.onDestroy} href="#">
+						<i class="icon-remove"></i>
+					</a>
+					<div class="song-thumb">
+						<div class="song-thumb-overlay">
+						</div>
+						<img src={song.thumb} />
+					</div>
+					<div class="song-title">
+						{song.title}
+					</div>
 				</div>
 			);
 		}
