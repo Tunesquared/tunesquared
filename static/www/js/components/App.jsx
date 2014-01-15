@@ -16,8 +16,9 @@ define([
 	'components/ErrorDialog',
 	'components/QRCode',
 	'components/Playlist',
-	'components/Party',
 	'components/Settings',
+	'components/Home',
+	'components/Visu',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -34,8 +35,9 @@ define([
 	ErrorDialog,
 	QRCode,
 	Playlist,
-	PartyView,
 	SettingsView,
+	Home,
+	Visu,
 	PlaybackController
 ){
 
@@ -66,15 +68,28 @@ define([
 				});
 			},
 
-			'party': function() {
+			'search': function() {
 				this.setState({
-					main: 'party'
+					main: 'search',
+					query: null
+				});
+			},
+
+			'home': function() {
+				this.setState({
+					main: 'home'
 				});
 			},
 
 			'party/settings': function() {
 				this.setState({
 					main: 'partySettings'
+				});
+			},
+
+			'party/visu': function() {
+				this.setState({
+					main: 'visu'
 				});
 			},
 
@@ -91,7 +106,7 @@ define([
 			},
 
 			'': function () {
-				this.router.navigate('party', {trigger: true, replace: true});
+				this.router.navigate('home', {trigger: true, replace: true});
 			}
 		},
 
@@ -187,12 +202,14 @@ define([
 			var dialog = [];
 
 			var main;
-			if (this.state.main === 'party')
-				main = <PartyView party={currentParty} />;
+			if (this.state.main === 'home')
+				main = <Home party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
 			else if (this.state.main === 'partySettings')
 				main = <SettingsView party={currentParty} />
+			else if (this.state.main === 'visu')
+				main = <Visu party={currentParty} />
 
 			if (this.state.error)
 				this.state.error.forEach(function(error){

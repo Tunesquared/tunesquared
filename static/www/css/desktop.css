@@ -36,13 +36,15 @@ body {
 	}
 }
 
-
+#visu-anchor {
+  /* Refered to as Youtube quality level "large" (16:9 a/r)*/
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  margin: auto;
+}
 
 .main {}
-
-.nav-main {
-	margin-left: 220px;
-}
 
 .page-header {
 	margin-top: 0;
@@ -63,7 +65,7 @@ body {
 /* playlist */
 .playlist {
 	position: absolute;
-	top: 130px;
+	top: 140px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -79,7 +81,7 @@ body {
 
 /* Player */
 #player {
-	height: 130px;
+	height: 140px;
 	overflow: hidden;
 	border-bottom: 1px #111 solid;
 	padding: 14px 10px;

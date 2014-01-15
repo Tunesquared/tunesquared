@@ -139,19 +139,20 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 							<div data-role="page">
 								<div className="row">
 									<div className="col-md-12">
-										<p>Your guests can now access this party using one of the following method:</p>
+										<p class="lead"><strong>Well done, your party is on !</strong> Your guests can add and vote for songs in one of the following way:</p>
 									</div>
 								</div>
 								<div className="row">
 									<div className="col-md-5">
-										<p>Let them scan this code</p>
+										<p>They scan this code</p>
 										<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
+										<p><em>Don't worry, you can find this code later in the app ;)</em></p>
 									</div>
 									<div className="col-md-2">
 										<p>OR</p>
 									</div>
 									<div className="col-md-5">
-										<p></p>
+										<p>They go to <strong>tunesquared.com</strong> with their mobile.</p>
 										<div className="mobile-prez">
 											<p className="mobile-prez-text" data-role="mobile-text"></p>
 											<img className="img-responsive" src="img/mobile.png" />

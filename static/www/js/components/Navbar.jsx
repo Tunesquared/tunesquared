@@ -59,9 +59,9 @@ define(['react', 'jquery', 'utils', 'mixins/RouteState'],
 				<div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
 				  <a class="navbar-brand" href="#">Tune²</a>
           <ul class="nav navbar-nav nav-main">
-            <li className={activeOn(['party'], true)} ><a href="#party">Party</a></li>
+            <li className={activeOn(['home', 'party'], true)} ><a href="#home">Home</a></li>
             <li className={activeOn(['playlist'])}><a href="#playlist">Playlist</a></li>
-            <li className={activeOn(['music', 'search'])}><a href="#music">Explore</a></li>
+            <li className={activeOn(['music', 'search'])}><a href="#search">Explore</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
           	<li><a href="#" onClick={this.leave}>

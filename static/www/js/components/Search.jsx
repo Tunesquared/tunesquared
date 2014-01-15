@@ -61,7 +61,6 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 		},
 
 		initQuery: function (props, force) {
-			console.log('init');
 			if (props == null) props = this.props;
 
 			this.setState({
@@ -72,7 +71,11 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 
 			if(this.queryIterator){
 				this.queryIterator.release();
+				this.queryIterator = null;
 			}
+
+			if (props.query == null) return;
+
 			this.queryIterator = this.searchAggregator.query(props.query);
       this.queryIterator.exec();
       this.fetchNewResults(force);
@@ -156,6 +159,17 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 						</div>
 					</div> : '';
 
+
+			var resultsDiv = (
+				<div>
+					<hr />
+					<h2>Search results for {this.props.query}:</h2>
+					{vignettes}
+					{loader}
+					{endSign}
+				</div>
+			);
+
 			return (
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="row">
@@ -165,17 +179,13 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 					</div>
 					<form class="row search-form" onSubmit={this.doSearch}>
 						<div className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-sm-5 col-sm-offset-1 col-xs-9 col-xs-offset-1">
-							<input ref="search-input" type="search" class="form-control" defaultValue={this.props.query} />
+							<input ref="search-input" type="search" class="form-control" defaultValue={this.props.query || ''} />
 						</div>
 						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
 							<input type="submit" class="btn btn-primary btn-large center-block" value="Search" />
 						</div>
 					</form>
-					<hr />
-					<h2>Search results for {this.props.query}:</h2>
-					{vignettes}
-					{loader}
-					{endSign}
+					{(this.props.query != null) ? resultsDiv : ''}
 				</div>
 			);
 		}

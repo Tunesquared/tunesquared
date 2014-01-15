@@ -3,7 +3,7 @@
 'use strict';
 define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCode){
 
-  var Party = React.createClass({
+  var Home = React.createClass({
     componentDidMount: function() {
       $('body').tooltip({
           selector: '[data-toggle=tooltip]'
@@ -18,13 +18,18 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
         <div class="col-lg-12">
           <div class="col-lg-12">
             <div class="page-header">
-              <h1>Your party
+              <h1>Party : {party.name}
                 <a href="#party/settings" className="btn btn-default title-btn title-btn-right">
                   Settings
                   <i className="icon-wrench"></i>
                 </a>
               </h1>
             </div>
+          </div>
+          <div class="col-lg-12">
+            <p class="lead">You seem to have no music in your playlist. How about you pick one of the following to get started.<br />
+            These are bootstrap playlist, you can add any song from youtube (and soon many other sources) using the search bar above.
+            </p>
           </div>
           <div class="col-lg-6">
             <div class="page-header">
@@ -40,7 +45,6 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
               <h2>Summary</h2>
             </div>
             <dl class="dl-horizontal">
-              <dt>Party name</dt><dd data-toggle="tooltip" title="first tooltip"><strong>{party.name}</strong></dd>
               <dt>Duration</dt><dd>2:44:12</dd>
               <dt>Active users</dt><dd>145/234</dd>
               <dt>Total songs played</dt><dd>43</dd>
@@ -48,17 +52,11 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
             </dl>
             <a href="#party/history" class="btn btn-default"><i class="icon-time"></i> Show history</a>
           </div>
-          <div class="col-lg-12">
-            <div class="page-header">
-              <h2>Infos</h2>
-            </div>
-            <p>Add some music</p>
-          </div>
         </div>
       );
     }
 
   });
 
-  return Party;
+  return Home;
 });
