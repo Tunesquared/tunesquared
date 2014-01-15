@@ -12,7 +12,9 @@ var fs = require('fs'),
   SockServer = require('./lib/SocketServer'),
   Router = require('./lib/Router'),
   Controller = require('./lib/Controller'),
-  db = require('./lib/db');
+  db = require('./lib/db'),
+  Sessions = require('./lib/Sessions'),
+  guid = require('./lib/utils').guid;
 
 db.error(function () {
   console.log('Mongodb connection error');
@@ -31,6 +33,13 @@ Framework.RESTRouter = require('./lib/RESTRouter');
 Framework.Controller = Controller;
 Framework.pubsub = require('./lib/pubsub');
 Framework.sessionStore = require('./lib/sessionStore');
+Framework.session = Sessions.addHook;
+
+
+// Middleware to make sure session is well populated
+Sessions.addHook(function(sess) {
+  sess.publickey = guid();
+});
 
 Framework.start = function () {
 

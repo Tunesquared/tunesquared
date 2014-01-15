@@ -39,7 +39,7 @@ function buildServer(config) {
     secret: process.env.SESSION_SECRET || '8168008135',
     store: sessionStore
   }));
-  app.use(require('./Session'));
+  app.use(require('./Sessions').middleware);
   app.use(app.router);
   if (app.get('env') == 'developement') app.use(express.errorHandler());
 
