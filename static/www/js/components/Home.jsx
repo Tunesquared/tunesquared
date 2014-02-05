@@ -1,5 +1,30 @@
 /** @jsx React.DOM */
 
+
+var playlists_data = [
+  {
+    name: "jazz",
+    thumb: "http://lol",
+    songs: [
+      {
+        title: "test",
+        source: "youtube",
+        data: "12345"
+      }, {
+        title: "another test",
+        source: "youtube",
+        data: "4567"
+      }
+    ]
+  },
+  {
+    name: "electro",
+    thumb: "http://tuveuxunemedaille",
+    songs: [
+    ]
+  }
+];
+
 'use strict';
 define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCode){
 
@@ -13,6 +38,17 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
     render: function() {
 
       var party = this.props.party.toJSON();
+
+      var playlists = _.map(playlists_data, function(d) {
+        return (
+          <div class="playlist-vignette">
+            <img src="{d.thumb}" />
+            <span class="playlist-title">
+              {d.title}
+            </span>
+          </div>
+        );
+      });
 
       return (
         <div class="col-lg-12">
@@ -30,6 +66,9 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
             <p class="lead">You seem to have no music in your playlist. How about you pick one of the following to get started.<br />
             These are bootstrap playlist, you can add any song from youtube (and soon many other sources) using the search bar above.
             </p>
+            <div class="">
+              {playlists}
+            </div>
           </div>
           <div class="col-lg-6">
             <div class="page-header">
@@ -60,3 +99,4 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
 
   return Home;
 });
+
