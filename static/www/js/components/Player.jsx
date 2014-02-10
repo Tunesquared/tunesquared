@@ -171,9 +171,6 @@ define([
               <i class="icon-fast-forward"></i>
             </a>
           </div>
-          <a class="btn btn-default pull-right" href="#party/visu">
-            open visu
-          </a>
           <div class="player-volume">
             <i class="pull-left icon-volume-up volume-icon"></i>
             <div class="volume-slider" data-ref="volume-slider" ref="volume-slider"></div>

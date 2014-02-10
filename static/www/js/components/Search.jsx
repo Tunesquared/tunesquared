@@ -174,7 +174,8 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<a class="btn btn-default top-element" href="#"><i class="icon-chevron-left"></i> Back</a>
+							<a class="btn btn-default top-element pull-left" href="#"><i class="icon-chevron-left"></i> Back</a>
+							<h1><small>Add some songs from youtube to your playlist.</small></h1>
 						</div>
 					</div>
 					<form class="row search-form" onSubmit={this.doSearch}>

@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 
-
 var playlists_data = [
   {
     name: "jazz",
@@ -26,18 +25,108 @@ var playlists_data = [
 ];
 
 'use strict';
-define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCode){
+define([
+  'react',
+  'jquery',
+  'underscore',
+  'components/SongVignette',
+  'players/LayoutProxy',
+  'models/suggestions',
+  'utils',
+  'components/QRCode'
+], function(
+  React,
+  $,
+  _,
+  SongVignette,
+  LayoutProxy,
+  suggestions,
+  utils,
+  QRCode){
 
-  var Home = React.createClass({
+  var Visu = React.createClass({
+    getInitialState: function() {
+      return {
+        visu: LayoutProxy.getLayout() != null, // Tells wether a visualisation is available or not
+        suggestions: []
+      };
+    },
+
     componentDidMount: function() {
-      $('body').tooltip({
-          selector: '[data-toggle=tooltip]'
+      LayoutProxy.on('change removed', this.updateVisualisation, this);
+
+      var self = this;
+      _.defer(function(){
+        self.updateVisualisation(null, LayoutProxy.getLayout());
+      });
+
+
+      this.refreshSuggestions();
+    },
+
+    componentWillUnmount: function() {
+      LayoutProxy.off(null, null, this);
+      this.updateVisualisation(LayoutProxy.getLayout(), null, {setState: false});
+    },
+
+
+
+    updateVisualisation: function(oldVisu, newVisu, options) {
+      options = _.defaults(options || {}, {
+        setState: true
+      });
+
+      if (oldVisu) {
+        oldVisu.hide();
+      }
+      if (newVisu) {
+        if (options.setState !== false) {
+          this.setState({
+            visu: true
+          });
+        }
+        newVisu.attachTo(this.refs.visu.getDOMNode());
+      } else if (options.setState !== false) {
+        this.setState({
+          visu: false
+        });
+      }
+    },
+
+    refreshSuggestions: function(cb) {
+      var self = this;
+      console.log('sugg');
+      suggestions.fetch({
+        success: function(sugg){
+          self.setState({
+            suggestions: sugg.toJSON()
+          });
+        }
       });
     },
 
-    render: function() {
+    onChooseSong: function (song) {
+      mixpanel.track('pick suggestion', {
+        party_id: this.props.party.id,
+        song_title: song.title
+      });
+      this.props.party.get('playlist').add(song);
+    },
 
-      var party = this.props.party.toJSON();
+    render: function(){
+      var party = this.props.party;
+
+      var suggestions = [];
+      for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
+        var row = [];
+        for(var j = 0 ; i*3 + j < this.state.suggestions.length && j < 3; j++) {
+          var sug = this.state.suggestions[i*3+j];
+          row.push(<div class="col-4">
+            <SongVignette song={sug} onClick={this.onChooseSong} />
+          </div>);
+        }
+        suggestions.push(<div class="row">{row}</div>);
+      }
 
       var playlists = _.map(playlists_data, function(d) {
         return (
@@ -50,53 +139,43 @@ define(['react', 'components/QRCode', 'bootstrap/tooltip'], function(React, QRCo
         );
       });
 
+      var visu_placeholder = <div class="col-lg-12">
+          <p class="lead">You seem to have no music in your playlist. How about you pick one of the following to get started.<br />
+          These are bootstrap playlist, you can add any song from youtube (and soon many other sources) using the search bar above.
+          </p>
+          <div class="">
+            {playlists}
+          </div>
+        </div>;
+
+      var currentSong = this.props.party.get('currentSong');
+
+      var visu_real = <div class="col-lg-12">
+        <h2 className="songTitle">{(currentSong && currentSong.get('title') || '') + ' '
+          /*<small>{(currentSong && currentSong.get('artist')) || ''}</small>*/
+        }
+        </h2>
+        <div id="visu-anchor" ref="visu" />
+
+      </div>;
       return (
-        <div class="col-lg-12">
+        <div class="visu-container home">
           <div class="col-lg-12">
-            <div class="page-header">
-              <h1>Party : {party.name}
-                <a href="#party/settings" className="btn btn-default title-btn title-btn-right">
-                  Settings
-                  <i className="icon-wrench"></i>
-                </a>
+            <div class="page-header clearfix">
+              <div class="pull-right header-QR">
+                <QRCode
+                  data={"http://tunesquared.com/party/" + encodeURIComponent(party.get('name'))} />
+              </div>
+              <h1>Party : {party.get('name')}<br />
+                <small>Vote for the next song with your smartphone now on tunesquared.com !</small>
               </h1>
             </div>
           </div>
-          <div class="col-lg-12">
-            <p class="lead">You seem to have no music in your playlist. How about you pick one of the following to get started.<br />
-            These are bootstrap playlist, you can add any song from youtube (and soon many other sources) using the search bar above.
-            </p>
-            <div class="">
-              {playlists}
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="page-header">
-              <h2>Acess</h2>
-            </div>
-            <h3>Party name : {party.name}</h3>
-            <div class="col-xs-12">
-              <QRCode data={"http://tunesquared.com/party/" + encodeURIComponent(party.name)} />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="page-header">
-              <h2>Summary</h2>
-            </div>
-            <dl class="dl-horizontal">
-              <dt>Duration</dt><dd>2:44:12</dd>
-              <dt>Active users</dt><dd>145/234</dd>
-              <dt>Total songs played</dt><dd>43</dd>
-              <dt>Total votes</dt><dd>1234</dd>
-            </dl>
-            <a href="#party/history" class="btn btn-default"><i class="icon-time"></i> Show history</a>
-          </div>
+          { (!this.state.visu) ? visu_placeholder : visu_real }
         </div>
       );
     }
-
   });
 
-  return Home;
+  return Visu;
 });
-

@@ -12,6 +12,15 @@ body {
 /*	height: 100%;*/
 }
 
+.header-QR {
+	margin: 10px;
+	margin-bottom: 4px;
+}
+
+.songTitle {
+	text-align: center;
+}
+
 #navbar {
 	box-shadow: 1px 0px 2px #000;
 }
@@ -149,12 +158,13 @@ body {
 
 /* Search page */
 .search-form {
-	margin-top: 40px;
+	margin-top: 25px;
 	margin-bottom: 30px;
 }
 
 .top-element {
 	margin-top: 20px;
+	margin-right: 10px;
 }
 
 .song-vignette {

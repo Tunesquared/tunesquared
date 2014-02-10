@@ -18,7 +18,6 @@ define([
 	'components/Playlist',
 	'components/Settings',
 	'components/Home',
-	'components/Visu',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -37,7 +36,6 @@ define([
 	Playlist,
 	SettingsView,
 	Home,
-	Visu,
 	PlaybackController
 ){
 
@@ -78,18 +76,6 @@ define([
 			'home': function() {
 				this.setState({
 					main: 'home'
-				});
-			},
-
-			'party/settings': function() {
-				this.setState({
-					main: 'partySettings'
-				});
-			},
-
-			'party/visu': function() {
-				this.setState({
-					main: 'visu'
 				});
 			},
 
@@ -208,8 +194,6 @@ define([
 				main = <SearchView party={currentParty} query={this.state.query} />
 			else if (this.state.main === 'partySettings')
 				main = <SettingsView party={currentParty} />
-			else if (this.state.main === 'visu')
-				main = <Visu party={currentParty} />
 
 			if (this.state.error)
 				this.state.error.forEach(function(error){
