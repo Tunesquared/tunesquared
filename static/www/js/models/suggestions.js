@@ -5,8 +5,7 @@
 define(['models/SingletonCollection', 'models/Song'], function(Singleton, Song) {
   'use strict';
   var Suggestions = Singleton.extend({
-    url: 'api/suggestions',
-    model: Song
+    url: 'api/suggestions'
   });
 
   return new Suggestions();

@@ -8,7 +8,9 @@ define([
   'components/SongVignette',
   'players/LayoutProxy',
   'models/suggestions',
-  'utils'
+  'utils',
+  'components/QRCode',
+  'components/PlaylistSuggest'
 ], function(
   React,
   $,
@@ -16,28 +18,26 @@ define([
   SongVignette,
   LayoutProxy,
   suggestions,
-  utils){
+  utils,
+  QRCode,
+  PlaylistSuggest){
 
-	var Home = React.createClass({
-
-		getInitialState: function() {
-			return {
+  var Visu = React.createClass({
+    getInitialState: function() {
+      return {
         visu: LayoutProxy.getLayout() != null, // Tells wether a visualisation is available or not
         suggestions: []
       };
-		},
+    },
 
-		componentDidMount: function() {
+    componentDidMount: function() {
       LayoutProxy.on('change removed', this.updateVisualisation, this);
 
       var self = this;
       _.defer(function(){
         self.updateVisualisation(null, LayoutProxy.getLayout());
       });
-
-
-      this.refreshSuggestions();
-		},
+    },
 
     componentWillUnmount: function() {
       LayoutProxy.off(null, null, this);
@@ -68,73 +68,50 @@ define([
       }
     },
 
-    refreshSuggestions: function(cb) {
-      var self = this;
-      console.log('sugg');
-      suggestions.fetch({
-        success: function(sugg){
-          self.setState({
-            suggestions: sugg.toJSON()
-          });
-        }
-      });
-    },
+    render: function(){
+      var party = this.props.party;
 
-    onChooseSong: function (song) {
-      mixpanel.track('pick suggestion', {
-        party_id: this.props.party.id,
-        song_title: song.title
-      });
-      this.props.party.get('playlist').add(song);
-    },
-
-		render: function(){
-      var suggestions = [];
-      for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
-        var row = [];
-        for(var j = 0 ; i*3 + j < this.state.suggestions.length && j < 3; j++) {
-          var sug = this.state.suggestions[i*3+j];
-          row.push(<div class="col-4">
-            <SongVignette song={sug} onClick={this.onChooseSong} />
-          </div>);
-        }
-        suggestions.push(<div class="row">{row}</div>);
-      }
-
-      var visu_placeholder = <div>
-        <h1>Party: {this.props.party.get('name')}</h1>
-        <p class="lead">Your party is on! Pick some songs to get started. <br />
-        You can also use the search bar if you want something specific.
-        Let your guests scan this code to access your party more easily.
-        </p>
-        <p class="alert-success alert">Tip: Show this page on a beamer in fullscreen for best effect!</p>
-        <div class="panel panel-primary suggestions">
-          <div class="panel-heading">
-            <h3 class="panel-title">Suggestions:</h3>
-          </div>
-          <div class="panel-body">
-            {suggestions}
-          </div>
-        </div>
-      </div>;
+      var visu_placeholder = <div class="col-lg-12">
+          <p class="lead"><strong>Hello there !</strong> You can now add songs to your playlist.
+          Use the search bar on the left to find what you need. We also provide <strong>thematic playlists</strong>
+          you can use as a starting point.
+          </p>
+          <p>
+            Once you've added a few songs, sit back and relax, let your guests take control of your playlist.<br />
+            In case you need more songs, check out the <a href="#music">music page</a>.
+          </p>
+          <h2>Pick a playlist to get started</h2>
+          <PlaylistSuggest party={this.props.party} />
+        </div>;
 
       var currentSong = this.props.party.get('currentSong');
 
-      var visu_real = <div>
-        <h2>{(currentSong && currentSong.get('title') || '') + ' '
+      var visu_real = <div class="col-lg-12">
+        <h2 className="songTitle">{(currentSong && currentSong.get('title') || '') + ' '
           /*<small>{(currentSong && currentSong.get('artist')) || ''}</small>*/
         }
         </h2>
         <div id="visu-anchor" ref="visu" />
-      </div>;
 
-			return (
+      </div>;
+      return (
         <div class="visu-container home">
+          <div class="col-lg-12">
+            <div class="page-header clearfix">
+              <div class="pull-right header-QR">
+                <QRCode
+                  data={"http://tunesquared.com/party/" + encodeURIComponent(party.get('name'))} />
+              </div>
+              <h1>Party : {party.get('name')}<br />
+                <small>Vote for the next song with your smartphone now on tunesquared.com !<br />Or simply flash this code:</small>
+              </h1>
+            </div>
+          </div>
           { (!this.state.visu) ? visu_placeholder : visu_real }
         </div>
-			);
-		}
-	});
+      );
+    }
+  });
 
-	return Home;
+  return Visu;
 });

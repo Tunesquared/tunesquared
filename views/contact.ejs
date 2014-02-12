@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
 
     <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
   <script type="text/javascript">
     var RecaptchaOptions = {
@@ -15,7 +16,7 @@
 
   <style>
     /* fixes recaptcha style break */
-    iframe {display:none !important;}
+    iframe[src="about:blank"]{display:none;}
   </style>
 
   </head>
@@ -26,7 +27,7 @@
       </div>
     </div>
     <div class="container page">
-      <div class="col-10 col-offset-1">
+      <div class="col-lg-10 col-lg-offset-1">
         <h1>Contact <small>We need your feedback!</small></h1>
         <p>
           If you have any suggestion/comment or have encountered any bug, please let us know using the form below.
@@ -36,7 +37,7 @@
           <form class="form-horizontal" role="form" action="/contact" method="post">
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Your email</label>
-              <div class="col-5">
+              <div class="col-sm-5">
                 <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="<%= email %>">
               </div>
             </div>
@@ -53,7 +54,7 @@
                 <% if (captcha_error) { %>
                   <span class="help-block">Wrong captcha, please try again.</span>
                 <% } else { %>
-                  <span class="help-block">Enter the text in the image to verify that you not a spam robot.</span>
+                  <span class="help-block">Enter the text in the image to verify that you are not a spam robot.</span>
                 <% } %>
               </div>
             </div>
@@ -69,6 +70,8 @@
         </p>
       </div>
     </div>
-    <% include footer %>
+    <div class="container">
+      <% include footer %>
+    </div>
   </body>
 </html>

@@ -26,13 +26,12 @@
 define(['backbone', 'underscore'], function(Backbone, _){
 	var Router = {
 		componentDidMount: function(){
+			this.router = new Backbone.Router;
+
 			for(var i in this.routes){
 				this.routes[i] = _.bind(this.routes[i], this);
+				this.router.route(i, i, this.routes[i]);
 			}
-
-			this.router = new (Backbone.Router.extend({
-				routes: this.routes
-			}))();
 		}
 	};
 	return Router;

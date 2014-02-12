@@ -16,6 +16,11 @@ define(['underscore', 'backbone', 'models/Song'], function (_, Backbone, Song) {
 			(1/(song.get('votes_yes')+1));
 		},
 
+		addMany: function(songs) {
+			this.add(songs, {silent: true});
+			this.trigger('addMany', songs, this)
+		},
+
 		filterCurrentSong: function(song) {
 			this.models = _.filter(this.models, function(m) {
 				return m.id !== song.id;

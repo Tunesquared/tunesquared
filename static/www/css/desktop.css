@@ -6,191 +6,290 @@ html {
 
 body {
 	padding-top: 50px;
-	/* Allows footer to stick to the bottom of the page */
-	position: relative;
-	/* Makes some room for the footer */
-	padding-bottom: 80px;
-	min-height: 100%;
+	margin-left: 25%;
+	overflow-x: hidden;
+
+/*	height: 100%;*/
 }
 
-.home {
-	padding-bottom: 20px;
+.header-QR {
+	margin: 10px;
+	margin-bottom: 4px;
 }
 
-.main-contents {
-	background-color: #111;
+.songTitle {
+	text-align: center;
+}
+
+#navbar {
+	box-shadow: 1px 0px 2px #000;
+}
+
+.side {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	top: 50px;
+	width: 25%;
+	z-index: 1000;
+	background-color: #1a1a1a;
+}
+
+@media (max-width: 992px) {
+	.side {
+		width: 250px;
+	}
+
+	body {
+		margin-left: 250px;
+	}
 }
 
 #visu-anchor {
-	/* Refered to as Youtube quality level "large" (16:9 a/r)*/
-	width: 640px;
-	height: 360px;
-	overflow: hidden;
-	margin: auto;
+  /* Refered to as Youtube quality level "large" (16:9 a/r)*/
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+  margin: auto;
 }
 
-.navbar {
-	margin-bottom: 0;
-	border: 0;
-	box-shadow: 0px 1px 3px #000;
+.main {}
+
+.page-header {
+	margin-top: 0;
 }
 
-.navbar input {
-	background-color: #181818;
-	color: #96BED1;
-	width: 50%;
-	transition-property: width;
-	transition-duration: 300ms;
-}
-
-.navbar input:focus {
-	background-color: #0E0E0E;
-	color: #50C5FD;
-	width: 90%;
-}
-
-.navbar input::-webkit-input-placeholder { color: #37525F; }
-.navbar input:focus::-webkit-input-placeholder { color: #1E536D; }
-/* Firefox 18- */
-.navbar input:-moz-placeholder { color: #37525F; }
-.navbar input:focus:-moz-placeholder { color: #1E536D; }
-/* Firefox 19+ */
-.navbar input::-moz-placeholder { color: #37525F; }
-.navbar input:focus::-moz-placeholder { color: #1E536D; }
-
-.navbar input:-ms-input-placeholder { color: #37525F; }
-.navbar input:focus:-ms-input-placeholder { color: #1E536D; }
-
-.navbar-search {
-	margin-top: 6px;
-}
-
-.top {
-	padding: 20px 0px;
-	background-color: #181818;
-}
-
-.suggestions {
-	height: 100%;
-}
-
-.side-title {
+.title-btn-right {
 	margin-left: 20px;
 }
 
-/* player */
-
-.player-control {
-	margin: 10px;
-	box-shadow: 1px 2px 3px #000;
+.title-btn-left {
+	margin-right: 20px;
 }
 
-.player-control:hover {
-	box-shadow: 0px 1px 3px #000;
+.form-buttons button {
+	margin: 0 15px;
 }
 
-.forward-button {
-	border-radius: 0;
-}
-
-.play-button {
-	margin-right: 0px;
-	margin-left: 20px;
-	border-radius: 0;
-	padding: 16px 20px;
-	font-size: 20px;
-	padding: 12px 16px;
-}
-
-.volume-slider {
-	width: 100px;
-}
-
-.volume-icon.pull-left {
-	margin-top: 3px;
-	margin-right: 10px;
-}
-
-.player-song-title {
-	margin-bottom: 30px;
-}
-
-/* navbar player */
-
-.navbar-player .btn {
-	border-radius: 0;
-	margin: 5px;
-}
-
-/* Playlist */
-
-#playlist {
-	overflow: hidden;
-	margin: 10px;
+/* playlist */
+.playlist {
+	position: absolute;
+	top: 140px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 .playlist-inner {
-	background-color: #060606;
-	padding: 20px;
-	max-height: 700px;
 	overflow: auto;
-}
-
-.playlist-item {
+	position: absolute;
+	top: 38px;
+	bottom: 0;
 	width: 100%;
-	height: 100px;
 }
 
-.remove-btn {
-	margin-top: 40px;
-	margin-left: -15px;
-	color: #aaa;
-	text-decoration: none;
+/* Player */
+#player {
+	height: 140px;
+	overflow: hidden;
+	border-bottom: 1px #111 solid;
+	padding: 14px 10px;
+}
+
+.player-controls {
 	float: left;
+	margin-right: 5px;
 }
 
-.subpage-title {
-	margin-left: 100px;
+.player-song-title {
+	color: #68DAFD;
+	font-weight: bold;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width: 100%;
+	display: block;
+	overflow: hidden;
 }
+.player-song-title:hover {
+	text-decoration: none;
+}
+
+.player-controls .btn {
+	border-radius: 0;
+	margin-left: 10px;
+}
+
+.btn-play {
+	font-size: 18px;
+}
+
+.btn-skip {
+	font-size: 14px;
+	padding: 5px 8px;
+}
+
+.player-volume {
+	margin: 10px 20px;
+	margin-left: 110px;
+	padding-left: 20px;
+	max-width: 150px;
+}
+
+.player-volume > i {
+	margin-left: -20px;
+	margin-top: 4px;
+}
+
+.player-track-section {
+	padding: 10px;
+	padding-left: 80px;
+	border-radius: 5px;
+	background-color: #0a0a0a;
+	box-shadow: 2px 2px 1px #000 inset;
+	margin: 15px 5px;
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+.player-track-section .song-thumb {
+	height: 43px;
+	width: auto;
+	margin-left: -75px;
+	position: absolute;
+}
+
 
 /* Search page */
-.media.song-vignette .media-body {
-	min-width: 100px;
-}
-
-.media.song-vignette {
+.search-form {
+	margin-top: 25px;
 	margin-bottom: 30px;
 }
 
-/* error message */
-.error .modal-content {
-	background-color: #111;
+.top-element {
+	margin-top: 20px;
+	margin-right: 10px;
 }
 
-.error .modal-header, .modal-footer {
+.song-vignette {
+	height: 60px;
+	background-color: #222;
+	display: block;
+	padding: 5px 20px;
+	margin-bottom: 3px;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+a.song-vignette {
+	text-decoration: none;
+}
+
+a.song-vignette:hover {
+	background-color: #333;
+}
+
+.song-vignette .song-thumb{
+	float: left;
+	width: 50px;
+	margin-right: 20px;
+	height: 100%;
+}
+
+.song-vignette .song-thumb img {
+	max-height: 100%;
+	width: auto;
+}
+
+.song-vignette .song-title {
+	margin:	10px;
+	margin-right: 0;
+	color: #aaa;
+	font-weight: bold;
+	font-size: 18px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.song-remove {
+	float: left;
+	margin-left: -15px;
+	margin-top: 15px;
+	color: #555;
+	text-decoration: none;
+}
+
+.song-remove:hover {
+	color: #aaa;
+	text-decoration: none;
+}
+
+.suggBox {
+	margin: 20px;
 	background-color: #181818;
-	border: none;
+	box-shadow: 1px 1px 2px #000 inset;
+	padding: 15px;
+	padding-bottom: 5px;
+	position: relative;
 }
 
-.error .modal-body {
-	margin-bottom: 10px;
+a.suggIcon {
+	display: inline-block;
+	margin-right: 20px;
+	color: #277CA3;
 }
 
-.error .modal-header {
-	box-shadow: 0px 1px 2px #000;
+.suggTitle {
+	text-align: center;
+	display: block;
+	font-weight: bold;
 }
 
-.error .modal-footer {
-	margin: 0;
-	box-shadow: 0px -1px 2px #000;
+.suggIcon img {
+	height: 120px;
+	width: auto;
 }
 
-.side-column {
-	border-right: 1px #333 solid;
-	min-height: 800px;
-	margin-bottom: 10px;
+.suggIcon:hover .overlay {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	background-image: url('/img/overlay-add.png');
+	background-repeat: no-repeat;
+	opacity: 0.4;
+	background-position: 28px 28px;
+	background-color: #fff;
 }
 
-.qr-inner {
+.suggBox > .overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0.7;
+	background-color: black;
+	top: 0px;
+	left: 0px;
+}
+
+.suggBox > .overlay > img {
 	margin: auto;
+	display: block;
+	margin-top: 60px;
+}
+
+.suggIcon:hover {
+	text-decoration: none;
+}
+
+.x-scroller {
+	white-space: nowrap;
+	overflow-x: auto;
+	padding-bottom: 5px;
+}
+
+/* Slider lib fix */
+.slider.slider-horizontal {
+	width: 100%; !important
 }
