@@ -10,13 +10,13 @@ define([
 	'models/Session',
 	'models/Party',
 	'components/Player',
-	'components/PartyInfo',
-	'components/Home',
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
 	'components/QRCode',
 	'components/Playlist',
+	'components/Home',
+	'components/Music',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -27,13 +27,13 @@ define([
 	Session,
 	Party,
 	Player,
-	PartyInfo,
-	HomeView,
 	SearchView,
 	Navbar,
 	ErrorDialog,
 	QRCode,
 	Playlist,
+	Home,
+	MusicView,
 	PlaybackController
 ){
 
@@ -64,11 +64,33 @@ define([
 				});
 			},
 
-			'': function () {
+			'search': function() {
 				this.setState({
-					dialog: null,
+					main: 'search',
+					query: null
+				});
+			},
+
+			'home': function() {
+				this.setState({
 					main: 'home'
 				});
+			},
+
+			'playlist': function() {
+				this.setState({
+					main: 'playlist'
+				});
+			},
+
+			'music': function() {
+				this.setState({
+					main: 'music'
+				});
+			},
+
+			'': function () {
+				this.router.navigate('home', {trigger: true, replace: true});
 			}
 		},
 
@@ -165,9 +187,11 @@ define([
 
 			var main;
 			if (this.state.main === 'home')
-				main = <HomeView party={currentParty} />;
+				main = <Home party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
+			else if (this.state.main === 'music')
+				main = <MusicView party={currentParty} />
 
 			if (this.state.error)
 				this.state.error.forEach(function(error){
@@ -177,28 +201,13 @@ define([
 			return (
 				<div>
 					<Navbar session={ session } player={this.state.currentPlayer} />
-					<div class="top">
-						<div class="container">
-							<Player
-								playbackController={ this.state.playbackController }
-								onUpdateCurrentPlayer={this.onUpdateCurrentPlayer}
-								onError={this.onPlayerError}/>
-						</div>
+					<div class="side">
+						<Player playbackController={this.state.playbackController} />
+						<Playlist party={currentParty} />
 					</div>
-					<div class="contents">
-						<div class="container main-contents">
-							<div class="row">
-								<div class="col-4 side-column">
-									<h3 class="side-title">Scan to vote!</h3>
-			            <QRCode data={this.state.QRCodeURL} />
-			            <div class="col-12">
-				            <Playlist party={currentParty} />
-				          </div>
-			          </div>
-			          <div class="col-8">
-								{main}
-								</div>
-							</div>
+					<div class="main row">
+						<div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+							{main}
 						</div>
 					</div>
 					{dialog}

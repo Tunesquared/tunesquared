@@ -14,13 +14,14 @@ define(['backbone', 'underscore'], function(Backbone, _) {
     },
 
     fetch: function(opts) {
-      var self = this, options, success = opts.success;
+      var self = this, options, success = (opts && opts.success) || undefined;
 
       if (this.fetched === false) {
         options = _.extend(opts || {}, {
           success: function() {
             self.fetched = true;
-            success.apply(this, arguments);
+            if (success)
+              success.apply(this, arguments);
           }
         });
         fetch.call(this, options);

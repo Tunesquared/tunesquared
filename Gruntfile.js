@@ -46,10 +46,10 @@ module.exports = function(grunt) {
           waitSeconds: 0,
           paths: {
             // Files that should be loaded from a CDN
-            'socket.io': 'empty:'
+            'socket.io': 'empty:',
+            'react': 'empty:'
            /* jquery: 'empty:',
-            underscore: 'empty:',
-            react: 'empty:'*/
+            underscore: 'empty:'*/
           }
         }
       },

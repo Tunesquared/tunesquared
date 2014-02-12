@@ -54,7 +54,7 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 
 		onFirstPage: function(jqEvt, evt){
 			var self = this;
-			var name = this.refs.nameInput.getValue();
+			var name = this.state.nameInputValue;
 			this.setState({error: null});
 
 			if(name === ''){
@@ -109,60 +109,64 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 			$(this.getDOMNode()).wizard('next');
 		},
 
+		onNameInputChange: function(e) {
+			this.setState({nameInputValue: e.target.value});
+		},
+
 		render: function(){
 			return (
-			<div class="modal fade" >
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title">Start your party</h4>
+			<div className="modal fade" >
+				<div className="modal-dialog">
+					<div className="modal-content">
+						<div className="modal-header">
+							<button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 className="modal-title">Start your party</h4>
 						</div>
-						<div class="modal-body">
+						<div className="modal-body">
 							<div data-role="page">
 								<form onSubmit={this.onNameSubmit}>
-									<label class="control-label" for="party-name-input">Choose a cool name for your party :</label>
-									<div class={'control-group '+(this.state.error != null ? 'text-danger' : '')}>
-										<div class="controls">
-											<input type="text" id="party-name-input" class="form-control" ref="nameInput" />
-											<span class="help-inline">{this.state.error}</span>
+									<label className="control-label" for="party-name-input">Choose a cool name for your party :</label>
+									<div className={'control-group '+(this.state.error != null ? 'text-danger' : '')}>
+										<div className="controls">
+											<input type="text" id="party-name-input" className="form-control" ref="nameInput"
+												value={this.state.nameInputValue} onChange={this.onNameInputChange}/>
+											<span className="help-inline">{this.state.error}</span>
 										</div>
 									</div>
-									<span class="help-block">Use something easy to remember so your guests can connect quickly to your party.</span>
+									<span className="help-block">Use something easy to remember so your guests can connect quickly to your party.</span>
 								</form>
 							</div>
 							<div data-role="page">
-								<div class="container-fluid">
-									<div class="row-fluid">
-										<div class="col-12">
-											<p>Your guests can now access this party using one of the following method:</p>
-										</div>
+								<div className="row">
+									<div className="col-md-12">
+										<p class="lead"><strong>Well done, your party is on !</strong> Your guests can add and vote for songs in one of the following way:</p>
 									</div>
-									<div class="row">
-										<div class="col-5">
-											<p>Let them scan this code</p>
-											<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
-										</div>
-										<div class="col-2">
-											<p>OR</p>
-										</div>
-										<div class="col-5">
-											<p></p>
-											<div class="mobile-prez">
-												<p class="mobile-prez-text" data-role="mobile-text"></p>
-												<img class="img-responsive" src="img/mobile.png" />
-											</div>
+								</div>
+								<div className="row">
+									<div className="col-md-5">
+										<p>They scan this code</p>
+										<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
+										<p><em>Don't worry, you can find this code later in the app ;)</em></p>
+									</div>
+									<div className="col-md-2">
+										<p>OR</p>
+									</div>
+									<div className="col-md-5">
+										<p>They go to <strong>tunesquared.com</strong> with their mobile.</p>
+										<div className="mobile-prez">
+											<p className="mobile-prez-text" data-role="mobile-text"></p>
+											<img className="img-responsive" src="img/mobile.png" />
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="modal-footer">
+						<div className="modal-footer">
 							<img src="img/ajax-loader.gif" alt="loading" title="loading" data-role="loader"/>
-							<button type="button" class="btn btn-default" data-role="cancel" data-dismiss="modal">Cancel</button>
-							<button type="button" class="btn btn-default" data-role="prev" >Previous</button>
-							<button type="button" class="btn btn-primary" data-role="done" >Done</button>
-							<button type="button" class="btn btn-primary" data-role="next" >Next</button>
+							<button type="button" className="btn btn-default" data-role="cancel" data-dismiss="modal">Cancel</button>
+							<button type="button" className="btn btn-default" data-role="prev" >Previous</button>
+							<button type="button" className="btn btn-primary" data-role="done" >Done</button>
+							<button type="button" className="btn btn-primary" data-role="next" >Next</button>
 						</div>
 					</div>
 				</div>
