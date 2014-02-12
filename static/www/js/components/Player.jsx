@@ -177,7 +177,7 @@ define([
           </div>
           <div class="player-track-section clearfix">
             <img class="song-thumb" src={song.thumb} />
-            <span class="player-song-title">{song.title}</span>
+            <a href="#home" class="player-song-title">{song.title}</a>
             <div class="progress-slider" data-ref="progress-slider" ref="progress-slider"></div>
           </div>
         </div>);

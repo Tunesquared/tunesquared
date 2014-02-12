@@ -26,7 +26,7 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
     function YoutubePlayer(song, element, ready) {
       Player.apply(this, arguments);
 
-      _.bindAll(this, 'onReady', 'onStateChange', 'fixSeek');
+      _.bindAll(this, 'onReady', 'onStateChange', 'onError', 'fixSeek');
       /*
             We want the attributes to be modified when resizing, not the css. This is
             because we create an "object" DOM node which takes "width" and "height"
@@ -68,7 +68,8 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
         },
         events: {
           'onReady': this.onReady,
-          'onStateChange': this.onStateChange
+          'onStateChange': this.onStateChange,
+          'onError': this.onError
         }
       });
 
@@ -193,7 +194,11 @@ define(['underscore', 'players/LayoutManager', 'players/Player', 'noext!//www.yo
         Bad messages from the youtube player to the app.
     */
     YoutubePlayer.prototype.onError = function (err) {
-      throw new Error('youtube error : ' + err);
+      console.error('youtube error : ');
+      console.log(err);
+
+      this.stop();
+      this.trigger('end');
     };
 
     YoutubePlayer.prototype.fixSeek = function(time) {

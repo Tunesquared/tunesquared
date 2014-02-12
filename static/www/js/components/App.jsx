@@ -10,14 +10,13 @@ define([
 	'models/Session',
 	'models/Party',
 	'components/Player',
-	'components/PartyInfo',
 	'components/Search',
 	'components/Navbar',
 	'components/ErrorDialog',
 	'components/QRCode',
 	'components/Playlist',
-	'components/Settings',
 	'components/Home',
+	'components/Music',
 	'controllers/PlaybackController'
 ], function(
 	React,
@@ -28,14 +27,13 @@ define([
 	Session,
 	Party,
 	Player,
-	PartyInfo,
 	SearchView,
 	Navbar,
 	ErrorDialog,
 	QRCode,
 	Playlist,
-	SettingsView,
 	Home,
+	MusicView,
 	PlaybackController
 ){
 
@@ -192,8 +190,8 @@ define([
 				main = <Home party={currentParty} />;
 			else if(this.state.main === 'search')
 				main = <SearchView party={currentParty} query={this.state.query} />
-			else if (this.state.main === 'partySettings')
-				main = <SettingsView party={currentParty} />
+			else if (this.state.main === 'music')
+				main = <MusicView party={currentParty} />
 
 			if (this.state.error)
 				this.state.error.forEach(function(error){

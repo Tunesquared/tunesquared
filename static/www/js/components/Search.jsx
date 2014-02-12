@@ -133,7 +133,8 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			this.props.party.get('playlist').add(song);
 		},
 
-		doSearch: function() {
+		doSearch: function(evt) {
+			evt.preventDefault();
 			window.location.hash = 'search/'+this.refs['search-input'].state.value;
 		},
 

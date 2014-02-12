@@ -110,6 +110,9 @@ body {
 	display: block;
 	overflow: hidden;
 }
+.player-song-title:hover {
+	text-decoration: none;
+}
 
 .player-controls .btn {
 	border-radius: 0;
@@ -191,6 +194,7 @@ a.song-vignette:hover {
 	float: left;
 	width: 50px;
 	margin-right: 20px;
+	height: 100%;
 }
 
 .song-vignette .song-thumb img {
@@ -220,6 +224,69 @@ a.song-vignette:hover {
 .song-remove:hover {
 	color: #aaa;
 	text-decoration: none;
+}
+
+.suggBox {
+	margin: 20px;
+	background-color: #181818;
+	box-shadow: 1px 1px 2px #000 inset;
+	padding: 15px;
+	padding-bottom: 5px;
+	position: relative;
+}
+
+a.suggIcon {
+	display: inline-block;
+	margin-right: 20px;
+	color: #277CA3;
+}
+
+.suggTitle {
+	text-align: center;
+	display: block;
+	font-weight: bold;
+}
+
+.suggIcon img {
+	height: 120px;
+	width: auto;
+}
+
+.suggIcon:hover .overlay {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	background-image: url('/img/overlay-add.png');
+	background-repeat: no-repeat;
+	opacity: 0.4;
+	background-position: 28px 28px;
+	background-color: #fff;
+}
+
+.suggBox > .overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0.7;
+	background-color: black;
+	top: 0px;
+	left: 0px;
+}
+
+.suggBox > .overlay > img {
+	margin: auto;
+	display: block;
+	margin-top: 60px;
+}
+
+.suggIcon:hover {
+	text-decoration: none;
+}
+
+.x-scroller {
+	white-space: nowrap;
+	overflow-x: auto;
+	padding-bottom: 5px;
 }
 
 /* Slider lib fix */

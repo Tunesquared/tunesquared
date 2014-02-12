@@ -22,8 +22,6 @@ define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 						<i class="icon-remove"></i>
 					</a>
 					<div class="song-thumb">
-						<div class="song-thumb-overlay">
-						</div>
 						<img src={song.thumb} />
 					</div>
 					<div class="song-title">

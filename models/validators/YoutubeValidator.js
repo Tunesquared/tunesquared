@@ -21,7 +21,9 @@ module.exports = function(data, cb) {
 
 	req.on('error', function(err){
 		console.error(err);
+		cb(false);
 	});
 
+	req.shouldKeepAlive = false;
 	req.end();
 };

@@ -1,29 +1,5 @@
 /** @jsx React.DOM */
 
-var playlists_data = [
-  {
-    name: "jazz",
-    thumb: "http://lol",
-    songs: [
-      {
-        title: "test",
-        source: "youtube",
-        data: "12345"
-      }, {
-        title: "another test",
-        source: "youtube",
-        data: "4567"
-      }
-    ]
-  },
-  {
-    name: "electro",
-    thumb: "http://tuveuxunemedaille",
-    songs: [
-    ]
-  }
-];
-
 'use strict';
 define([
   'react',
@@ -33,7 +9,8 @@ define([
   'players/LayoutProxy',
   'models/suggestions',
   'utils',
-  'components/QRCode'
+  'components/QRCode',
+  'components/PlaylistSuggest'
 ], function(
   React,
   $,
@@ -42,7 +19,8 @@ define([
   LayoutProxy,
   suggestions,
   utils,
-  QRCode){
+  QRCode,
+  PlaylistSuggest){
 
   var Visu = React.createClass({
     getInitialState: function() {
@@ -59,9 +37,6 @@ define([
       _.defer(function(){
         self.updateVisualisation(null, LayoutProxy.getLayout());
       });
-
-
-      this.refreshSuggestions();
     },
 
     componentWillUnmount: function() {
@@ -93,59 +68,20 @@ define([
       }
     },
 
-    refreshSuggestions: function(cb) {
-      var self = this;
-      console.log('sugg');
-      suggestions.fetch({
-        success: function(sugg){
-          self.setState({
-            suggestions: sugg.toJSON()
-          });
-        }
-      });
-    },
-
-    onChooseSong: function (song) {
-      mixpanel.track('pick suggestion', {
-        party_id: this.props.party.id,
-        song_title: song.title
-      });
-      this.props.party.get('playlist').add(song);
-    },
-
     render: function(){
       var party = this.props.party;
 
-      var suggestions = [];
-      for (var i = 0 ; i*3 < this.state.suggestions.length ; i++) {
-        var row = [];
-        for(var j = 0 ; i*3 + j < this.state.suggestions.length && j < 3; j++) {
-          var sug = this.state.suggestions[i*3+j];
-          row.push(<div class="col-4">
-            <SongVignette song={sug} onClick={this.onChooseSong} />
-          </div>);
-        }
-        suggestions.push(<div class="row">{row}</div>);
-      }
-
-      var playlists = _.map(playlists_data, function(d) {
-        return (
-          <div class="playlist-vignette">
-            <img src="{d.thumb}" />
-            <span class="playlist-title">
-              {d.title}
-            </span>
-          </div>
-        );
-      });
-
       var visu_placeholder = <div class="col-lg-12">
-          <p class="lead">You seem to have no music in your playlist. How about you pick one of the following to get started.<br />
-          These are bootstrap playlist, you can add any song from youtube (and soon many other sources) using the search bar above.
+          <p class="lead"><strong>Hello there !</strong> You can now add songs to your playlist.
+          Use the search bar on the left to find what you need. We also provide <strong>thematic playlists</strong>
+          you can use as a starting point.
           </p>
-          <div class="">
-            {playlists}
-          </div>
+          <p>
+            Once you've added a few songs, sit back and relax, let your guests take control of your playlist.<br />
+            In case you need more songs, check out the <a href="#music">music page</a>.
+          </p>
+          <h2>Pick a playlist to get started</h2>
+          <PlaylistSuggest party={this.props.party} />
         </div>;
 
       var currentSong = this.props.party.get('currentSong');
@@ -167,7 +103,7 @@ define([
                   data={"http://tunesquared.com/party/" + encodeURIComponent(party.get('name'))} />
               </div>
               <h1>Party : {party.get('name')}<br />
-                <small>Vote for the next song with your smartphone now on tunesquared.com !</small>
+                <small>Vote for the next song with your smartphone now on tunesquared.com !<br />Or simply flash this code:</small>
               </h1>
             </div>
           </div>
