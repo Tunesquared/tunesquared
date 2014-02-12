@@ -160,8 +160,8 @@ var suggestions = [{
     "thumb": "http://i1.ytimg.com/vi/zhAmug6Ts6o/0.jpg"
   }, {
     "source": "youtube",
-    "data": "W-TE_Ys4iwM",
-    "title": "30 Seconds to Mars",
+    "data": "mLqHDhF-O28",
+    "title": "30 Seconds To Mars - Closer To The Edge",
     "thumb": "http://i1.ytimg.com/vi/W-TE_Ys4iwM/0.jpg"
   }, {
     "source": "youtube",

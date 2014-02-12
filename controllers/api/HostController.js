@@ -11,7 +11,6 @@ var Party = require('../../models/Party');
 var Song = require('../../models/Song');
 
 framework.Controller({
-
 	/*
 		Adds a set of songs to the playlist
 		expects :
