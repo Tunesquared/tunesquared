@@ -203,8 +203,6 @@ a.song-vignette:hover {
 }
 
 .song-vignette .song-title {
-	margin:	10px;
-	margin-right: 0;
 	color: #aaa;
 	font-weight: bold;
 	font-size: 18px;
