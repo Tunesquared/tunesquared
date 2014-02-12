@@ -7,12 +7,14 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 
 	var PubSubController = function (session) {
 
-		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove', 'onRemoteAddSongs', 'onRemoteVoteSong', 'onPlaylistAddMany');
+		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove',
+			'onRemoteAddSongs', 'onRemoteVoteSong', 'onPlaylistAddMany', 'reconnect');
 
 		this._session = session;
 
 		socket.on('playlistAddSongs', this.onRemoteAddSongs);
 		socket.on('playlistVoteSong', this.onRemoteVoteSong);
+		socket.on('reconnect', this.reconnect);
 
 		session.on('change:party', this.onChangeParty);
 		this.onChangeParty();
@@ -45,6 +47,13 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		this._playlist.on('add', this.onPlaylistAdd);
 		this._playlist.on('addMany', this.onPlaylistAddMany);
 		this._playlist.on('remove', this.onPlaylistRemove);
+	};
+
+	PubSubController.prototype.reconnect = function() {
+		console.log('reco');
+		if (this._party) {
+			socket.emit('subscribeToParty', this._party.id);
+		}
 	};
 
 	PubSubController.prototype.onCurrentSongChange = function (party, song) {
