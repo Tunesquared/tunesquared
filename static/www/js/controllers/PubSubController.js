@@ -84,7 +84,8 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 			songs: songs
 		}, function (err, data) {
 			if (err) throw err;
-			coll.set(data);
+			//coll.set(data);
+			coll.add(data, {merge: true, remote: true});
 		});
 	};
 
