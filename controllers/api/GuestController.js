@@ -19,13 +19,10 @@ new framework.Router({
       name: req.param('name').toLowerCase()
     }, function (err, mod) {
 
-      res.setHeader('Content-Type', 'application/json');
       if (err) {
         res.send('{"error": "' + err + '"}');
       } else if (mod === null) {
-        res.send(JSON.stringify({
-          error: 'Cannot find party ' + req.param('name')
-        }));
+        res.render('partyNotFound', {name: req.param('name')});
       } else {
 
         req.session.partyId = mod._id;
