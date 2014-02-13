@@ -18,7 +18,7 @@ define(['$', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, 
 				score1 === score2 &&
 					(s1.attributes.votes_no < s2.attributes.votes_no ||
 					s1.attributes.votes_no === s2.attributes.votes_no &&
-						s1.attributes.title < s2.attributes.title)) ? -1 : 1;
+						s1.attributes.lastVoteTS < s2.attributes.lastVoteTS)) ? -1 : 1;
 		},
 
 		add: function(song, callbacks) {
