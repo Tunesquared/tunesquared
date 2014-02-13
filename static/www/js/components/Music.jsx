@@ -12,15 +12,15 @@ define(['react', 'components/PlaylistSuggest'], function(React, Suggestions) {
     render: function() {
       return <div className="col-lg-12">
       <div className="page-header">
-        <h1>Music <small>Find the music you want to hear.</small></h1>
+        <h1>Music <small>Add songs you want to listen to.</small></h1>
       </div>
       <p>
       </p>
       <div class="alert">
-        <strong>Pro tip:</strong> Remember that your guests can add their own songs. You only need some music to play before they take control.<br />
-        Also, songs in the playlist are more visible, you can use this to promote songs you like ;)
+        <strong>Hint:</strong> Remember that your guests can add their own songs, but you need some music to get the party started.<br />
+        Give them good ideas by putting in the music you like ;)
       </div>
-      <h2>Pick one of our thematic selections:</h2>
+      <h2>Pick one of our instant playlists:</h2>
       <Suggestions party={this.props.party} />
       <h2>Or search songs yourself:</h2>
       <form class="row search-form" onSubmit={this.doSearch}>
