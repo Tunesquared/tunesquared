@@ -4686,7 +4686,8 @@ define('models/Song',['$', 'backbone'], function ($, Backbone) {
           votes_yes: 0,
           votes_no: 0,
           thumb: '',
-          data: null
+          data: null,
+          lastVoteTS: Date.now
         },
 
         voteYes: function (callbacks) {
@@ -4751,7 +4752,7 @@ define('models/Playlist',['$', 'underscore', 'backbone', 'models/Song'], functio
 				score1 === score2 &&
 					(s1.attributes.votes_no < s2.attributes.votes_no ||
 					s1.attributes.votes_no === s2.attributes.votes_no &&
-						s1.attributes.title < s2.attributes.title)) ? -1 : 1;
+						s1.attributes.lastVoteTS < s2.attributes.lastVoteTS)) ? -1 : 1;
 		},
 
 		add: function(song, callbacks) {
