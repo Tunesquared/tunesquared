@@ -16,11 +16,11 @@ define(['underscore', 'backbone', 'models/Song'], function (_, Backbone, Song) {
 				score1 === score2 &&
 					(s1.attributes.votes_no < s2.attributes.votes_no ||
 					s1.attributes.votes_no === s2.attributes.votes_no &&
-						s1.attributes.title < s2.attributes.title)) ? -1 : 1;
+						s1.attributes.lastVoteTS < s2.attributes.lastVoteTS)) ? -1 : 1;
 		},
 
 		addMany: function(songs) {
-			this.add(songs, {silent: true});
+			// this.add(songs, {silent: true}); Doesn't actually adds them and hopes a controller will do so.
 			this.trigger('addMany', songs, this)
 		},
 

@@ -20,7 +20,8 @@ define(['jquery', 'backbone'], function ($, Backbone) {
           votes_yes: 0,
           votes_no: 0,
           thumb: '',
-          data: null
+          data: null,
+          lastVoteTS: Date.now
         },
 
         voteYes: function (callbacks) {
