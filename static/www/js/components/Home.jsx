@@ -72,8 +72,8 @@ define([
       var party = this.props.party;
 
       var visu_placeholder = <div class="col-lg-12">
-          <p class="lead"><strong>Hello there !</strong> You can now add songs to your playlist.
-          Use the search bar on the left to find what you need. We also provide <strong>thematic playlists</strong>
+          <p class="lead"><strong>Hi there !</strong> You can now add songs to your playlist.
+          Use the search bar on the left to find what you need. We also provide <strong>playlists</strong>
           you can use as a starting point.
           </p>
           <p>
@@ -103,7 +103,7 @@ define([
                   data={"http://tunesquared.com/party/" + encodeURIComponent(party.get('name'))} />
               </div>
               <h1>Party : {party.get('name')}<br />
-                <small>Vote for the next song with your smartphone now on tunesquared.com !<br />Or simply flash this code:</small>
+                <small>Add music or vote for the next songs on tunesquared.com!<br />Simply flash this code using your smartphone:</small>
               </h1>
             </div>
           </div>

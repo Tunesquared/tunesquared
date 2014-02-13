@@ -150,19 +150,14 @@ var suggestions = [{
     "thumb": "http://i1.ytimg.com/vi/zhAmug6Ts6o/0.jpg"
   }, {
     "source": "youtube",
-    "data": "W-TE_Ys4iwM",
-    "title": "Bastille - Pompeii",
-    "thumb": "http://i1.ytimg.com/vi/W-TE_Ys4iwM/0.jpg"
-  }, {
-    "source": "youtube",
-    "data": "zhAmug6Ts6o",
-    "title": "The Prodigy -",
-    "thumb": "http://i1.ytimg.com/vi/zhAmug6Ts6o/0.jpg"
+    "data": "xMVTKOoy1uk",
+    "title": "The Prodigy - Omen",
+    "thumb": "http://i1.ytimg.com/vi/xMVTKOoy1uk/0.jpg"
   }, {
     "source": "youtube",
     "data": "mLqHDhF-O28",
     "title": "30 Seconds To Mars - Closer To The Edge",
-    "thumb": "http://i1.ytimg.com/vi/W-TE_Ys4iwM/0.jpg"
+    "thumb": "http://i1.ytimg.com/vi/mLqHDhF-O28/0.jpg"
   }, {
     "source": "youtube",
     "data": "fJ9rUzIMcZQ",
@@ -502,9 +497,9 @@ var suggestions = [{
     "thumb": "http://i1.ytimg.com/vi/UxxajLWwzqY/0.jpg"
   }, {
     "source": "youtube",
-    "data": "CevxZvSJLk8",
+    "data": "eimgRedLkkU",
     "title": "Empire of the Sun - Walking on a Dream",
-    "thumb": "http://i1.ytimg.com/vi/CevxZvSJLk8/0.jpg"
+    "thumb": "http://i1.ytimg.com/vi/eimgRedLkkU/0.jpg"
   }, {
     "source": "youtube",
     "data": "79YDgv_zWA4",
