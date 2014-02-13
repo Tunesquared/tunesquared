@@ -150,6 +150,10 @@ body, html {
   transition-duration: 300ms;
 }
 
+.nav > li > a.icon {
+  display: inline;
+}
+
 .side-menu.active {
   left: 0px;
   width: 100%;
