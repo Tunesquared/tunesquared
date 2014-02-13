@@ -9,22 +9,16 @@ define(['react'], function(React){
 
 		render: function () {
 			return (
-				<div class="media song-vignette">
-					<a href="#" onClick={this.onClick}>
-						<div class="pull-left">
-							<div class="media-object">
-								<div class="img-action-overlay hide">
-									<img src="img/overlay-add.png" class="img-responsive" title="add to playlist" />
-								</div>
-								<img src={this.props.song.thumb} />
-							</div>
+				<a href="#" onClick={this.onClick} class="song-vignette">
+					<div class="song-thumb">
+						<div class="song-thumb-overlay">
 						</div>
-						<div class="media-body">
-							<h4 class="media-heading">{this.props.song.title} </h4>
-							by {this.props.song.artist}
-						</div>
-					</a>
-				</div>
+						<img src={this.props.song.thumb} />
+					</div>
+					<div class="song-title">
+						{this.props.song.title}
+					</div>
+				</a>
 			);
 		}
 	});

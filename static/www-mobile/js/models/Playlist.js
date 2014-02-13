@@ -8,14 +8,17 @@ define(['$', 'underscore', 'backbone', 'models/Song'], function($, _, Backbone, 
 		model: Song,
 
 		// /!\ See desktop app comparator to be consistent
-		comparator: function (song) {
+		comparator: function (s1, s2) {
 			// Songs are sorted in reverse-order : lower is better
 
+			var score1 = s1.attributes.votes_yes - s1.attributes.votes_no;
+			var score2 = s2.attributes.votes_yes - s2.attributes.votes_no;
 			// Sorts by absolute vote value
-			return song.get('votes_no') - song.get('votes_yes') +
-
-			// Plus a little bonus to solve ties (more yes is absolutely better)
-			(1/(song.get('votes_yes')+1));
+			return (score1 > score2 ||
+				score1 === score2 &&
+					(s1.attributes.votes_no < s2.attributes.votes_no ||
+					s1.attributes.votes_no === s2.attributes.votes_no &&
+						s1.attributes.lastVoteTS < s2.attributes.lastVoteTS)) ? -1 : 1;
 		},
 
 		add: function(song, callbacks) {

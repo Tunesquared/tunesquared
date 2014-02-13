@@ -71,7 +71,11 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 
 			if(this.queryIterator){
 				this.queryIterator.release();
+				this.queryIterator = null;
 			}
+
+			if (props.query == null) return;
+
 			this.queryIterator = this.searchAggregator.query(props.query);
       this.queryIterator.exec();
       this.fetchNewResults(force);
@@ -129,40 +133,61 @@ define(['underscore', 'jquery', 'react', 'search/Search', 'search/YoutubeSource'
 			this.props.party.get('playlist').add(song);
 		},
 
+		doSearch: function(evt) {
+			evt.preventDefault();
+			window.location.hash = 'search/'+this.refs['search-input'].state.value;
+		},
+
 		render: function(){
 			var i = 0, j = 0, vignettes = [];
 			var results = this.state.results;
 
-			for(i = 0 ; i*VIGNETTES_PER_ROW < results.length ; i ++){
-				var row = [];
-				for(j = 0 ; i*VIGNETTES_PER_ROW + j < results.length && j < VIGNETTES_PER_ROW ; j++){
-					row.push(<div class="col-4"><SongVignette onClick={this.onChooseSong} key={j} song={results[i*VIGNETTES_PER_ROW+j]} /></div>);
-				}
-				vignettes.push(<div class="row" key={i}>{row}</div>);
-			}
+			var vignettes = results.map(function(r) {
+				return <SongVignette onClick={this.onChooseSong} song={r} />;
+			}, this);
 
 			var loader = (this.state.loading) ?
 					<div class="row">
-						<div class="span1 offset5">
+						<div class="col-lg-1 col-lg-offset-5">
 							<img src="img/ajax-loader.gif" title="loading" alt="loading" />
 						</div>
 					</div> : '';
 
 			var endSign = (this.state.end) ?
 					<div class="row">
-						<div class="span2 offset5">
+						<div class="col-lg-2 col-lg-offset-5">
 							{(this.state.results.length === 0) ? 'No results found' : 'no more results' }
 						</div>
 					</div> : '';
 
-			return (
+
+			var resultsDiv = (
 				<div>
-					<a class="btn btn-default pull-left" href="#"><i class="icon-chevron-left"></i> Back</a>
-					<h2 class="subpage-title">Search results for "{this.props.query}"</h2>
 					<hr />
+					<h2>Search results for {this.props.query}:</h2>
 					{vignettes}
 					{loader}
 					{endSign}
+				</div>
+			);
+
+			return (
+				<div class="col-lg-8 col-lg-offset-2">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<a class="btn btn-default top-element pull-left" href="#"><i class="icon-chevron-left"></i> Back</a>
+							<h1><small>Add some songs from youtube to your playlist.</small></h1>
+						</div>
+					</div>
+					<form class="row search-form" onSubmit={this.doSearch}>
+						<div className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-sm-5 col-sm-offset-1 col-xs-9 col-xs-offset-1">
+							<input ref="search-input" type="search" class="form-control" defaultValue={this.props.query || ''} />
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+							<input type="submit" class="btn btn-primary btn-large center-block" value="Search" />
+						</div>
+					</form>
+					{(this.props.query != null) ? resultsDiv : ''}
 				</div>
 			);
 		}

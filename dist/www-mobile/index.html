@@ -55,16 +55,25 @@ mixpanel.init("28e2611a0534edac40bc3d7fb3b22bf4");</script><!-- end Mixpanel -->
                 <input type="text" id="searchInput"/>
               </form>
             </div>
-            <a href="/m/" class="navbar-brand brand-offset partyName"></a>
+            <a href="/m" class="navbar-brand brand-offset partyName"></a>
           </div>
         </nav>
 
         <div class="side-menu">
           <div class="menu">
-            <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-chevron-left"></span> Back</a>
+            <a class="btn btn-default menu-close" id="close-menu" ><span class="icon-angle-left"></span> <span class="icon-reorder"></span></a>
             <ul class="nav nav-stacked">
               <li class="active"><a href="#">Party</a></li>
               <li><a href="#share">Share</a></li>
+              <hr />
+              <li>
+                <a class="icon" target="_blank" href="//www.facebook.com/tunesquared">
+                  <span class="icon-facebook-sign"></span>
+                </a>
+                <a class="icon" target="_blank" href="//twitter.com/Tunesquared">
+                  <span class="icon-twitter"></span>
+                </a>
+              </li>
               <hr />
               <li><a href="#exit"><span class="icon-signout"></span> Exit</a></li>
             </ul>
@@ -83,12 +92,12 @@ mixpanel.init("28e2611a0534edac40bc3d7fb3b22bf4");</script><!-- end Mixpanel -->
         <div class="contents-header"><h1>Currently played:</h1></div>
         <div id="currentSong">
           <div class="thumbnail">
-            <img src="<%= currentSong.get('thumb') %>" alt="img" />
+            <img src="<%- currentSong.get('thumb') %>" alt="img" />
           </div>
-          <h2><%= currentSong.get('title') %></h2>
+          <h2><%- currentSong.get('title') %></h2>
           <div class="labels">
-            <span class="label label-success"><i class="icon-thumbs-up"></i> <%= currentSong.get('votes_yes') %></span>
-            <span class="label label-danger"><i class="icon-thumbs-down"></i> <%= currentSong.get('votes_no') %></span>
+            <span class="label label-success"><i class="icon-thumbs-up"></i> <%- currentSong.get('votes_yes') %></span>
+            <span class="label label-danger"><i class="icon-thumbs-down"></i> <%- currentSong.get('votes_no') %></span>
           </div>
         </div>
       <% } %>
@@ -118,23 +127,23 @@ mixpanel.init("28e2611a0534edac40bc3d7fb3b22bf4");</script><!-- end Mixpanel -->
     <script type="text/template" id="songTemplate">
       <div class="playlist-song">
         <div class="thumbnail">
-          <img src="<%= thumb %>" alt="img"/>
+          <img src="<%- thumb %>" alt="img"/>
         </div>
         <div class="btn-group vote-buttons song-action">
-          <button type="button" class="btn btn-default <%= (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%= votes_yes %></button>
-          <button type="button" class="btn btn-default <%= (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%= votes_no %> <i class="icon-thumbs-down"></i></button>
+          <button type="button" class="btn btn-default <%- (vote === 'yes')? 'btn-success disabled' : 'btn-success' %> voteYes" ><i class="icon-thumbs-up"></i> <%- votes_yes %></button>
+          <button type="button" class="btn btn-default <%- (vote === 'no')? 'btn-danger disabled' : 'btn-danger' %> voteNo"><%- votes_no %> <i class="icon-thumbs-down"></i></button>
         </div>
-        <h2><%= title %></h2>
+        <h2><%- title %></h2>
       </div>
     </script>
 
     <script type="text/template" id="searchSongTemplate">
       <div class="playlist-song search-result">
         <div class="thumbnail">
-          <img src="<%= thumb %>" alt="img"/>
+          <img src="<%- thumb %>" alt="img"/>
         </div>
         <button type="button" class="btn btn-default song-action addButton">Add</button>
-        <h2><%= title %></h2>
+        <h2><%- title %></h2>
       </div>
     </script>
 

@@ -7,12 +7,14 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 
 	var PubSubController = function (session) {
 
-		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove', 'onRemoteAddSongs', 'onRemoteVoteSong');
+		_.bindAll(this, 'onChangeParty', 'onPlaylistAdd', 'onPlaylistRemove',
+			'onRemoteAddSongs', 'onRemoteVoteSong', 'onPlaylistAddMany', 'reconnect');
 
 		this._session = session;
 
 		socket.on('playlistAddSongs', this.onRemoteAddSongs);
 		socket.on('playlistVoteSong', this.onRemoteVoteSong);
+		socket.on('reconnect', this.reconnect);
 
 		session.on('change:party', this.onChangeParty);
 		this.onChangeParty();
@@ -43,7 +45,15 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		this._playlist = playlist;
 
 		this._playlist.on('add', this.onPlaylistAdd);
+		this._playlist.on('addMany', this.onPlaylistAddMany);
 		this._playlist.on('remove', this.onPlaylistRemove);
+	};
+
+	PubSubController.prototype.reconnect = function() {
+		console.log('reco');
+		if (this._party) {
+			socket.emit('subscribeToParty', this._party.id);
+		}
 	};
 
 	PubSubController.prototype.onCurrentSongChange = function (party, song) {
@@ -74,6 +84,17 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 		}, function (err, data) {
 			if (err) throw err;
 			song.set(data[0]);
+		});
+	};
+
+	PubSubController.prototype.onPlaylistAddMany = function (songs, coll) {
+		socket.emit('playlistAddSongs', {
+			party: this._party.id,
+			songs: songs
+		}, function (err, data) {
+			if (err) throw err;
+			//coll.set(data);
+			coll.add(data, {merge: true, remote: true});
 		});
 	};
 

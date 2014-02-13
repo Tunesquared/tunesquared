@@ -102,13 +102,13 @@ define([
         if(progress.slider('getValue') !== this.state.progress && this._progressDrag === false)
           progress.slider('setValue', this.state.progress * PROGRESS_STEP);
 
-        this.state.currentPlayer.setVolume(this.state.volume);
+        if (this.state.currentPlayer.getVolume() !== this.state.volume) {
+          this.state.currentPlayer.setVolume(this.state.volume);
 
-        if(this.state.nextPlayer != null){
-          this.state.nextPlayer.setVolume(this.state.volume);
+          if(this.state.nextPlayer != null){
+            this.state.nextPlayer.setVolume(this.state.volume);
+          }
         }
-
-
       }
 		},
 
@@ -156,45 +156,36 @@ define([
     },
 
 		render: function () {
-
-      var contents;
-
       if (this.state.currentPlayer != null) {
-        var song = this.state.currentPlayer.song;
+        var song = this.state.currentPlayer.song.toJSON();
 
         var playButton = this.state.playing ?
-            <a href="#" class="btn btn-primary play-button player-control" onClick={this.onPause}><i class="icon-pause"></i></a> :
-            <a href="#" class="btn btn-primary play-button player-control" onClick={this.onPlay}><i class="icon-play"></i></a>;
+            <a href="#" class="btn btn-primary btn-play" onClick={this.onPause}><i class="icon-pause"></i></a> :
+            <a href="#" class="btn btn-primary btn-play" onClick={this.onPlay}><i class="icon-play"></i></a>;
 
-        contents = (
-          <div class="media">
-            <div class="pull-left">
-              {playButton}
-              <a href="#" class="btn btn-default forward-button player-control" ref="fwd-button" onClick={this.onSkip}>
-                <i class="icon-fast-forward"></i>
-              </a><br />
-              <i class="pull-left icon-volume-up volume-icon"></i>
-              <div class="volume-slider"  data-ref="volume-slider" ref="volume-slider"></div><br />
-            </div>
-            <a class="pull-left" href="#">
-              <img class="media-object" src={this.state.currentPlayer.song.get('thumb')} />
+        return (
+        <div id="player">
+          <div class="player-controls">
+            {playButton}
+            <a href="#" class="btn btn-default btn-skip" onClick={this.onSkip}>
+              <i class="icon-fast-forward"></i>
             </a>
-            <div class="media-body">
-              <div class="player-song-title">
-                <h4 class="media-heading">{this.state.currentPlayer.song.get('title')}</h4>
-              </div>
-              <div data-ref="progress-slider" ref="progress-slider"></div>
-            </div>
-          </div>);
+          </div>
+          <div class="player-volume">
+            <i class="pull-left icon-volume-up volume-icon"></i>
+            <div class="volume-slider" data-ref="volume-slider" ref="volume-slider"></div>
+          </div>
+          <div class="player-track-section clearfix">
+            <img class="song-thumb" src={song.thumb} />
+            <a href="#home" class="player-song-title">{song.title}</a>
+            <div class="progress-slider" data-ref="progress-slider" ref="progress-slider"></div>
+          </div>
+        </div>);
       } else if (this.state.loading){
-        contents = <img src="img/ajax-loader.gif" />;
-      } else {
-        contents = 'Nothing to play. Add some songs to get started.';
+        return <div id="player"> <img src="img/ajax-loader.gif" /></div>;
       }
 
-			return <div id="player">
-        {contents}
-      </div>;
+      return <div id="player"></div>;
 		}
 	});
 

@@ -121,10 +121,10 @@ define(
       else player.pause();
 
       if (this.state.currentPlayer == null) {
-
         player.on('end', this.onPlayerEnd, this);
         player.on('play', this.onPlayerPlay, this);
         player.on('pause', this.onPlayerPause, this);
+        player.on('volumeChange', this.onVolumeChange, this);
 
         //player.play(); // autoplay
 
@@ -204,13 +204,23 @@ define(
       });
     };
 
-    PlaybackController.prototype.watchProgress = function () {
-      if (this.state.currentPlayer != null) {
+    PlaybackController.prototype.onVolumeChange = function(vol) {
+      if (vol !== this.state.volume) {
+        this.setState({
+          volume: vol
+        });
+        this.save({
+          volume: vol
+        });
+      }
+    };
+
+    PlaybackController.prototype.watchProgress = function() {
+      if ( this.state.currentPlayer != null){
         this.setState({
           progress: this.state.currentPlayer.getProgress()
         });
         this.save({
-          volume: this.state.volume,
           seek: this.state.progress * this.state.currentPlayer.getDuration()
         });
       }

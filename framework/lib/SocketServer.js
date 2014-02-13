@@ -19,7 +19,8 @@ var Server = module.exports = function () {
       connect = require('express/node_modules/connect'),
       cookie = require('express/node_modules/cookie'),
       sessionStore = require('./sessionStore'),
-      Socket = require('./Socket');
+      Socket = require('./Socket'),
+      Sessions = require('./Sessions');
 
     var RedisStore = require('socket.io').RedisStore,
       redis = require('redis'),
@@ -68,7 +69,11 @@ var Server = module.exports = function () {
                 sessionID: sessionID,
                 sessionStore: sessionStore
               };
-              handshake(callback, new Session(req, session));
+              req.session = new Session(req, session);
+
+              Sessions.middleware(req, null, function(){
+                handshake(callback, req.session);
+              });
             } else {
               callback('could not retreive session', false);
             }

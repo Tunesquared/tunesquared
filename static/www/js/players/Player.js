@@ -94,6 +94,7 @@ define(
       - 'buffering': when player is buffering
       - 'stop': when player stopps
       - 'end': when player ends
+      - 'volumeChange': when volume changes
 
       Contract:
       - pause state should always be user-initiated. That means any pause event
@@ -150,7 +151,7 @@ define(
     /*
       Sets the volume on a scale from 0 to 100.
     */
-    Player.prototype.setVolume = function ( /* vol */ ) {
+    Player.prototype.setVolume = function (vol) {
       throw new Error(UNIMPLEMENTED);
     };
 
@@ -207,6 +208,13 @@ define(
     */
     Player.prototype.getProgress = function () {
       return this.getSeekTime() / this.getDuration();
+    };
+
+    /*
+      Returns current volume on a scale from 0 to 100
+    */
+    Player.prototype.getVolume = function() {
+      throw new Error(UNIMPLEMENTED);
     };
 
     /*

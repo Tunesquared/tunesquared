@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Bootswatch: Free themes for Twitter Bootstrap</title>
+    <title>Bootswatch: Free themes for Bootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="./flatly/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="./flatly/bootstrap.css" media="screen">
     <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/css/bootswatch.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="./bower_components/bootstrap/assets/js/html5shiv.js"></script>
+      <script src="./bower_components/bootstrap/assets/js/respond.min.js"></script>
+    <![endif]-->
     <script type="text/javascript">
 
      var _gaq = _gaq || [];
@@ -26,15 +31,17 @@
   <body>
     <script src="./assets/js/bsa.js"></script>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
-        <a href="./" class="navbar-brand">Bootswatch</a>
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <div class="nav-collapse collapse" id="navbar-main">
+        <div class="navbar-header">
+          <a href="./" class="navbar-brand">Bootswatch</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
@@ -51,8 +58,8 @@
                 <li><a tabindex="-1" href="./simplex/">Simplex</a></li>
                 <li><a tabindex="-1" href="./slate/">Slate</a></li>
                 <li><a tabindex="-1" href="./spacelab/">Spacelab</a></li>
-                <li><a tabindex="-1" href="./superhero/">Superhero</a></li>
                 <li><a tabindex="-1" href="./united/">United</a></li>
+                <li><a tabindex="-1" href="./yeti/">Yeti</a></li>
               </ul>
             </li>
             <li>
@@ -63,7 +70,7 @@
             </li>
           </ul>
 
-          <ul class="nav navbar-nav pull-right">
+          <ul class="nav navbar-nav navbar-right">
             <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
             <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
           </ul>
@@ -77,12 +84,8 @@
 
         <div class="row">
           <div class="col-lg-12">
-            <h1>Free themes for Twitter Bootstrap</h1>
-
-            <div class="alert alert-block alert-info">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <p>You're currently previewing the themes for Bootstrap 3.0-rc1. These are still a work in progress. If you want to see version 2.3.2, visit <a class="alert-link" href="http://bootswatch.com/2/">bootswatch.com/2/</a>.
-            </div>
+            <h1>Free themes for Bootstrap</h1>
+            <div class="alert alert-info">Check out <a href="./yeti">Yeti</a>, the newest member of the Bootswatch family. <a href="http://news.bootswatch.com/post/67753136761/yeti-a-bootstrap-theme-inspired-by-foundation">More info...</a></div>
             <div id="social">
               <span>
                 <iframe id="gh-fork" src="http://ghbtns.com/github-btn.html?user=thomaspark&repo=bootswatch&type=fork" allowtransparency="true" frameborder="0" scrolling="0" width="53px" height="20px"></iframe>
@@ -104,27 +107,27 @@
 
         <div class="row">
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-file-alt"></i> Easy to Install</h3>
+            <h3><i class="fa fa-file-o"></i> Easy to Install</h3>
             <p>Simply download a CSS file and replace the one in Bootstrap. No messing around with hex values.</p>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-github"></i> Open Source</h3>
+            <h3><i class="fa fa-github"></i> Open Source</h3>
             <p>Bootstrap themes are licensed under Apache 2.0 and maintained by the community on <a target="_blank" href="https://github.com/thomaspark/bootswatch">GitHub</a>.</p>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-wrench"></i> Tuned for 3.0.0</h3>
-            <p>Themes are built for the latest version of Bootstrap. <a target="_blank" href="https://github.com/thomaspark/bootswatch/tags">Older versions</a> are also available to download.</p>  
+            <h3><i class="fa fa-wrench"></i> Tuned for 3.0.3</h3>
+            <p>Themes are built for the latest version of Bootstrap. <a href="http://bootswatch.com/2/">Version 2.3.2</a> and <a target="_blank" href="https://github.com/thomaspark/bootswatch/tags">others</a> are also available to download.</p>  
           </div>
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-cogs"></i> Modular</h3>
+            <h3><i class="fa fa-cogs"></i> Modular</h3>
              <p>Changes are contained in just two LESS files, enabling modification and ensuring forward compatibility.</p>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-cloud"></i> Get Plugged In</h3>
+            <h3><i class="fa fa-cloud"></i> Get Plugged In</h3>
             <p>An <a href="./help/#api" onclick="pageTracker._link(this.href); return false;">API</a> is available for integrating with your platform. In use by <a href="http://320press.com/wpbs/" target="_blank">WPBS</a>, <a href="http://www.fusionleaf.com/" target="_blank">FusionLeaf</a>, <a href="http://yabdab.com/stacks/snaps/bootsnap/" target="_blank">BootSnap</a>, and others.</p>
           </div>
           <div class="col-lg-4 col-sm-6">
-            <h3><i class="icon-bullhorn"></i> Stay Updated</h3>
+            <h3><i class="fa fa-bullhorn"></i> Stay Updated</h3>
             <p>Be notified about updates by subscribing via <a href="http://feeds.feedburner.com/bootswatch">RSS feed</a>, <a href="http://feedburner.google.com/fb/a/mailverify?uri=bootswatch&loc=en_US">email</a>, or <a href="http://news.bootswatch.com" onclick="pageTracker._link(this.href); return false;">Tumblr</a>.</p>
           </div>
         </div>
@@ -416,36 +419,6 @@
             </div>
             
           </div>
-         <!--  <div class="col-lg-4 col-sm-6">
-            
-            <div class="preview">
-              <div class="image">
-                <a href="superhero/"><img class="img-responsive" src="superhero/thumbnail.png" alt="Superhero"></a>
-              </div>
-              <div class="options">
-                
-                <h3>Superhero</h3>
-                <p>Batman meets... Aquaman?</p>
-                <div class="btn-group"><a class="btn btn-info" href="superhero/">Preview</a></div>
-                <div class="btn-group">
-                  <a class="btn btn-info" target="_blank" href="superhero/bootstrap.min.css"
-                  onClick="_gaq.push(['_trackEvent', 'bootswatch', 'superhero', 'bootstrap.min.css']);">Download</a>
-                  <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a target="_blank" href="superhero/bootstrap.min.css" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'superhero', 'bootstrap.min.css']);">bootstrap.min.css</a></li>
-                    <li><a target="_blank" href="superhero/bootstrap.css" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'superhero', 'bootstrap.css']);">bootstrap.css</a></li>
-                    <li class="divider"></li>
-                    <li><a target="_blank" href="superhero/variables.less" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'superhero', 'variables.less']);">variables.less</a></li>
-                    <li><a target="_blank" href="superhero/bootswatch.less" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'superhero', 'bootswatch.less']);">bootswatch.less</a></li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-            
-          </div> -->
           <div class="col-lg-4 col-sm-6">
             
             <div class="preview">
@@ -476,6 +449,36 @@
             </div>
             
           </div>
+          <div class="col-lg-4 col-sm-6">
+            
+            <div class="preview">
+              <div class="image">
+                <a href="yeti/"><img class="img-responsive" src="yeti/thumbnail.png" alt="Yeti"></a>
+              </div>
+              <div class="options">
+                
+                <h3>Yeti</h3>
+                <p>A friendly foundation</p>
+                <div class="btn-group"><a class="btn btn-info" href="yeti/">Preview</a></div>
+                <div class="btn-group">
+                  <a class="btn btn-info" target="_blank" href="yeti/bootstrap.min.css"
+                  onClick="_gaq.push(['_trackEvent', 'bootswatch', 'yeti', 'bootstrap.min.css']);">Download</a>
+                  <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a target="_blank" href="yeti/bootstrap.min.css" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'yeti', 'bootstrap.min.css']);">bootstrap.min.css</a></li>
+                    <li><a target="_blank" href="yeti/bootstrap.css" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'yeti', 'bootstrap.css']);">bootstrap.css</a></li>
+                    <li class="divider"></li>
+                    <li><a target="_blank" href="yeti/variables.less" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'yeti', 'variables.less']);">variables.less</a></li>
+                    <li><a target="_blank" href="yeti/bootswatch.less" onClick="_gaq.push(['_trackEvent', 'bootswatch', 'yeti', 'bootswatch.less']);">bootswatch.less</a></li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+            
+          </div>
 
 
 
@@ -490,6 +493,24 @@
             <h1>Want more?</h1>
             <p class="lead">Check out my personal faves from the paid templates at <a target="_blank" href="https://wrapbootstrap.com/?ref=bsw" title="Marketplace for premium Bootstrap templates" onclick="_gaq.push(['_trackEvent', 'click', 'outbound', 'wrapbootstrap']);">WrapBootstrap</a>.</p> 
           </div>
+
+          <div class="col-lg-4 col-sm-4">
+            <div class="preview">
+              <div class="image">
+                <a target="_blank" href="http://wrapbootstrap.com/preview/WB0412697?ref=bsw"><img class="img-responsive" src="https://s3.amazonaws.com/wrapbootstrap/live/products/icons/WB0412697.jpg" alt="Front Row"></a>
+              </div>
+              <div class="options">
+                <h3>Unify</h3>
+                <p>A fresh, fully-responsive design</p>
+                <div class="btn-group"><a class="btn btn-info" target="_blank" href="http://wrapbootstrap.com/preview/WB0412697?ref=bsw">Preview</a></div>
+                <div class="btn-group">
+                  <a class="btn btn-info" target="_blank" href="https://wrapbootstrap.com/theme/unify-responsive-website-template-WB0412697?ref=bsw"
+                  onClick="_gaq.push(['_trackEvent', 'click', 'outbound', 'wrapbootstrap-unify']);">Info</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="col-lg-4 col-sm-4">
             <div class="preview">
               <div class="image">
@@ -502,23 +523,6 @@
                 <div class="btn-group">
                   <a class="btn btn-info" target="_blank" href="https://wrapbootstrap.com/theme/clean-canvas-business-theme-WB02634G3?ref=bsw"
                   onClick="_gaq.push(['_trackEvent', 'click', 'outbound', 'wrapbootstrap-cleancanvas']);">Info</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-sm-4">
-            <div class="preview">
-              <div class="image">
-                <a target="_blank" href="http://wrapbootstrap.com/preview/WB0L500N4?ref=bsw"><img class="img-responsive" src="https://s3.amazonaws.com/wrapbootstrap/live/products/600x375/WB0L500N4.png" alt="Front Row"></a>
-              </div>
-              <div class="options">
-                <h3>Front Row</h3>
-                <p>An elegant single-page template</p>
-                <div class="btn-group"><a class="btn btn-info" target="_blank" href="http://wrapbootstrap.com/preview/WB0L500N4?ref=bsw">Preview</a></div>
-                <div class="btn-group">
-                  <a class="btn btn-info" target="_blank" href="https://wrapbootstrap.com/theme/front-row-one-page-theme-WB0L500N4?ref=bsw"
-                  onClick="_gaq.push(['_trackEvent', 'click', 'outbound', 'wrapbootstrap-frontrow']);">Info</a>
                 </div>
               </div>
             </div>
@@ -568,16 +572,16 @@
             <div class="preview">
               <div class="image">
                 
-                <a onClick="_gaq.push(['_trackEvent', 'refs', 'amazon', 'javascriptandjquery']);" href="http://www.amazon.com/gp/product/1449399029/ref=as_li_tf_tl?ie=UTF8&tag=bootswatch-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=1449399029" target="_blank"><img class="img-responsive" src="assets/img/refs/javascriptandjquery.png" alt="JavaScript and jQuery: The Missing Manual, by David Sawyer McFarland"></a>
+                <a onClick="_gaq.push(['_trackEvent', 'refs', 'amazon', 'lesscss']);" href="http://www.amazon.com/gp/product/178216376X/ref=as_li_tf_tl?ie=UTF8&tag=bootswatch-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=178216376X" target="_blank"><img class="img-responsive" src="assets/img/refs/lesscss.jpg" alt="Instant LESS CSS Preprocessor How-to, by Alex Libby"></a>
 
               </div>
               <div class="options">
                 
-                <h3>JavaScript &amp; jQuery</h3>
-                <p>David Sawyer McFarland</p>
+                <h3>Instant LESS</h3>
+                <p>Alex Libby</p>
                 <div>
                   <img src="http://www.assoc-amazon.com/e/ir?t=bootswatch-20&l=as2&o=1&a=1449399029" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important; height: 1px;" />
-                  <div class="btn-group"><a class="btn btn-info" onClick="_gaq.push(['_trackEvent', 'refs', 'amazon', 'javascriptandjquery']);" href="http://www.amazon.com/gp/product/1449399029/ref=as_li_tf_tl?ie=UTF8&tag=bootswatch-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=1449399029" target="_blank">Amazon</a></div>
+                  <div class="btn-group"><a class="btn btn-info" onClick="_gaq.push(['_trackEvent', 'refs', 'amazon', 'lesscss']);" href="http://www.amazon.com/gp/product/178216376X/ref=as_li_tf_tl?ie=UTF8&tag=bootswatch-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=178216376X" target="_blank">Amazon</a></div>
                 </div>
               </div>
             </div>

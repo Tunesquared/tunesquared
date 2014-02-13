@@ -19,7 +19,8 @@ var Song = new mongoose.Schema({
 		votes_yes: { type: Number, default: 0 },
 		votes_no: { type: Number, default: 0 },
 		thumb: { type: String },
-		data: { type: String, required: true }
+		data: { type: String, required: true },
+		lastVoteTS: { type: Date, default: Date.now }
 		/* nb : we can store actual song in a database and use some fancy analysis to match instances with these songs.
 			then we connect this instance to the song with the attribute bellow allowing cool statistics. */
 		// song : { type: Schema.Types.ObjectId, ref: 'Song' } // Link to the actual song

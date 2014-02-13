@@ -4679,9 +4679,15 @@ define('models/Song',['$', 'backbone'], function ($, Backbone) {
         urlRoot: 'api/song',
         idAttribute: '_id',
         defaults: {
-          name: '',
-          votes: 0,
-          vote: 'none'
+          vote: 'none',
+          source: '',
+          artist: '',
+          title: '',
+          votes_yes: 0,
+          votes_no: 0,
+          thumb: '',
+          data: null,
+          lastVoteTS: Date.now
         },
 
         voteYes: function (callbacks) {
@@ -4736,14 +4742,17 @@ define('models/Playlist',['$', 'underscore', 'backbone', 'models/Song'], functio
 		model: Song,
 
 		// /!\ See desktop app comparator to be consistent
-		comparator: function (song) {
+		comparator: function (s1, s2) {
 			// Songs are sorted in reverse-order : lower is better
 
+			var score1 = s1.attributes.votes_yes - s1.attributes.votes_no;
+			var score2 = s2.attributes.votes_yes - s2.attributes.votes_no;
 			// Sorts by absolute vote value
-			return song.get('votes_no') - song.get('votes_yes') +
-
-			// Plus a little bonus to solve ties (more yes is absolutely better)
-			(1/(song.get('votes_yes')+1));
+			return (score1 > score2 ||
+				score1 === score2 &&
+					(s1.attributes.votes_no < s2.attributes.votes_no ||
+					s1.attributes.votes_no === s2.attributes.votes_no &&
+						s1.attributes.lastVoteTS < s2.attributes.lastVoteTS)) ? -1 : 1;
 		},
 
 		add: function(song, callbacks) {

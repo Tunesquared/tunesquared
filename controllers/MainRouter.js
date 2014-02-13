@@ -54,6 +54,10 @@ module.exports = new Framework.Router({
 		next();
 	},
 
+	'/m/': function(req, res) {
+		res.redirect('/m');
+	},
+
 	/* Terms of service */
 	'/tos': function(req, res) {
 		res.render('tos');

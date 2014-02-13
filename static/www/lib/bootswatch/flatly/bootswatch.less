@@ -1,4 +1,4 @@
-// Flatly 3.0.0
+// Flatly 3.0.3
 // Bootswatch
 // -----------------------------------------------------
 
@@ -8,25 +8,38 @@
 
 // Buttons ====================================================================
 
+.btn:active {
+	.box-shadow(none);
+}
+
+.btn-group.open .dropdown-toggle {
+	.box-shadow(none);
+}
+
 // Typography =================================================================
 
-.text-primary {
+.text-primary,
+.text-primary:hover {
 	color: @brand-primary;
 }
 
-.text-success {
+.text-success,
+.text-success:hover {
 	color: @brand-success;
 }
 
-.text-danger {
+.text-danger,
+.text-danger:hover {
 	color: @brand-danger;
 }
 
-.text-warning {
+.text-warning,
+.text-warning:hover {
 	color: @brand-warning;
 }
 
-.text-info {
+.text-info,
+.text-info:hover {
 	color: @brand-info;
 }
 
@@ -42,6 +55,30 @@
 }
 
 // Forms ======================================================================
+
+.form-control,textarea.form-control,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+	border-width: 2px;
+	.box-shadow(none);
+
+	&:focus {
+		.box-shadow(none);
+	}
+}
 
 .has-warning {
 	.help-block,
@@ -81,9 +118,18 @@
 
 // Navs =======================================================================
 
-.pagination {
+.nav {
+	.open > a,
+	.open > a:hover,
+	.open > a:focus {
+		border-color: transparent;
+	}
+}
 
-	a {
+.pagination {
+	
+	a,
+	a:hover {
 		color: #fff;
 	}
 
@@ -98,7 +144,8 @@
 }
 
 .pager {
-	a {
+	a,
+	a:hover {
 		color: #fff;
 	}
 
@@ -131,3 +178,8 @@
 }
 
 // Containers =================================================================
+
+.well {
+	.box-shadow(none);
+	border-width: 0;
+}

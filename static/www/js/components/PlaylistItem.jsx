@@ -14,19 +14,37 @@ define(['react', 'mixins/Backbone'], function(React, BackboneMixin){
 			this.props.song.destroy();
 		},
 
+		upVote: function(evt) {
+			evt.preventDefault();
+
+			this.props.song.voteYes();
+		},
+
+		downVote: function(evt) {
+			evt.preventDefault();
+
+			this.props.song.voteNo();
+		},
+
 		render: function () {
-			var song = this.props.song;
+			var song = this.props.song.toJSON();
+
+			var yesLabel = (song.vote === 'yes')? 'label label-success disabled' : 'label-success label';
+			var noLabel = (song.vote === 'no')? 'label label-danger disabled' : 'label-danger label';
 			return (
-				<div class="playlist-item" key={song.cid} >
-					<a class="remove-btn" href="#" onClick={this.onDestroy}><i class="icon-trash"></i></a>
-					<div class="pull-left" href="#">
-						<img class="media-object" src={song.get('thumb')} />
+				<div onClick={this.onClick} class="song-vignette">
+					<a class="song-remove" onClick={this.onDestroy} href="#">
+						<i class="icon-remove"></i>
+					</a>
+					<div class="song-thumb">
+						<img src={song.thumb} />
 					</div>
-					<div class="media-body">
-						<h4 class="media-heading">{song.get('title')}</h4>
-						<h4><span class="label label-success"><i class="icon-thumbs-up"></i>{' '+song.get('votes_yes')}</span>
-						<span class="label label-danger"><i class="icon-thumbs-down"></i>{' '+song.get('votes_no')}</span>
-						</h4>
+					<div class="song-title">
+						{song.title}
+					</div>
+					<div class="song-votes">
+						<a href="#" onClick={this.upVote} class={yesLabel}><i class="icon-thumbs-up"></i>{' '+song.votes_yes}</a>{' '}
+						<a href="#" onClick={this.downVote} class={noLabel}><i class="icon-thumbs-down"></i>{' '+song.votes_no}</a>
 					</div>
 				</div>
 			);
