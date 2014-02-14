@@ -11,6 +11,11 @@ var Party = require('../../models/Party');
 var Song = require('../../models/Song');
 
 
+function returnError(res) {
+	res.statusCode = 500;
+	res.end();
+}
+
 new framework.Router({
 
 	/* Direct access to a party */
@@ -37,14 +42,37 @@ new framework.Router({
 	'post:api/playlistAddSong': function (req, res) {
 		var song = new Song(req.body.song);
 
-		Party.addSongs(req.session.partyId, [song], function (err) {
-			if(err) throw err;
-			framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
-				partyId: req.session.partyId,
-				songs: [song]
+		// Todo: put these two lines in model instead of here
+		song.votes_yes = 1;
+		song.lastVoteTS = Date.now();
+
+		req.session.votes[song._id] = 'yes';
+
+		// Notice: seems like a perfect place to use futures
+		req.session.save(function(err){
+			if (err) {
+				console.error(err);
+				return returnError(res);
+			}
+			song.save(function(err){
+				if (err) {
+					console.error(err);
+					return returnError(res);
+				}
+				Party.addSongs(req.session.partyId, [song], function (err) {
+					if(err) {
+						console.error(err);
+						return returnError(res);
+					};
+					framework.io.sockets.in('party' + req.session.partyId).emit('playlistAddSongs', {
+						partyId: req.session.partyId,
+						songs: [song]
+					});
+					res.end();
+				});
 			});
 		});
-		res.end();
+
 	},
 
 	/* Voting methods : allows to vote for a song with id ":id" in the current party (you must be in a party) */
