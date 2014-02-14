@@ -4678,16 +4678,18 @@ define('models/Song',['$', 'backbone'], function ($, Backbone) {
     var Model = Backbone.Model.extend({
         urlRoot: 'api/song',
         idAttribute: '_id',
-        defaults: {
-          vote: 'none',
-          source: '',
-          artist: '',
-          title: '',
-          votes_yes: 0,
-          votes_no: 0,
-          thumb: '',
-          data: null,
-          lastVoteTS: Date.now
+        defaults: function() {
+          return {
+            vote: 'none',
+            source: '',
+            artist: '',
+            title: '',
+            votes_yes: 0,
+            votes_no: 0,
+            thumb: '',
+            data: null,
+            lastVoteTS: Date.now()
+          };
         },
 
         voteYes: function (callbacks) {
