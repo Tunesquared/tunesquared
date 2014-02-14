@@ -105,6 +105,10 @@ define(
         });
 
       PlayerFactory.create(song, anchor, this.onCreatePlayer, options);
+      mixpanel.track('song played', {
+        party_id: this._party.id,
+        song_title: song.get('title')
+      });
     };
 
     PlaybackController.prototype.onCreatePlayer = function (err, player, options) {

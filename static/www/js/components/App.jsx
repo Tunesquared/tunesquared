@@ -153,18 +153,6 @@ define([
       window.app = this;
 		},
 
-		onUpdateCurrentPlayer: function (player) {
-			if (player != null && this.props.session.get('party') != null) {
-				mixpanel.track('song played', {
-					party_id: this.props.session.get('party').id,
-					song_title: player.song.get('title')
-				});
-			}
-			this.setState({
-				currentPlayer: player
-			});
-		},
-
 		onPlayerError: function (errs){
 			var errors = [];
 			errs.forEach(function(err){
