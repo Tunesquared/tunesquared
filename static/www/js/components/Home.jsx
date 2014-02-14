@@ -77,10 +77,10 @@ define([
           you can use as a starting point.
           </p>
           <p>
-            Once you've added a few songs, sit back and relax, let your guests take control of your playlist.<br />
+            Once you've added a few songs, sit back and relax, let your friends take over control of your playlist.<br />
             In case you need more songs, check out the <a href="#music">music page</a>.
           </p>
-          <h2>Pick a playlist to get started</h2>
+          <h2>Pick an instant playlist to get started</h2>
           <PlaylistSuggest party={this.props.party} />
         </div>;
 
@@ -103,7 +103,7 @@ define([
                   data={"http://tunesquared.com/party/" + encodeURIComponent(party.get('name'))} />
               </div>
               <h1>Party : {party.get('name')}<br />
-                <small>Add music or vote for the next songs on tunesquared.com!<br />Simply flash this code using your smartphone:</small>
+                <small>Add music or vote for the next songs on <strong>tunesquared.com</strong>!<br />Simply flash this code using your smartphone:</small>
               </h1>
             </div>
           </div>

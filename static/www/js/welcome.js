@@ -70,4 +70,13 @@ require(['jquery', 'react', 'components/CreateDialog', 'models/Session'],
                 );
             });
         });
+
+        $(function() {
+            $('#create2').click(function(){
+                React.renderComponent(
+                  CreateDialog({session: session, onHide: onCreateHide}),
+                  document.getElementById('create-dialog')
+                );
+            });
+        });
 });
