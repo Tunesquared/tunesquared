@@ -139,14 +139,14 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 							<div data-role="page">
 								<div className="row">
 									<div className="col-md-12">
-										<p class="lead"><strong>Well done, your party is on !</strong> Now you and your friends have access to the playlist by either..</p>
+										<p class="lead"><strong>Well done, your party is on !</strong> Now you and your friends have access to the playlist by</p>
 									</div>
 								</div>
 								<div className="row">
 									<div className="col-md-5">
-										<p>.. scanning this QR-code</p>
+										<p>either scanning this QR-code</p>
 										<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
-										<p><em>No worries, you'll find it later.</em></p>
+										<p><em>No worries, you'll find it later again.</em></p>
 									</div>
 									<div className="col-md-2">
 										<p>OR</p>
