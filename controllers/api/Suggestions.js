@@ -348,11 +348,6 @@ var suggestions = [{
     "thumb": "http://i1.ytimg.com/vi/e-fA-gBCkj0/0.jpg"
   }, {
     "source": "youtube",
-    "data": "lVQ_981plpE",
-    "title": "Katy Perry - Dark Horse",
-    "thumb": "http://i1.ytimg.com/vi/lVQ_981plpE/0.jpg"
-  }, {
-    "source": "youtube",
     "data": "yyDUC1LUXSU",
     "title": "Robin Thicke - Blurred Lines",
     "thumb": "http://i1.ytimg.com/vi/yyDUC1LUXSU/0.jpg"

@@ -11,6 +11,9 @@ define(['react', 'models/suggestions'], function(React, suggestions) {
     componentDidMount: function() {
       var self = this;
       suggestions.on('sync', function() {
+        suggestions.forEach(function(playlist) {
+          playlist.set('songs', _.shuffle(playlist.get('songs')));
+        });
         self.forceUpdate();
       });
       suggestions.fetch();
