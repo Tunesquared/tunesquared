@@ -73,7 +73,7 @@ define([
 
       var visu_placeholder = <div class="col-lg-12">
           <p class="lead"><strong>Hi there !</strong> You can now add songs to your playlist.
-          Use the search bar on the left to find what you need. We also provide <strong>playlists</strong>
+          Use the search bar above to find what you need. We also provide <strong>playlists</strong>
           you can use as a starting point.
           </p>
           <p>
