@@ -30,9 +30,9 @@ Song.path('thumb').validate(function(url) {
 	return url.length < MAX_THUMB_URL_LENGTH;
 });
 
-// Forbidds insertion of a song with votes already present
+// Forbidds insertion of a song with votes already present (except one upvote)
 Song.path('votes_yes').validate(function(votes) {
-	return votes === 0;
+	return votes === 0 || votes === 1;
 });
 Song.path('votes_no').validate(function(votes) {
 	return votes === 0;

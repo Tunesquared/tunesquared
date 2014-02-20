@@ -14,7 +14,8 @@
     "socket.io": "*",
     "redis": "~0.9.0",
     "nodemailer": "~0.5.10",
-    "recaptcha": "~1.2.0"
+    "recaptcha": "~1.2.0",
+    "node-request-caching": "https://github.com/agent-h/node-request-caching/tarball/master"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

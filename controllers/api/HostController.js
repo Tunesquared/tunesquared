@@ -51,20 +51,20 @@ framework.Controller({
 			// Validation
 			for (var i = 0; i < songCount; i++) {
 				song = new Song(inputSongs[i]);
-				modelSongs.push(song);
-				song.validate(onValidate);
+				song.validate(onValidate(song));
 			}
 
 			// continues only when all validations are successful
-			function onValidate(err) {
-				if (err) {
-					errors.push(err);
-				}
-				if (++validated === songCount) {
-					if (errors.length !== 0){
-						ack(errors);
+			function onValidate(song) {
+				return function (err) {
+					if (err) {
+						console.error("Song validation error, dropping song:");
+						console.error(err);
 					} else {
-						Party.addSongs(data.party, modelSongs, function(err){
+						modelSongs.push(song);
+					}
+					if (++validated === songCount) {
+						Party.addSongs(data.party, modelSongs, function (err) {
 							ack(err, modelSongs);
 						});
 					}
@@ -146,9 +146,9 @@ framework.Controller({
 			// we do not check against party.owner since session.myParty is sufficient
 
 			if (song != null) {
-				Party.findById(data.party, function(err, party){
+				Party.findById(data.party, function (err, party) {
 					if (err || party == null || party.playlist.id(song) == null) {
-						ack (err);
+						ack(err);
 						return;
 					}
 
@@ -179,7 +179,7 @@ framework.Controller({
 		authorization : anyone who's in the party
 	*/
 	'subscribeToParty': function (sock, data, ack) {
-		if (!ack) ack = function(){};
+		if (!ack) ack = function () {};
 
 		sock.session(function (session) {
 
@@ -279,5 +279,5 @@ rest
 	if (data == null)
 		cb('Unable to read party');
 	else
-		cb(null, Party.mapVotes( data.toObject(), req.session.votes));
+		cb(null, Party.mapVotes(data.toObject(), req.session.votes));
 });

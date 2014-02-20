@@ -120,12 +120,12 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 					<div className="modal-content">
 						<div className="modal-header">
 							<button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 className="modal-title">Start your party</h4>
+							<h4 className="modal-title">Creating a party:</h4>
 						</div>
 						<div className="modal-body">
 							<div data-role="page">
 								<form onSubmit={this.onNameSubmit}>
-									<label className="control-label" for="party-name-input">Choose a cool name for your party :</label>
+									<label className="control-label" for="party-name-input">Choose a name:</label>
 									<div className={'control-group '+(this.state.error != null ? 'text-danger' : '')}>
 										<div className="controls">
 											<input type="text" id="party-name-input" className="form-control" ref="nameInput"
@@ -133,26 +133,26 @@ define(['react', 'jquery', 'mixins/jqEvents', 'components/QRCode'/*, TODO :'json
 											<span className="help-inline">{this.state.error}</span>
 										</div>
 									</div>
-									<span className="help-block">Use something easy to remember so your guests can connect quickly to your party.</span>
+									<span className="help-block">Like your initials, your house number or whatever you want to.</span>
 								</form>
 							</div>
 							<div data-role="page">
 								<div className="row">
 									<div className="col-md-12">
-										<p class="lead"><strong>Well done, your party is on !</strong> Your guests can add and vote for songs in one of the following way:</p>
+										<p class="lead"><strong>Well done, your party is on !</strong> Now you and your friends have access to the playlist by</p>
 									</div>
 								</div>
 								<div className="row">
 									<div className="col-md-5">
-										<p>They scan this code</p>
+										<p>either scanning this QR-code</p>
 										<QRCode data={'http://' + window.location.host + '/party/' + encodeURIComponent(this.state.partyName)} />
-										<p><em>Don't worry, you can find this code later in the app ;)</em></p>
+										<p><em>No worries, you'll find it later again.</em></p>
 									</div>
 									<div className="col-md-2">
 										<p>OR</p>
 									</div>
 									<div className="col-md-5">
-										<p>They go to <strong>tunesquared.com</strong> with their mobile.</p>
+										<p>going on <strong>tunesquared.com</strong> and entering the party name.</p>
 										<div className="mobile-prez">
 											<p className="mobile-prez-text" data-role="mobile-text"></p>
 											<img className="img-responsive" src="img/mobile.png" />

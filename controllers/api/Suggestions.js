@@ -442,11 +442,6 @@ var suggestions = [{
     "thumb": "http://i1.ytimg.com/vi/5TUIciKQzxI/0.jpg"
   }, {
     "source": "youtube",
-    "data": "m-M1AtrxztU",
-    "title": "Clean Bandit - Rather Be (ft. Jess Glynne)",
-    "thumb": "http://i1.ytimg.com/vi/m-M1AtrxztU/0.jpg"
-  }, {
-    "source": "youtube",
     "data": "gCYcHz2k5x0",
     "title": "Martin Garrix - Animals",
     "thumb": "http://i1.ytimg.com/vi/gCYcHz2k5x0/0.jpg"
@@ -460,11 +455,6 @@ var suggestions = [{
     "data": "yZqmarGShxg",
     "title": "Calvin Harris & Alesso - Under Control (ft. Hurts)",
     "thumb": "http://i1.ytimg.com/vi/yZqmarGShxg/0.jpg"
-  }, {
-    "source": "youtube",
-    "data": "m-M1AtrxztU",
-    "title": "Clean Bandit - Rather Be (ft. Jess Glynne)",
-    "thumb": "http://i1.ytimg.com/vi/m-M1AtrxztU/0.jpg"
   }, {
     "source": "youtube",
     "data": "iEXSxUraLCI",
