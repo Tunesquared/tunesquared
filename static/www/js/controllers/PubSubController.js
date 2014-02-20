@@ -82,8 +82,8 @@ define(['underscore', 'socket', 'utils'], function (_, socket, utils) {
 			party: this._party.id,
 			songs: [song]
 		}, function (err, data) {
-			if (err) throw err;
-			song.set(data[0]);
+			if (err) song.destroy();
+			else song.set(data[0]);
 		});
 	};
 
