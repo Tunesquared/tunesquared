@@ -89,6 +89,23 @@ body {
 	width: 100%;
 }
 
+.playlist-search input,
+.navbar-form input {
+	background-color: #3D3D3D;
+	border-radius: 0;
+
+}
+
+.navbar-search-input {
+	transition-property:width;
+	transition-duration: 300ms;
+}
+
+.navbar-search-input:focus {
+	width: 300px;
+
+}
+
 /* Player */
 #player {
 	height: 140px;
