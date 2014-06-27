@@ -21,7 +21,13 @@
         <img src="/m/lib/mobileutils/ajax-loader.gif" alt="loading" title="loading"/>
       </div>
     </div>
-
+    <!-- requirejs -->
+    <script type="text/javascript">
+      window.require = {
+          waitSeconds: 90
+      };
+    </script>
+    
     <script data-main="/m/js/main" src="lib/require.js"></script>
 
     <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
@@ -29,12 +35,7 @@ typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var
 b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
 mixpanel.init("28e2611a0534edac40bc3d7fb3b22bf4");</script><!-- end Mixpanel -->
 
-    <!-- requirejs -->
-    <script type="text/javascript">
-      window.require = {
-          waitSeconds: 90
-      };
-    </script>
+    
 
     <!-- -->
     <script type="text/template" id="mainTemplate">
