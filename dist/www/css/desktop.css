@@ -223,7 +223,7 @@ a.song-vignette:hover {
 .song-vignette .song-title {
 	color: #aaa;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 15px;
 
 	text-overflow: ellipsis;
 	overflow: hidden;
