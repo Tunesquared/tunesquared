@@ -12,7 +12,7 @@ var reqCache = new(require('node-request-caching'))({
 	}
 });
 
-var ONE_HOUR = 3600;
+var TWELVE_HOUR = 12 * 3600;
 
 /*
 	Validates data comming from youtube
@@ -25,7 +25,7 @@ module.exports = function (data, cb) {
 	var req = reqCache.get(
 		'http://gdata.youtube.com/feeds/api/videos/' + data,
 		{},
-		ONE_HOUR,
+		TWELVE_HOUR,
 		function (err, res, body, cache) {
 			cb(!err && res.statusCode === 200);
 		});

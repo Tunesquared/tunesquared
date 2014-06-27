@@ -87,6 +87,12 @@
 
       </div>
     </div>
+    <script type="text/javascript">
+      window.require = {
+          waitSeconds: 90
+      };
+    </script>
+    <script data-main="js/welcome" src="lib/require.js"></script>
 
     <div class="container">
       <% include footer.ejs %>
@@ -96,11 +102,7 @@
 
     <% include mixpanel.ejs %>
 
-    <script type="text/javascript">
-      window.require = {
-          waitSeconds: 90
-      };
-    </script>
-    <script data-main="js/welcome" src="lib/require.js"></script>
+    
+
   </body>
   </html>

@@ -12,16 +12,17 @@
   </head>
   <body>
     <div id="app">loading...</div>
-    <div class="col-lg-12">
-        <hr />
-        <% include footer.ejs %>
-    </div>
-    <% include mixpanel.ejs %>
     <script type="text/javascript">
     window.require = {
         waitSeconds: 90
     };
     </script>
     <script data-main="js/main" src="lib/require.js"></script>
+    <div class="col-lg-12">
+        <hr />
+        <% include footer.ejs %>
+    </div>
+    <% include mixpanel.ejs %>
+    
   </body>
 </html>
